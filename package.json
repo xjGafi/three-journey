@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev:1": "pnpm run -C packages/lessons1 dev",
+    "dev:2": "pnpm run -C packages/lessons2 dev",
     "dev:4": "pnpm run -C packages/lessons4 dev",
     "dev:5": "pnpm run -C packages/lessons5 dev"
   },
