@@ -15,13 +15,10 @@ init();
 render();
 
 function init() {
+  const { innerWidth, innerHeight } = window;
+
   // Camera
-  camera = new PerspectiveCamera(
-    45,
-    window.innerWidth / window.innerHeight,
-    1,
-    500
-  );
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 500);
   camera.position.set(0, 0, 100);
   camera.lookAt(0, 0, 0);
 
@@ -45,7 +42,7 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(innerWidth, innerHeight);
 
   // Resize
   window.addEventListener('resize', onWindowResize);

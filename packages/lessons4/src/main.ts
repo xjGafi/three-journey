@@ -17,13 +17,10 @@ init();
 render();
 
 function init() {
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
+
   // Canera
-  camera = new PerspectiveCamera(
-    45,
-    window.innerWidth / window.innerHeight,
-    0.25,
-    20
-  );
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.25, 20);
   camera.position.set(-1.8, 0.6, 2.7);
 
   // Scene
@@ -58,8 +55,8 @@ function init() {
   renderer = new WebGLRenderer({
     canvas
   });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
+  renderer.setSize(innerWidth, innerHeight);
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
   renderer.outputEncoding = sRGBEncoding;

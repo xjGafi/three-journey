@@ -21,13 +21,10 @@ init();
 animate();
 
 function init() {
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
+
   // Camera
-  camera = new PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    1,
-    1000
-  );
+  camera = new PerspectiveCamera(75, innerWidth / innerHeight, 1, 1000);
   camera.position.set(0, 0, 500);
   camera.lookAt(0, 0, 0);
 
@@ -42,8 +39,8 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
+  renderer.setSize(innerWidth, innerHeight);
 
   // Object
   const loader = new FontLoader().setPath(
