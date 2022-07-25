@@ -12,9 +12,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import RoyalEsplanade from '../../../assets/textures/royal_esplanade_1k.hdr?url';
-// import DamagedHelmet from '../../../assets/models/DamagedHelmet.gltf?url'; // 贴图加载不出来
-const DamagedHelmet =
-  'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
+import DamagedHelmet from '../../../assets/models/DamagedHelmet.gltf?url';
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
