@@ -11,6 +11,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import RoyalEsplanade from '../../../assets/textures/royal_esplanade_1k.hdr?url';
+// import DamagedHelmet from '../../../assets/models/DamagedHelmet.gltf?url';  // 贴图加载不出来
+const DamagedHelmet =
+  'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
+
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
 init();
@@ -27,28 +32,22 @@ function init() {
   scene = new Scene();
 
   // Object
-  new RGBELoader()
-    .setPath(
-      'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/equirectangular/'
-    )
-    .load('royal_esplanade_1k.hdr', function (texture) {
-      texture.mapping = EquirectangularReflectionMapping;
+  new RGBELoader().load(RoyalEsplanade, function (texture) {
+    texture.mapping = EquirectangularReflectionMapping;
 
-      scene.background = texture;
-      scene.environment = texture;
+    scene.background = texture;
+    scene.environment = texture;
+
+    render();
+
+    // 3D Model
+    const loader = new GLTFLoader();
+    loader.load(DamagedHelmet, function (gltf) {
+      scene.add(gltf.scene);
 
       render();
-
-      // 3D Model
-      const loader = new GLTFLoader().setPath(
-        'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/DamagedHelmet/glTF/'
-      );
-      loader.load('DamagedHelmet.gltf', function (gltf) {
-        scene.add(gltf.scene);
-
-        render();
-      });
     });
+  });
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;

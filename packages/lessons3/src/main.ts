@@ -10,6 +10,8 @@ import {
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
+import helvetikerRegular from '../../../assets/fonts/helvetiker_regular.typeface.json?url';
+
 let camera: PerspectiveCamera,
   scene: Scene,
   pointLight: PointLight,
@@ -43,10 +45,8 @@ function init() {
   renderer.setSize(innerWidth, innerHeight);
 
   // Object
-  const loader = new FontLoader().setPath(
-    'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/'
-  );
-  loader.load('helvetiker_regular.typeface.json', (font) => {
+  const loader = new FontLoader();
+  loader.load(helvetikerRegular, (font) => {
     const textGeometry = new TextGeometry('Hello, three.js!', {
       font,
       size: 80,
