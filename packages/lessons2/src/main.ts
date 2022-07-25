@@ -52,15 +52,12 @@ function init() {
 }
 
 function onWindowResize() {
-  const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-  };
+  const { innerWidth, innerHeight } = window;
 
-  camera.aspect = sizes.width / sizes.height;
+  camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
 
-  renderer.setSize(sizes.width, sizes.height);
+  renderer.setSize(innerWidth, innerHeight);
 
   render();
 }
