@@ -1,37 +1,55 @@
 import './style.css';
-import * as THREE from 'three';
+import {
+  PerspectiveCamera,
+  Scene,
+  PointLight,
+  WebGLRenderer,
+  MeshPhongMaterial,
+  Mesh
+} from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
-// Camera
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  1,
-  1000
-);
-camera.position.set(0, 0, 500);
-camera.lookAt(0, 0, 0);
+let camera: PerspectiveCamera,
+  scene: Scene,
+  pointLight: PointLight,
+  renderer: WebGLRenderer;
 
-// Scene
-const scene = new THREE.Scene();
+let time = 0;
 
-// Light
-const pointLight = new THREE.PointLight(0xffffff, 1.5);
-pointLight.position.set(0, 100, 90);
-scene.add(pointLight);
+init();
+animate();
 
-// Renderer
-const canvas = document.querySelector('canvas#webgl')!;
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
+function init() {
+  // Camera
+  camera = new PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    1,
+    1000
+  );
+  camera.position.set(0, 0, 500);
+  camera.lookAt(0, 0, 0);
 
-// Object
-const loader = new FontLoader();
-loader.load(
-  'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/helvetiker_regular.typeface.json',
-  (font) => {
+  // Scene
+  scene = new Scene();
+
+  // Light
+  pointLight = new PointLight(0xffffff, 1.5);
+  pointLight.position.set(0, 100, 90);
+  scene.add(pointLight);
+
+  // Renderer
+  const canvas = document.querySelector('canvas#webgl')!;
+  renderer = new WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Object
+  const loader = new FontLoader().setPath(
+    'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/'
+  );
+  loader.load('helvetiker_regular.typeface.json', (font) => {
     const textGeometry = new TextGeometry('Hello, three.js!', {
       font,
       size: 80,
@@ -42,21 +60,38 @@ loader.load(
       bevelSize: 4,
       bevelSegments: 5
     });
-    const textMaterials = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-    const textMesh = new THREE.Mesh(textGeometry, textMaterials);
+    const textMaterials = new MeshPhongMaterial({ color: 0x00ff00 });
+    const textMesh = new Mesh(textGeometry, textMaterials);
     textMesh.position.set(-330, 0, 0);
     scene.add(textMesh);
-  }
-);
+  });
 
-// Animation
-let time = 0;
+  // Resize
+  window.addEventListener('resize', onWindowResize);
+}
+
+function onWindowResize() {
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
+
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(sizes.width, sizes.height);
+
+  render();
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
   pointLight.position.x += 5 * Math.sin((time += 0.016));
 
-  renderer.render(scene, camera);
+  render();
 }
 
-animate();
+function render() {
+  renderer.render(scene, camera);
+}

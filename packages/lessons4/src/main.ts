@@ -1,18 +1,24 @@
 import './style.css';
-import * as THREE from 'three';
+import {
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+  EquirectangularReflectionMapping,
+  ACESFilmicToneMapping,
+  sRGBEncoding
+} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-let camera: THREE.PerspectiveCamera,
-  scene: THREE.Scene,
-  renderer: THREE.WebGLRenderer;
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
 init();
 render();
 
 function init() {
-  camera = new THREE.PerspectiveCamera(
+  // Canera
+  camera = new PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
     0.25,
@@ -20,22 +26,23 @@ function init() {
   );
   camera.position.set(-1.8, 0.6, 2.7);
 
-  scene = new THREE.Scene();
+  // Scene
+  scene = new Scene();
 
+  // Object
   new RGBELoader()
     .setPath(
       'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/equirectangular/'
     )
     .load('royal_esplanade_1k.hdr', function (texture) {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
+      texture.mapping = EquirectangularReflectionMapping;
 
       scene.background = texture;
       scene.environment = texture;
 
       render();
 
-      // model
-
+      // 3D Model
       const loader = new GLTFLoader().setPath(
         'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/DamagedHelmet/glTF/'
       );
@@ -46,16 +53,18 @@ function init() {
       });
     });
 
+  // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new THREE.WebGLRenderer({
+  renderer = new WebGLRenderer({
     canvas
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.outputEncoding = sRGBEncoding;
 
+  // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render); // use if there is no animation loop
   controls.minDistance = 2;
@@ -63,14 +72,20 @@ function init() {
   controls.target.set(0, 0, -0.2);
   controls.update();
 
-  window.addEventListener('resize', resize);
+  // Resize
+  window.addEventListener('resize', onWindowResize);
 }
 
-function resize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
+function onWindowResize() {
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
+
+  camera.aspect = sizes.width / sizes.height;
   camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(sizes.width, sizes.height);
 
   render();
 }

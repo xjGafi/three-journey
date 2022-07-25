@@ -1,42 +1,70 @@
 import './style.css';
-import * as THREE from 'three';
+import {
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+  LineBasicMaterial,
+  Vector3,
+  BufferGeometry,
+  Line
+} from 'three';
 
-// Scene
-const scene = new THREE.Scene();
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight
-};
-// Camera
-const camera = new THREE.PerspectiveCamera(
-  45,
-  sizes.width / sizes.height,
-  1,
-  500
-);
-camera.position.set(0, 0, 100);
-camera.lookAt(0, 0, 0);
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
-// Canvas
-const canvas = document.querySelector('canvas#webgl')!;
-// Renderer
-const renderer = new THREE.WebGLRenderer({
-  canvas
-});
-renderer.setSize(sizes.width, sizes.height);
+init();
+render();
 
-// Object
-// 定义材质
-const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-// 定义带有一些顶点的 几何体
-const points = [
-  new THREE.Vector3(-10, 0, 0),
-  new THREE.Vector3(0, 10, 0),
-  new THREE.Vector3(10, 0, 0)
-];
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
-// 组合线条
-const line = new THREE.Line(geometry, material);
-scene.add(line);
+function init() {
+  // Camera
+  camera = new PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    500
+  );
+  camera.position.set(0, 0, 100);
+  camera.lookAt(0, 0, 0);
 
-renderer.render(scene, camera);
+  // Scene
+  scene = new Scene();
+
+  // Object
+  // 定义材质
+  const lineMaterial = new LineBasicMaterial({ color: 0xff0000 });
+  // 定义带有一些顶点的 几何体
+  const linePoints = [
+    new Vector3(-10, 0, 0),
+    new Vector3(0, 10, 0),
+    new Vector3(10, 0, 0)
+  ];
+  const lineGeometry = new BufferGeometry().setFromPoints(linePoints);
+  // 组合线条
+  const line = new Line(lineGeometry, lineMaterial);
+  scene.add(line);
+
+  // Renderer
+  const canvas = document.querySelector('canvas#webgl')!;
+  renderer = new WebGLRenderer({ canvas });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Resize
+  window.addEventListener('resize', onWindowResize);
+}
+
+function onWindowResize() {
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
+
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(sizes.width, sizes.height);
+
+  render();
+}
+
+function render() {
+  renderer.render(scene, camera);
+}
