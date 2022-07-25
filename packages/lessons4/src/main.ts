@@ -1,34 +1,80 @@
 import './style.css';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// Scene
-const scene = new THREE.Scene();
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight
-};
-// Camera
-const camera = new THREE.PerspectiveCamera(
-  75,
-  sizes.width / sizes.height,
-  0.1,
-  1000
-);
+let camera: THREE.PerspectiveCamera,
+  scene: THREE.Scene,
+  renderer: THREE.WebGLRenderer;
 
-// Canvas
-const canvas = document.querySelector('canvas#webgl')!;
-// Renderer
-const renderer = new THREE.WebGLRenderer({
-  canvas
-});
-renderer.setSize(sizes.width, sizes.height);
+init();
+render();
 
-// Object
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+function init() {
+  camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    0.25,
+    20
+  );
+  camera.position.set(-1.8, 0.6, 2.7);
 
-camera.position.z = 3;
+  scene = new THREE.Scene();
 
-renderer.render(scene, camera);
+  new RGBELoader()
+    .setPath(
+      'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/equirectangular/'
+    )
+    .load('royal_esplanade_1k.hdr', function (texture) {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+
+      scene.background = texture;
+      scene.environment = texture;
+
+      render();
+
+      // model
+
+      const loader = new GLTFLoader().setPath(
+        'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/DamagedHelmet/glTF/'
+      );
+      loader.load('DamagedHelmet.gltf', function (gltf) {
+        scene.add(gltf.scene);
+
+        render();
+      });
+    });
+
+  const canvas = document.querySelector('canvas#webgl')!;
+  renderer = new THREE.WebGLRenderer({
+    canvas
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.addEventListener('change', render); // use if there is no animation loop
+  controls.minDistance = 2;
+  controls.maxDistance = 10;
+  controls.target.set(0, 0, -0.2);
+  controls.update();
+
+  window.addEventListener('resize', resize);
+}
+
+function resize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  render();
+}
+
+function render() {
+  renderer.render(scene, camera);
+}
