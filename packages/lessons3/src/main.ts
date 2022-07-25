@@ -5,7 +5,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
-  60,
+  75,
   window.innerWidth / window.innerHeight,
   1,
   1000
@@ -46,7 +46,17 @@ loader.load(
     const textMesh = new THREE.Mesh(textGeometry, textMaterials);
     textMesh.position.set(-330, 0, 0);
     scene.add(textMesh);
-
-    renderer.render(scene, camera);
   }
 );
+
+// Animation
+let time = 0;
+function animate() {
+  requestAnimationFrame(animate);
+
+  pointLight.position.x += 5 * Math.sin((time += 0.016));
+
+  renderer.render(scene, camera);
+}
+
+animate();
