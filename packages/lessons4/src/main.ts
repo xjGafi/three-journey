@@ -49,9 +49,7 @@ function init() {
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new WebGLRenderer({
-    canvas
-  });
+  renderer = new WebGLRenderer({ canvas });
   renderer.setPixelRatio(devicePixelRatio);
   renderer.setSize(innerWidth, innerHeight);
   renderer.toneMapping = ACESFilmicToneMapping;
@@ -60,7 +58,8 @@ function init() {
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.addEventListener('change', render); // use if there is no animation loop
+  // 不要同时使用 requestAnimationFrame() 或 controls.addEventListener('change', render) 调用同一个函数，这样会冲突。
+  controls.addEventListener('change', render);
   controls.minDistance = 2;
   controls.maxDistance = 10;
   controls.target.set(0, 0, -0.2);
