@@ -10,7 +10,7 @@ import {
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
-import helvetikerRegular from '../../../assets/fonts/helvetiker_regular.typeface.json?url';
+import helvetikerRegular from '@/fonts/helvetiker_regular.typeface.json?url';
 
 let camera: PerspectiveCamera,
   scene: Scene,

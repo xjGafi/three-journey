@@ -12,8 +12,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import RoyalEsplanade from '../../../assets/textures/royal_esplanade_1k.hdr?url';
-import DamagedHelmet from '../../../assets/models/DamagedHelmet.gltf?url';
+import RoyalEsplanade from '@/textures/royal_esplanade_1k.hdr?url';
+import DamagedHelmet from '@/models/DamagedHelmet.gltf?url';
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 

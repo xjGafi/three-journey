@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@types/node': ^18.6.1
       '@types/three': ^0.142.0
       three: ^0.142.0
       typescript: ^4.7.4
@@ -11,6 +12,7 @@ importers:
     dependencies:
       three: 0.142.0
     devDependencies:
+      '@types/node': 18.6.1
       '@types/three': 0.142.0
       typescript: 4.7.4
       vite: 3.0.2
@@ -28,6 +30,10 @@ importers:
     specifiers: {}
 
 packages:
+
+  /@types/node/18.6.1:
+    resolution: {integrity: sha512-z+2vB6yDt1fNwKOeGbckpmirO+VBDuQqecXkgeIqDlaOtmKn6hPR/viQ8cxCfqLU4fTlvM3+YjM367TukWdxpg==}
+    dev: true
 
   /@types/three/0.142.0:
     resolution: {integrity: sha512-YNVnlqthfgqsxKuSNbT/G2r+ha/6x+aJm7kvjT+sxa4jUROw/KOPm5xzGj33sk1+Librg6NwH/wJ6LCDX33UZg==}
