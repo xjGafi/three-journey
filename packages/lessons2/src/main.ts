@@ -19,7 +19,7 @@ function init() {
 
   // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 500);
-  camera.position.set(0, 0, 100);
+  camera.position.set(0, 0, 30);
   camera.lookAt(0, 0, 0);
 
   // Scene
