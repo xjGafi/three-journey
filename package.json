@@ -14,11 +14,11 @@
     "build:4": "pnpm run -C packages/lessons4 build"
   },
   "devDependencies": {
-    "typescript": "^4.6.4",
+    "@types/three": "^0.142.0",
+    "typescript": "^4.7.4",
     "vite": "^3.0.0"
   },
   "dependencies": {
-    "@types/three": "^0.142.0",
     "three": "^0.142.0"
   }
 }

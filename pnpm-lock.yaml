@@ -6,19 +6,25 @@ importers:
     specifiers:
       '@types/three': ^0.142.0
       three: ^0.142.0
-      typescript: ^4.6.4
+      typescript: ^4.7.4
       vite: ^3.0.0
     dependencies:
-      '@types/three': 0.142.0
       three: 0.142.0
     devDependencies:
+      '@types/three': 0.142.0
       typescript: 4.7.4
       vite: 3.0.2
 
-  packages/lessons4:
+  packages/lessons1:
     specifiers: {}
 
-  packages/lessons5:
+  packages/lessons2:
+    specifiers: {}
+
+  packages/lessons3:
+    specifiers: {}
+
+  packages/lessons4:
     specifiers: {}
 
 packages:
@@ -26,12 +32,12 @@ packages:
   /@types/three/0.142.0:
     resolution: {integrity: sha512-YNVnlqthfgqsxKuSNbT/G2r+ha/6x+aJm7kvjT+sxa4jUROw/KOPm5xzGj33sk1+Librg6NwH/wJ6LCDX33UZg==}
     dependencies:
-      '@types/webxr': 0.4.0
-    dev: false
+      '@types/webxr': 0.5.0
+    dev: true
 
-  /@types/webxr/0.4.0:
-    resolution: {integrity: sha512-LQvrACV3Pj17GpkwHwXuTd733gfY+D7b9mKdrTmLdO7vo7P/o6209Qqtk63y/FCv/lspdmi0pWz6Qe/ull9kQg==}
-    dev: false
+  /@types/webxr/0.5.0:
+    resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
+    dev: true
 
   /esbuild-android-64/0.14.49:
     resolution: {integrity: sha512-vYsdOTD+yi+kquhBiFWl3tyxnj2qZJsl4tAqwhT90ktUdnyTizgle7TjNx6Ar1bN7wcwWqZ9QInfdk2WVagSww==}

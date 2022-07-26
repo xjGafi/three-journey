@@ -3,6 +3,7 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
+  AxesHelper,
   EquirectangularReflectionMapping,
   ACESFilmicToneMapping,
   sRGBEncoding
@@ -28,6 +29,10 @@ function init() {
 
   // Scene
   scene = new Scene();
+
+  // Axes
+  const axesHelper = new AxesHelper(100);
+  scene.add(axesHelper);
 
   // Object
   new RGBELoader().load(RoyalEsplanade, function (texture) {
