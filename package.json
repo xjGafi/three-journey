@@ -7,12 +7,7 @@
     "dev:1": "pnpm run -C packages/lessons1 dev",
     "dev:2": "pnpm run -C packages/lessons2 dev",
     "dev:3": "pnpm run -C packages/lessons3 dev",
-    "dev:4": "pnpm run -C packages/lessons4 dev",
-    "build:1": "pnpm run -C packages/lessons1 build",
-    "build:2": "pnpm run -C packages/lessons2 build",
-    "build:3": "pnpm run -C packages/lessons3 build",
-    "build:4": "pnpm run -C packages/lessons4 build",
-    "preview:4": "pnpm run -C packages/lessons4 preview"
+    "dev:4": "pnpm run -C packages/lessons4 dev"
   },
   "devDependencies": {
     "@types/node": "^18.6.1",
