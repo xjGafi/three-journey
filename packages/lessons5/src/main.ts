@@ -16,7 +16,7 @@ let camera: PerspectiveCamera,
   renderer: WebGLRenderer,
   stats: Stats;
 
-let cube: LineSegments;
+let dashCube: LineSegments;
 
 init();
 animate();
@@ -38,9 +38,9 @@ function init() {
     dashSize: 3,
     gapSize: 1
   });
-  cube = new LineSegments(geometry, material);
-  cube.computeLineDistances();
-  scene.add(cube);
+  dashCube = new LineSegments(geometry, material);
+  dashCube.computeLineDistances();
+  scene.add(dashCube);
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
@@ -177,8 +177,8 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-  cube.rotation.x = 0.25 * time;
-  cube.rotation.y = 0.25 * time;
+  dashCube.rotation.x = 0.25 * time;
+  dashCube.rotation.y = 0.25 * time;
 
   render();
   stats.update();
