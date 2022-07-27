@@ -2,4 +2,4 @@
 
 [画线（Drawing lines）](https://threejs.org/docs/index.html#manual/zh/introduction/Drawing-lines)
 
-> 红色向上箭头
+> 蓝色虚线向上箭头

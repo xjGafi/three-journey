@@ -3,10 +3,11 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
-  LineBasicMaterial,
   Vector3,
   BufferGeometry,
-  Line
+  Line,
+  LineDashedMaterial,
+  AxesHelper
 } from 'three';
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
@@ -19,24 +20,21 @@ function init() {
 
   // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 500);
-  camera.position.set(0, 0, 30);
+  camera.position.set(0, 0, 100);
   camera.lookAt(0, 0, 0);
 
   // Scene
   scene = new Scene();
 
+  // Axes
+  const axes = new AxesHelper(100);
+  scene.add(axes);
+
   // Object
-  // 定义材质
-  const lineMaterial = new LineBasicMaterial({ color: 0xff0000 });
-  // 定义带有一些顶点的 几何体
-  const linePoints = [
-    new Vector3(-10, 0, 0),
-    new Vector3(0, 10, 0),
-    new Vector3(10, 0, 0)
-  ];
-  const lineGeometry = new BufferGeometry().setFromPoints(linePoints);
-  // 组合线条
-  const line = new Line(lineGeometry, lineMaterial);
+  const geometry = lineGeometry(30);
+  const material = new LineDashedMaterial({ color: 0x0000ff });
+  const line = new Line(geometry, material);
+  line.computeLineDistances(); // or lineSegments.computeLineDistances()
   scene.add(line);
 
   // Renderer
@@ -46,6 +44,17 @@ function init() {
 
   // Resize
   window.addEventListener('resize', onWindowResize);
+}
+
+function lineGeometry(lenght: number) {
+  // 定义带有一些顶点的 几何体
+  const points = [
+    new Vector3(-lenght, 0, 0),
+    new Vector3(0, lenght, 0),
+    new Vector3(lenght, 0, 0)
+  ];
+  const geometry = new BufferGeometry().setFromPoints(points);
+  return geometry;
 }
 
 function onWindowResize() {
