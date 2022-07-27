@@ -46,12 +46,12 @@ function init() {
   window.addEventListener('resize', onWindowResize);
 }
 
-function lineGeometry(lenght: number) {
+function lineGeometry(length: number) {
   // 定义带有一些顶点的 几何体
   const points = [
-    new Vector3(-lenght, 0, 0),
-    new Vector3(0, lenght, 0),
-    new Vector3(lenght, 0, 0)
+    new Vector3(-length, 0, 0),
+    new Vector3(0, length, 0),
+    new Vector3(length, 0, 0)
   ];
   const geometry = new BufferGeometry().setFromPoints(points);
   return geometry;
