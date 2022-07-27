@@ -11,11 +11,15 @@ import {
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 import RoyalEsplanade from '@/textures/royal_esplanade_1k.hdr?url';
 import DamagedHelmet from '@/models/DamagedHelmet.gltf?url';
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+let camera: PerspectiveCamera,
+  scene: Scene,
+  renderer: WebGLRenderer,
+  stats: Stats;
 
 init();
 render();
@@ -70,6 +74,10 @@ function init() {
   controls.target.set(0, 0, -0.2);
   controls.update();
 
+  // Stats
+  stats = Stats();
+  document.body.appendChild(stats.dom);
+
   // Resize
   window.addEventListener('resize', onWindowResize);
 }
@@ -87,4 +95,5 @@ function onWindowResize() {
 
 function render() {
   renderer.render(scene, camera);
+  stats && stats.update();
 }

@@ -8,8 +8,13 @@ import {
   Scene,
   WebGLRenderer
 } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+let camera: PerspectiveCamera,
+  scene: Scene,
+  renderer: WebGLRenderer,
+  stats: Stats;
 
 let cube: LineSegments;
 
@@ -41,6 +46,16 @@ function init() {
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+
+  // Controls
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.minDistance = 50;
+  controls.maxDistance = 100;
+  controls.update();
+
+  // Stats
+  stats = Stats();
+  document.body.appendChild(stats.dom);
 
   // Resize
   window.addEventListener('resize', onWindowResize);
@@ -166,6 +181,7 @@ function animate() {
   cube.rotation.y = 0.25 * time;
 
   render();
+  stats.update();
 }
 
 function render() {
