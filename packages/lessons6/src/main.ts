@@ -9,7 +9,8 @@ import {
   LineBasicMaterial,
   LineDashedMaterial,
   Line,
-  AxesHelper
+  AxesHelper,
+  Group
 } from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GUI } from 'dat.gui';
@@ -18,6 +19,8 @@ let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   stats: Stats;
+
+let group: Group;
 
 init();
 animate();
@@ -38,6 +41,8 @@ function init() {
   scene.add(axesHelper);
 
   // Object
+  group = new Group();
+  scene.add(group);
   // 点材质 PointsMaterial
   addPointsMaterial();
   // 基础线材质 LineBasicMaterial
@@ -72,7 +77,7 @@ function addPointsMaterial() {
   // 点模型对象
   const point = new Points(geometry, material);
   point.position.x = -220;
-  scene.add(point);
+  group.add(point);
 }
 
 function addLineBasicMaterial() {
@@ -84,7 +89,7 @@ function addLineBasicMaterial() {
   });
   // 线模型对象
   const line = new Line(geometry, material);
-  scene.add(line);
+  group.add(line);
 }
 
 function addLineDashedMaterial() {
@@ -101,15 +106,15 @@ function addLineDashedMaterial() {
   // 计算 LineDashedMaterial 所需的距离数组
   line.computeLineDistances();
   line.position.x = 220;
-  scene.add(line);
+  group.add(line);
 }
 
 function initGUI() {
   const gui = new GUI();
-  const cubeFolder = gui.addFolder('Scene');
-  cubeFolder.add(scene.rotation, 'x', 0, Math.PI * 2);
-  cubeFolder.add(scene.rotation, 'y', 0, Math.PI * 2);
-  cubeFolder.add(scene.rotation, 'z', 0, Math.PI * 2);
+  const cubeFolder = gui.addFolder('Group');
+  cubeFolder.add(group.rotation, 'x', 0, Math.PI * 2);
+  cubeFolder.add(group.rotation, 'y', 0, Math.PI * 2);
+  cubeFolder.add(group.rotation, 'z', 0, Math.PI * 2);
   cubeFolder.open();
   const cameraFolder = gui.addFolder('Camera');
   cameraFolder.add(camera.position, 'z', 0, 1000);
