@@ -8,13 +8,19 @@ import {
   Points,
   LineBasicMaterial,
   LineDashedMaterial,
-  Line
+  Line,
+  AxesHelper
 } from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { GUI } from 'dat.gui';
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+let camera: PerspectiveCamera,
+  scene: Scene,
+  renderer: WebGLRenderer,
+  stats: Stats;
 
 init();
-render();
+animate();
 
 function init() {
   const { innerWidth, innerHeight } = window;
@@ -26,6 +32,10 @@ function init() {
 
   // Scene
   scene = new Scene();
+
+  // Axes
+  const axesHelper = new AxesHelper(500);
+  scene.add(axesHelper);
 
   // Object
   // 点材质 PointsMaterial
@@ -39,6 +49,13 @@ function init() {
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+
+  // Stats
+  stats = Stats();
+  document.body.appendChild(stats.dom);
+
+  // GUI
+  initGUI();
 
   // Resize
   window.addEventListener('resize', onWindowResize);
@@ -87,6 +104,18 @@ function addLineDashedMaterial() {
   scene.add(line);
 }
 
+function initGUI() {
+  const gui = new GUI();
+  const cubeFolder = gui.addFolder('Scene');
+  cubeFolder.add(scene.rotation, 'x', 0, Math.PI * 2);
+  cubeFolder.add(scene.rotation, 'y', 0, Math.PI * 2);
+  cubeFolder.add(scene.rotation, 'z', 0, Math.PI * 2);
+  cubeFolder.open();
+  const cameraFolder = gui.addFolder('Camera');
+  cameraFolder.add(camera.position, 'z', 0, 1000);
+  cameraFolder.open();
+}
+
 function onWindowResize() {
   const { innerWidth, innerHeight } = window;
 
@@ -96,6 +125,13 @@ function onWindowResize() {
   renderer.setSize(innerWidth, innerHeight);
 
   render();
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  render();
+  stats.update();
 }
 
 function render() {

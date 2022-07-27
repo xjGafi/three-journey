@@ -4,16 +4,20 @@ importers:
 
   .:
     specifiers:
+      '@types/dat.gui': ^0.7.7
       '@types/node': ^18.6.1
       '@types/three': ^0.142.0
+      dat.gui: ^0.7.9
       three: ^0.142.0
       typescript: ^4.7.4
       vite: ^3.0.0
     dependencies:
       three: 0.142.0
     devDependencies:
+      '@types/dat.gui': 0.7.7
       '@types/node': 18.6.1
       '@types/three': 0.142.0
+      dat.gui: 0.7.9
       typescript: 4.7.4
       vite: 3.0.2
 
@@ -31,6 +35,10 @@ importers:
 
 packages:
 
+  /@types/dat.gui/0.7.7:
+    resolution: {integrity: sha512-CxLCme0He5Jk3uQwfO/fGZMyNhb/ypANzqX0yU9lviBQMlen5SOvQTBQ/Cd9x5mFlUAK5Tk8RgvTyLj1nYkz+w==}
+    dev: true
+
   /@types/node/18.6.1:
     resolution: {integrity: sha512-z+2vB6yDt1fNwKOeGbckpmirO+VBDuQqecXkgeIqDlaOtmKn6hPR/viQ8cxCfqLU4fTlvM3+YjM367TukWdxpg==}
     dev: true
@@ -43,6 +51,10 @@ packages:
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
+    dev: true
+
+  /dat.gui/0.7.9:
+    resolution: {integrity: sha512-sCNc1OHobc+Erc1HqiswYgHdVNpSJUlk/Hz8vzOCsER7rl+oF/4+v8GXFUyCgtXpoCX6+bnmg07DedLvBLwYKQ==}
     dev: true
 
   /esbuild-android-64/0.14.49:
