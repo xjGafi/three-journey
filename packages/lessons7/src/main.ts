@@ -89,13 +89,37 @@ function boxGeometry(): BufferGeometry {
     10, // 顶点 6 坐标
   ]);
   // 创建顶点位置 position 属性缓冲区对象，3 个为一组，表示一个顶点的 xyz 坐标
-  const attribue = new BufferAttribute(vertices, 3);
+  const attribueVertices = new BufferAttribute(vertices, 3);
+
+  // 类型数组创建顶点颜色 color 数据
+  const colors = new Float32Array([
+    1,
+    0,
+    0, // 顶点 1 颜色 0xff0000
+    0,
+    1,
+    0, // 顶点 2 颜色 0x00ff00
+    0,
+    0,
+    1, // 顶点 3 颜色 0x0000ff
+    1,
+    1,
+    0, // 顶点 4 颜色 0xffff00
+    0,
+    1,
+    1, // 顶点 5 颜色 0x00ffff
+    1,
+    0,
+    1, // 顶点 6 颜色 0xff00ff
+  ]);
+  // 创建顶点颜色 color 属性缓冲区对象，3 个为一组，表示一个顶点的颜色
+  const attribueColor = new BufferAttribute(colors, 3);
 
   // 创建一个 Buffer 类型几何体对象
   const geometry = new BufferGeometry();
-  // 设置几何体 attributes 属性的位置属性
-  geometry.setAttribute("position", attribue);
-  // geometry.attributes.position = attribue;
+  // 设置几何体 attributes 属性的位置和颜色属性
+  geometry.setAttribute("position", attribueVertices);
+  geometry.setAttribute("color", attribueColor);
 
   return geometry;
 }
@@ -106,7 +130,7 @@ function addPointsMaterial() {
   const geometry = boxGeometry();
   // 点材质对象
   const material = new PointsMaterial({
-    color: 0xff0000,
+    vertexColors: true,
     size: 5.0, //点对象像素尺寸
   });
   // 点模型对象
@@ -121,7 +145,7 @@ function addLineDashedMaterial() {
   const geometry = boxGeometry();
   // 虚线材质对象
   const material = new LineDashedMaterial({
-    color: 0x00ff00,
+    vertexColors: true,
     dashSize: 10, // 显示线段的大小，默认为 3
     gapSize: 5, // 间隙的大小，默认为 1
   });
@@ -138,7 +162,7 @@ function addLineBasicMaterial() {
   const geometry = boxGeometry();
   // 实线材质对象
   const material = new LineBasicMaterial({
-    color: 0x00ff00,
+    vertexColors: true,
   });
   // 实线模型对象
   const line = new Line(geometry, material);
@@ -152,7 +176,7 @@ function addMeshBasicMaterial() {
   const geometry = boxGeometry();
   // 三角面(网格)材质对象
   const material = new MeshBasicMaterial({
-    color: 0x0000ff,
+    vertexColors: true,
     side: DoubleSide, // 两面可见
   });
   // 三角面(网格)模型对象
@@ -175,8 +199,8 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate);
 
-  const time = Date.now() * 0.001;
-  scene.rotation.y = 0.25 * time;
+  // const time = Date.now() * 0.001;
+  // scene.rotation.y = 0.25 * time;
 
   render();
   stats.update();
