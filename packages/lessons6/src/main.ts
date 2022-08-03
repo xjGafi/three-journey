@@ -1,26 +1,27 @@
-import './style.css';
+import "./style.css";
 import {
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  SphereGeometry,
-  PointsMaterial,
-  Points,
+  AxesHelper,
+  BufferAttribute,
+  BufferGeometry,
+  DoubleSide,
+  Line,
   LineBasicMaterial,
   LineDashedMaterial,
-  Line,
-  AxesHelper,
-  Group
-} from 'three';
-import Stats from 'three/examples/jsm/libs/stats.module';
-import { GUI } from 'dat.gui';
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  Points,
+  PointsMaterial,
+  Scene,
+  WebGLRenderer,
+} from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import Stats from "three/examples/jsm/libs/stats.module";
 
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   stats: Stats;
-
-let group: Group;
 
 init();
 animate();
@@ -29,9 +30,8 @@ function init() {
   const { innerWidth, innerHeight } = window;
 
   // Camera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
-  camera.position.set(0, 0, 500);
-  camera.lookAt(0, 0, 0);
+  camera = new PerspectiveCamera(60, innerWidth / innerHeight, 1, 500);
+  camera.position.set(0, 0, 200);
 
   // Scene
   scene = new Scene();
@@ -41,84 +41,126 @@ function init() {
   scene.add(axesHelper);
 
   // Object
-  group = new Group();
-  scene.add(group);
-  // 点材质 PointsMaterial
   addPointsMaterial();
-  // 基础线材质 LineBasicMaterial
   addLineBasicMaterial();
-  // 虚线材质 LineDashedMaterial
-  addLineDashedMaterial();
+  addLineDashedMaterial;
+  addMeshBasicMaterial();
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
+  const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+
+  // Controls
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.minDistance = 50;
+  controls.maxDistance = 300;
+  controls.update();
 
   // Stats
   stats = Stats();
   document.body.appendChild(stats.dom);
 
-  // GUI
-  initGUI();
-
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener("resize", onWindowResize);
 }
 
+// 一个具有六个顶点数据的几何体
+function boxGeometry(): BufferGeometry {
+  //类型数组创建顶点数据
+  const vertices = new Float32Array([
+    0,
+    0,
+    0, // 顶点 1 坐标
+    50,
+    0,
+    0, // 顶点 2 坐标
+    0,
+    100,
+    0, // 顶点 3 坐标
+    0,
+    0,
+    10, // 顶点 4 坐标
+    0,
+    0,
+    100, // 顶点 5 坐标
+    50,
+    0,
+    10, // 顶点 6 坐标
+  ]);
+
+  // 3 个为一组，表示一个顶点的 xyz 坐标
+  const attribue = new BufferAttribute(vertices, 3);
+
+  // 创建一个 Buffer 类型几何体对象
+  const geometry = new BufferGeometry();
+
+  // 设置几何体 attributes 属性的位置属性
+  geometry.setAttribute("position", attribue);
+  // geometry.attributes.position = attribue;
+
+  return geometry;
+}
+
+// 点渲染模式
 function addPointsMaterial() {
-  // 球体几何对象
-  const geometry = new SphereGeometry(100, 25, 25);
+  // 几何体对象
+  const geometry = boxGeometry();
   // 点材质对象
   const material = new PointsMaterial({
     color: 0xff0000,
-    size: 3 // 点渲染尺寸
+    size: 5.0, //点对象像素尺寸
   });
   // 点模型对象
-  const point = new Points(geometry, material);
-  point.position.x = -220;
-  group.add(point);
+  const points = new Points(geometry, material);
+  points.position.set(-300, 0, 0);
+  scene.add(points);
 }
 
+// 实线渲染模式
 function addLineBasicMaterial() {
-  // 球体几何对象
-  const geometry = new SphereGeometry(100, 25, 25);
-  // 直线基础材质对象
+  // 几何体对象
+  const geometry = boxGeometry();
+  // 实线材质对象
   const material = new LineBasicMaterial({
-    color: 0x00ff00
+    color: 0x00ff00,
   });
-  // 线模型对象
+  // 实线模型对象
   const line = new Line(geometry, material);
-  group.add(line);
+  line.position.set(-100, 0, 0);
+  scene.add(line);
 }
 
+// 虚线渲染模式
 function addLineDashedMaterial() {
-  // 球体几何对象
-  const geometry = new SphereGeometry(100, 25, 25);
+  // 几何体对象
+  const geometry = boxGeometry();
   // 虚线材质对象
   const material = new LineDashedMaterial({
-    color: 0x0000ff,
-    dashSize: 10, // 显示线段的大小。默认为 3。
-    gapSize: 5 // 间隙的大小。默认为 1
+    color: 0x00ff00,
+    dashSize: 10, // 显示线段的大小，默认为 3
+    gapSize: 5, // 间隙的大小，默认为 1
   });
-  // 线模型对象
+  // 虚线模型对象
   const line = new Line(geometry, material);
-  // 计算 LineDashedMaterial 所需的距离数组
   line.computeLineDistances();
-  line.position.x = 220;
-  group.add(line);
+  line.position.set(100, 0, 0);
+  scene.add(line);
 }
 
-function initGUI() {
-  const gui = new GUI();
-  const cubeFolder = gui.addFolder('Group');
-  cubeFolder.add(group.rotation, 'x', 0, Math.PI * 2);
-  cubeFolder.add(group.rotation, 'y', 0, Math.PI * 2);
-  cubeFolder.add(group.rotation, 'z', 0, Math.PI * 2);
-  cubeFolder.open();
-  const cameraFolder = gui.addFolder('Camera');
-  cameraFolder.add(camera.position, 'z', 0, 1000);
-  cameraFolder.open();
+// 三角面(网格)渲染模式
+function addMeshBasicMaterial() {
+  // 几何体对象
+  const geometry = boxGeometry();
+  // 三角面(网格)材质对象
+  const material = new MeshBasicMaterial({
+    color: 0x0000ff,
+    side: DoubleSide, // 两面可见
+  });
+  // 三角面(网格)模型对象
+  const mesh = new Mesh(geometry, material);
+  mesh.position.set(300, 0, 0);
+  scene.add(mesh);
 }
 
 function onWindowResize() {
@@ -133,7 +175,11 @@ function onWindowResize() {
 }
 
 function animate() {
+  const time = Date.now() * 0.001;
+
   requestAnimationFrame(animate);
+
+  scene.rotation.y = 0.25 * time;
 
   render();
   stats.update();
