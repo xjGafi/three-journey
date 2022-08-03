@@ -131,6 +131,7 @@ function addLineBasicMaterial() {
   scene.add(line);
 }
 
+// FIXME: LineDashedMaterial 不生效
 // 虚线渲染模式
 function addLineDashedMaterial() {
   // 几何体对象
