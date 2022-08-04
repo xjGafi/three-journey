@@ -14,52 +14,43 @@
 
 ## 目录说明
 
-### Lessons 1
+### [Lessons 1](./packages/lessons1/src/main.ts)
 
 [创建一个场景（Creating a scene）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
 > 旋转的绿色立方体
 
-### Lessons 2
+### [Lessons 2](./packages/lessons2/src/main.ts)
 
 [画线（Drawing lines）](https://threejs.org/docs/index.html#manual/zh/introduction/Drawing-lines)
 
 > 蓝色虚线向上箭头
 
-### Lessons 3
+### [Lessons 3](./packages/lessons3/src/main.ts)
 
 [创建文字（Creating text）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-text)
 
-WebGL / geometry / text
-
-- [示例](https://threejs.org/examples/#webgl_geometry_text)
-- [代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text.html)
+WebGL / geometry / text：[示例](https://threejs.org/examples/#webgl_geometry_text)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text.html)
 
 > 绿色 Hello, three.js! 立体字
 
-### Lessons 4
+### [Lessons 4](./packages/lessons4/src/main.ts)
 
 [载入 3D 模型（Loading 3D models）](https://threejs.org/docs/index.html#manual/zh/introduction/Loading-3D-models)
 
-WebGL / loader / gltf
+WebGL / loader / gltf：[示例](https://threejs.org/examples/#webgl_loader_gltf)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_gltf.html)
 
-- [示例](https://threejs.org/examples/#webgl_loader_gltf)
-- [代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_gltf.html)
+> 机器人头盔
 
-机器人头盔
-
-### Lessons 5
+### [Lessons 5](./packages/lessons5/src/main.ts)
 
 [虚线材质(LineDashedMaterial)](https://threejs.org/docs/index.html#api/zh/materials/LineDashedMaterial)
 
-WebGL / lines / dashed
-
-- [示例](https://threejs.org/examples/#webgl_lines_dashed)
-- [代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_lines_dashed.html)
+WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dashed)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_lines_dashed.html)
 
 > 旋转的绿色虚线立方体
 
-### Lessons 6
+### [Lessons 6](./packages/lessons6/src/main.ts)
 
 顶点位置数据解析渲染
 
@@ -72,7 +63,7 @@ WebGL / lines / dashed
 
 > 旋转的四种（点、虚线、实线、面）渲染模式的三维几何体（纯色）
 
-### Lessons 7
+### [Lessons 7](./packages/lessons7/src/main.ts)
 
 顶点颜色数据插值计算
 
@@ -86,7 +77,7 @@ WebGL / lines / dashed
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-### Lessons 8
+### [Lessons 8](./packages/lessons8/src/main.ts)
 
 顶点法向量数据光照计算
 
@@ -101,7 +92,7 @@ WebGL / lines / dashed
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-# Lessons 9
+### [Lessons 9](./packages/lessons9/src/main.ts)
 
 顶点法向量数据光照计算
 
@@ -116,7 +107,7 @@ WebGL / lines / dashed
 
 > 四种（点、虚线、实线、面）渲染模式的二维几何体（渐变色）
 
-### Lessons 13
+### [Lessons 13](./packages/lessons13/src/main.ts)
 
 常用材质介绍
 
