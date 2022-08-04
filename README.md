@@ -52,7 +52,7 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 ### [Lessons 6](./packages/lessons6/src/main.ts)
 
-顶点位置数据解析渲染
+`BufferGeometry` 顶点位置数据解析渲染
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
@@ -65,7 +65,7 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 ### [Lessons 7](./packages/lessons7/src/main.ts)
 
-顶点颜色数据插值计算
+`BufferGeometry` 顶点颜色数据插值计算
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
@@ -79,22 +79,26 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 ### [Lessons 8](./packages/lessons8/src/main.ts)
 
-顶点法向量数据光照计算
+`BufferGeometry` 顶点法向量数据光照计算
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
    - 使用类型数组 `Float32Array` 创建顶点颜色 color 数据
-   - 使用类型数组 `Float32Array` 创建顶点法向量 normal 数据（此处：未生效）
+   - 使用类型数组 `Float32Array` 创建顶点法向量 normal 数据（🚨 此处：法向量未生效）
 2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
 3. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**
 4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
 5. 通过 `MeshBasicMaterial` API 创建 **三角面（网格）材质对象**，`Mesh` API 创建 **网格模型对象**
 
+问题（未解决）
+
+Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效果？
+
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
 ### [Lessons 9](./packages/lessons9/src/main.ts)
 
-顶点法向量数据光照计算
+`BufferGeometry` 顶点索引复用顶点数据
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
@@ -114,6 +118,12 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 1. 通过 `SphereGeometry` API 创建一个球体几何对象
 2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
 3. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**（此处：在 SphereGeometry 上使用 LineDashedMaterial 不生效）
+4. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**（🚨 此处：虚线未生效）
+
+问题（已解决）
+
+Q: 给 `SphereGeometry` 等几何体设置 `LineDashedMaterial`（虚线材质）没有效果？
+
+A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.index` 时，当我给虚线模型对象设置顶点索引属性后，虚线效果失效了，所以我猜测由于 `SphereGeometry` 等几何体的基类是 `BufferGeometry` ，在二次封装时使用了顶点索引属性，浏览 [SphereGeometry](https://github.com/mrdoob/three.js/blob/master/src/geometries/SphereGeometry.js) 源码是验证了我的猜想。
 
 > 三种（点、实线、虚线）渲染模式的球体几何对象
