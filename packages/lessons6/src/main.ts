@@ -175,8 +175,8 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate);
 
-  const time = Date.now() * 0.001;
-  scene.rotation.y = 0.25 * time;
+  // const time = Date.now() * 0.001;
+  // scene.rotation.y = 0.25 * time;
 
   render();
   stats.update();
