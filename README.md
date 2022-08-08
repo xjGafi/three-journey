@@ -111,7 +111,7 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 > 四种（点、虚线、实线、面）渲染模式的二维几何体（渐变色）
 
-### [Lessons 13](./packages/lessons13/src/main.ts)
+### [Lessons 10](./packages/lessons10/src/main.ts)
 
 常用材质介绍
 
