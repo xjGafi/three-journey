@@ -147,3 +147,15 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 - `LineSegments` 则是顶点不共享，第 1、2 点确定一条线，第 3、4 顶点确定一条直线，第 2 和 3 点之间不连接
 
 > 五种（点、线、网格）渲染模式的立方体几何对象
+
+### [Lessons 12](./packages/lessons12/src/main.ts)
+
+常见光源类型
+
+1. 通过 `BoxGeometry` API 创建一个立方体几何对象（颜色为： 0xffffff）
+2. 通过 `AmbientLight` API 创建 **环境光**（颜色为： 0x0000ff)
+3. 通过 `SpotLight` API 创建 **聚光光源**（颜色为： 0xff0000)
+4. 通过 `PointLight` API 创建 **点光源**（颜色为： 0xff0000)
+5. 通过 `DirectionalLight` API 创建 **平行光光源**（颜色为： 0xff0000)
+
+> 一个由四种光源照射的立方体几何对象
