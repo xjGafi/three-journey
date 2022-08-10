@@ -127,3 +127,23 @@ Q: 给 `SphereGeometry` 等几何体设置 `LineDashedMaterial`（虚线材质�
 A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.index` 时，当我给虚线模型对象设置顶点索引属性后，虚线效果失效了，所以我猜测由于 `SphereGeometry` 等几何体的基类是 `BufferGeometry` ，在二次封装时使用了顶点索引属性，浏览 [SphereGeometry](https://github.com/mrdoob/three.js/blob/master/src/geometries/SphereGeometry.js) 源码是验证了我的猜想。
 
 > 三种（点、实线、虚线）渲染模式的球体几何对象
+
+### [Lessons 11](./packages/lessons11/src/main.ts)
+
+点、线、网格模型介绍
+
+1. 通过 `BoxGeometry` API 创建一个立方体几何对象
+2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
+3. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
+4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`LineLoop` API 创建 **线模型对象**
+5. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`LineSegments` API 创建 **线模型对象**
+6. 通过 `MeshBasicMaterial` API 创建 **实线材质对象**，`Mesh` API 创建 **网格模型对象**
+   - 可以设置 `wireframe：true` 属性使得网格模型以线条的模式渲染
+
+`Line`，`LineLoop` 和 `LineSegments`：三者的区别：
+
+- `Line` 与 `Mesh` 设置 `wireframe: true` 属性效果一致
+- `LineLoop` 将所有能连接的线都连上
+- `LineSegments` 则是顶点不共享，第 1、2 点确定一条线，第 3、4 顶点确定一条直线，第 2 和 3 点之间不连接
+
+> 五种（点、线、网格）渲染模式的立方体几何对象
