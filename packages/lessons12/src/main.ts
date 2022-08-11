@@ -93,6 +93,7 @@ function addSpotLight() {
   // 聚光光源对象继承 Object3D 对象的位置属性 position
   spotLight.position.set(-100, 100, 100);
   // spotLight.target = mesh;
+  // spotLight.angle = Math.PI / 2;
   scene.add(spotLight);
 
   // 聚光源辅助对象
@@ -102,13 +103,13 @@ function addSpotLight() {
 
 function addPointLight() {
   // 点光源对象
-  const point = new PointLight(0xff0000);
+  const pointLight = new PointLight(0xff0000);
   // 设置点光源位置（同聚光光源）
-  point.position.set(100, 100, 100);
-  scene.add(point);
+  pointLight.position.set(100, 100, 100);
+  scene.add(pointLight);
 
   // 点光源辅助对象
-  const pointLightHelper = new PointLightHelper(point, 10, 0x00ffff);
+  const pointLightHelper = new PointLightHelper(pointLight, 10, 0x00ffff);
   scene.add(pointLightHelper);
 }
 
