@@ -59,8 +59,8 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
-  renderer.setPixelRatio(devicePixelRatio);
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
   renderer.outputEncoding = sRGBEncoding;

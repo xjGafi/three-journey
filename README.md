@@ -159,3 +159,17 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 5. 通过 `DirectionalLight` API 创建 **平行光光源**（颜色为： 0xff0000)
 
 > 一个由四种光源照射的立方体几何对象
+
+光照阴影实时计算
+
+1. 通过 `BoxGeometry` API 创建一个立方体几何对象（颜色为： 0xffffff）
+   - 使用 `castShadow` 设置立方体可以产生投影
+2. 通过 `PlaneGeometry` API 创建一个平面几何对象作为投影面（颜色为： 0xffffff）
+   - 使用 `receiveShadow` 设置平面可以接收阴影
+3. 通过 `DirectionalLight` API 创建 **平行光光源**（颜色为： 0xffff00)
+   - 使用 `castShadow` 设置光源可以用于计算阴影
+4. 通过 `SpotLight` API 创建 **聚光光源**（颜色为： 0xff00ff)
+   - 使用 `castShadow` 设置光源可以用于计算阴影
+5. 通过 `renderer.shadowMap.enabled = true` 允许在场景中使用阴影贴图
+
+> 一个由两种光源照射的有投影的立方体几何对象

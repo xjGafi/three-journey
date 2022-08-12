@@ -41,8 +41,8 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(devicePixelRatio);
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Object
   const loader = new FontLoader();

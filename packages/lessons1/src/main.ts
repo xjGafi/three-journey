@@ -1,12 +1,12 @@
-import './style.css';
+import "./style.css";
 import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
   BoxGeometry,
   MeshBasicMaterial,
-  Mesh
-} from 'three';
+  Mesh,
+} from "three";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
@@ -16,7 +16,7 @@ init();
 animate();
 
 function init() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
@@ -32,12 +32,13 @@ function init() {
   scene.add(cube);
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
+  const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener("resize", onWindowResize);
 }
 
 function onWindowResize() {

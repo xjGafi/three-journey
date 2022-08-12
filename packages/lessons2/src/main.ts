@@ -1,4 +1,4 @@
-import './style.css';
+import "./style.css";
 import {
   PerspectiveCamera,
   Scene,
@@ -7,8 +7,8 @@ import {
   BufferGeometry,
   Line,
   LineDashedMaterial,
-  AxesHelper
-} from 'three';
+  AxesHelper,
+} from "three";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
@@ -16,7 +16,7 @@ init();
 render();
 
 function init() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 500);
@@ -38,12 +38,13 @@ function init() {
   scene.add(line);
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
+  const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener("resize", onWindowResize);
 }
 
 function lineGeometry(length: number) {
@@ -51,7 +52,7 @@ function lineGeometry(length: number) {
   const points = [
     new Vector3(-length, 0, 0),
     new Vector3(0, length, 0),
-    new Vector3(length, 0, 0)
+    new Vector3(length, 0, 0),
   ];
   const geometry = new BufferGeometry().setFromPoints(points);
   return geometry;

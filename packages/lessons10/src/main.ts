@@ -26,7 +26,7 @@ init();
 animate();
 
 function init() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
@@ -54,6 +54,7 @@ function init() {
   const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Stats
   stats = Stats();

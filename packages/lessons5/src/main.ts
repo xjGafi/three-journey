@@ -1,4 +1,4 @@
-import './style.css';
+import "./style.css";
 import {
   BufferGeometry,
   Float32BufferAttribute,
@@ -6,10 +6,10 @@ import {
   LineSegments,
   PerspectiveCamera,
   Scene,
-  WebGLRenderer
-} from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import Stats from 'three/examples/jsm/libs/stats.module';
+  WebGLRenderer,
+} from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import Stats from "three/examples/jsm/libs/stats.module";
 
 let camera: PerspectiveCamera,
   scene: Scene,
@@ -22,7 +22,7 @@ init();
 animate();
 
 function init() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Camera
   camera = new PerspectiveCamera(60, innerWidth / innerHeight, 1, 500);
@@ -36,16 +36,17 @@ function init() {
   const material = new LineDashedMaterial({
     color: 0x00ff00,
     dashSize: 3,
-    gapSize: 1
+    gapSize: 1,
   });
   dashCube = new LineSegments(geometry, material);
   dashCube.computeLineDistances();
   scene.add(dashCube);
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
+  const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -58,7 +59,7 @@ function init() {
   document.body.appendChild(stats.dom);
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener("resize", onWindowResize);
 }
 
 function boxGeometry(
@@ -153,10 +154,10 @@ function boxGeometry(
     -depth,
     width,
     -height,
-    depth
+    depth,
   ];
   const attribute = new Float32BufferAttribute(position, 3);
-  const geometry = new BufferGeometry().setAttribute('position', attribute);
+  const geometry = new BufferGeometry().setAttribute("position", attribute);
 
   return geometry;
 }

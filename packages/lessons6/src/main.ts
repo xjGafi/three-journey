@@ -27,7 +27,7 @@ init();
 animate();
 
 function init() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Camera
   camera = new PerspectiveCamera(60, innerWidth / innerHeight, 1, 500);
@@ -50,6 +50,7 @@ function init() {
   const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
