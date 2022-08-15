@@ -8,10 +8,9 @@ import {
   Mesh,
   MeshLambertMaterial,
   SpotLight,
-  SpotLightHelper,
   DirectionalLight,
-  DirectionalLightHelper,
   PlaneGeometry,
+  CameraHelper,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -111,27 +110,24 @@ function addDirectionalLightHelper() {
   // 设置计算阴影的区域，最好刚好紧密包围在对象周围
   // 计算阴影的区域过大：模糊  过小：看不到或显示不完整
   directionalLight.shadow.camera.near = 0.5;
-  directionalLight.shadow.camera.far = 300;
-  directionalLight.shadow.camera.left = -50;
-  directionalLight.shadow.camera.right = 50;
-  directionalLight.shadow.camera.top = 200;
+  directionalLight.shadow.camera.far = 500;
+  directionalLight.shadow.camera.left = -100;
+  directionalLight.shadow.camera.right = 100;
+  directionalLight.shadow.camera.top = 100;
   directionalLight.shadow.camera.bottom = -100;
   // 设置 mapSize 属性可以使阴影更清晰，不那么模糊
   directionalLight.shadow.mapSize.set(1024, 1024);
 
-  // 平行光光源辅助对象
-  const directionalLightHelper = new DirectionalLightHelper(
-    directionalLight,
-    0xffff00
-  );
-  scene.add(directionalLightHelper);
+  // 摄像机辅助对象
+  const cameraHelper = new CameraHelper(directionalLight.shadow.camera);
+  scene.add(cameraHelper);
 }
 
 function addSpotLight() {
   // 聚光光源对象
   const spotLight = new SpotLight(0xff00ff);
   // 设置聚光光源位置
-  spotLight.position.set(100, 100, 100);
+  spotLight.position.set(100, 200, 100);
   scene.add(spotLight);
 
   // 设置聚光光源发散角度
@@ -140,12 +136,13 @@ function addSpotLight() {
   spotLight.castShadow = true;
   // 设置计算阴影的区域，注意包裹对象的周围
   spotLight.shadow.camera.near = 1;
-  spotLight.shadow.camera.far = 300;
+  spotLight.shadow.camera.far = 500;
   spotLight.shadow.camera.fov = 20;
+  spotLight.shadow.mapSize.set(1024, 1024);
 
-  // 聚光源辅助对象
-  const spotLightHelper = new SpotLightHelper(spotLight, 0xff00ff);
-  scene.add(spotLightHelper);
+  // 摄像机辅助对象
+  const cameraHelper = new CameraHelper(spotLight.shadow.camera);
+  scene.add(cameraHelper);
 }
 
 function onWindowResize() {
