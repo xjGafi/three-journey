@@ -160,6 +160,8 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个由四种光源照射的立方体几何对象
 
+### [Lessons 13](./packages/lessons13/src/main.ts)
+
 光照阴影实时计算
 
 1. 通过 `BoxGeometry` API 创建一个立方体几何对象（颜色为： 0xffffff）
@@ -173,3 +175,12 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 5. 通过 `renderer.shadowMap.enabled = true` 允许在场景中使用阴影贴图
 
 > 一个由两种光源照射的有投影的立方体几何对象
+
+### [Lessons 14](./packages/lessons14/src/main.ts)
+
+层级模型节点命名、查找、遍历
+
+1. 通过 `Group` 多个模型进行分组，形成层级模型
+2. 使用 `.traverse()`, `.getObjectById()`, `.getObjectByName()` 三种方式遍历或查找查找某个具体的模型
+
+> 一个小人
