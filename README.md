@@ -182,5 +182,6 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 1. 通过 `Group` 多个模型进行分组，形成层级模型
 2. 使用 `.traverse()`, `.getObjectById()`, `.getObjectByName()` 三种方式遍历或查找查找某个具体的模型
+3. 打印模型本地和世界位置坐标、缩放、矩阵
 
 > 一个小人
