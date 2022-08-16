@@ -10,6 +10,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   Color,
+  Vector3,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -104,11 +105,25 @@ function addPerson(): void {
 
   // 遍历查找 scene 中复合条件的子对象，并返回 id 对应的对象
   var idNode = scene.getObjectById(1);
-  console.log(idNode);
+  console.log("getObjectById(1)", idNode);
 
   // 遍历查找对象的子对象，返回 name 对应的对象（name 是可以重名的，返回第一个）
   var nameNode = scene.getObjectByName("右腿");
   (<any>nameNode).material.color.set(0xff0000);
+
+  // position 属性获得本地坐标
+  console.log("本地坐标", headGroup.position);
+  // getWorldPosition() 方法获得世界坐标
+  // 该语句默认在 threejs 渲染的过程中执行，如果渲染之前想获得世界矩阵属性、世界位置属性等属性，需要通过代码更新
+  scene.updateMatrixWorld(true);
+  let worldPosition = new Vector3();
+  headGroup.getWorldPosition(worldPosition);
+  console.log("世界坐标", worldPosition);
+
+  // matrix 属性获得本地矩阵
+  console.log("本地矩阵", headGroup.matrix);
+  // matrixWorld 属性获得世界矩阵
+  console.log("世界矩阵", headGroup.matrixWorld);
 }
 
 // 球体网格模型创建函数
