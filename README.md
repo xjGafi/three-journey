@@ -32,7 +32,7 @@
 
 WebGL / geometry / text：[示例](https://threejs.org/examples/#webgl_geometry_text)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text.html)
 
-> 绿色 Hello, three.js! 立体字
+> 提夫尼绿色 Hello, three.js! 立体字
 
 ### [Lessons 4](./packages/lessons4/src/main.ts)
 

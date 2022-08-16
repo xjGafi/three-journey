@@ -17,7 +17,8 @@
     "dev:11": "pnpm run -C packages/lessons11 dev",
     "dev:12": "pnpm run -C packages/lessons12 dev",
     "dev:13": "pnpm run -C packages/lessons13 dev",
-    "dev:14": "pnpm run -C packages/lessons14 dev"
+    "dev:14": "pnpm run -C packages/lessons14 dev",
+    "dev:15": "pnpm run -C packages/lessons15 dev"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7",
