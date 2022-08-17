@@ -185,3 +185,12 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 3. 打印模型本地和世界位置坐标、缩放、矩阵
 
 > 一个小人
+
+### [Lessons 15](./packages/lessons15/src/main.ts)
+
+创建纹理贴图
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象
+2. 通过 `ImageLoader` 创建一个图片加载器对象
+
+> 对比两组几何图形（平面、立方体、球体）使用纹理贴图的效果
