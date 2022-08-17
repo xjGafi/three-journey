@@ -1,6 +1,6 @@
 import "./style.css";
 import {
-  PerspectiveCamera,
+  OrthographicCamera,
   Scene,
   PointLight,
   WebGLRenderer,
@@ -8,6 +8,7 @@ import {
   Mesh,
   PointLightHelper,
   AxesHelper,
+  CameraHelper,
 } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
@@ -16,11 +17,13 @@ import Stats from "three/examples/jsm/libs/stats.module";
 
 import helvetikerRegular from "@/fonts/helvetiker_regular.typeface.json?url";
 
-let camera: PerspectiveCamera,
+let camera: OrthographicCamera,
   scene: Scene,
   pointLight: PointLight,
   renderer: WebGLRenderer,
   stats: Stats;
+
+let cameraZoom = 250; // 三维场景显示范围控制系数，系数越大，显示的范围越大
 
 let time = 0;
 
@@ -30,14 +33,24 @@ animate();
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window;
 
-  // Camera
-  //创建相机对象
-  camera = new PerspectiveCamera(75, innerWidth / innerHeight, 1, 1000);
-  camera.position.set(0, 0, 800);
-  camera.lookAt(0, 0, 0);
-
   // Scene
   scene = new Scene();
+
+  // Camera
+  const aspectRatio = innerWidth / innerHeight; // 窗口纵横比
+  // 创建相机对象
+  camera = new OrthographicCamera(
+    -cameraZoom * aspectRatio,
+    cameraZoom * aspectRatio,
+    cameraZoom,
+    -cameraZoom,
+    1,
+    2000
+  );
+  camera.position.set(0, 0, 1500);
+
+  const cameraHelper = new CameraHelper(camera);
+  scene.add(cameraHelper);
 
   // Light
   pointLight = new PointLight(0xffffff, 1.5);
@@ -78,8 +91,8 @@ function init() {
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.minDistance = 50;
-  controls.maxDistance = 800;
+  controls.minZoom = 0.1;
+  controls.maxZoom = 2;
   controls.update();
 
   // Stats
@@ -93,7 +106,11 @@ function init() {
 function onWindowResize() {
   const { innerWidth, innerHeight } = window;
 
-  camera.aspect = innerWidth / innerHeight;
+  const aspectRatio = innerWidth / innerHeight;
+  camera.left = -cameraZoom * aspectRatio;
+  camera.right = cameraZoom * aspectRatio;
+  camera.top = cameraZoom;
+  camera.bottom = -cameraZoom;
   camera.updateProjectionMatrix();
 
   renderer.setSize(innerWidth, innerHeight);
