@@ -192,5 +192,6 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 1. 通过 `TextureLoader` 创建一个纹理加载器对象
 2. 通过 `ImageLoader` 创建一个图片加载器对象
+3. 创建两组几何图形（平面、立方体、球体），并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
 
-> 对比两组几何图形（平面、立方体、球体）使用纹理贴图的效果
+> 六个几何图形（平面、立方体、球体）

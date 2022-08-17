@@ -75,8 +75,8 @@ function addPlane() {
 function addCube() {
   // 纹理贴图映射到一个立方体上
   const geometry = new BoxGeometry(80, 80, 80);
-  textureLoader(geometry, 0);
-  imageLoader(geometry, 0);
+  textureLoader(geometry);
+  imageLoader(geometry);
 }
 
 function addBall() {
