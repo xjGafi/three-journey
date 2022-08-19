@@ -194,4 +194,16 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 2. 通过 `ImageLoader` 创建一个图片加载器对象
 3. 创建两组几何图形（平面、立方体、球体），并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
 
-> 六个几何图形（平面、立方体、球体）
+> 六个几何图形（平面、立方体、球体）采用不同贴图的效果对比
+
+### [Lessons 16](./packages/lessons16/src/main.ts)
+
+UV 映射原理(顶点纹理坐标)
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象
+2. 通过 `ImageLoader` 创建一个图片加载器对象
+3. 通过 `PlaneGeometry` 创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
+4. 通过 `BufferGeometry` 自定义顶点 UV 坐标创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
+5. 对比四个平面几何图形整体的效果
+
+> 四个平面几何图形采用不同贴图的效果对比

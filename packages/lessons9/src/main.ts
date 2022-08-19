@@ -124,7 +124,7 @@ function boxGeometry(): BufferGeometry {
     0, // 第二个三角形
   ]);
   // 索引数据赋值给几何体的 index 属性
-  geometry.index = new BufferAttribute(indexes, 1); //1个为一组
+  geometry.index = new BufferAttribute(indexes, 1); // 1 个为一组
 
   return geometry;
 }
