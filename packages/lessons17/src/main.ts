@@ -96,7 +96,9 @@ function addSinBySplineCurve() {
     new Vector2(pi(3 / 2), -1 * AMPLITUDE),
     new Vector2(pi(2), 0),
   ]);
+  // 根据关键坐标点生成 ACCURACY + 2 个坐标点
   const points = curve.getPoints(ACCURACY);
+  // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xff00ff });
