@@ -9,14 +9,11 @@ import {
   MeshLambertMaterial,
   PlaneGeometry,
   AmbientLight,
-  BoxGeometry,
-  SphereGeometry,
   BufferGeometry,
   ImageLoader,
   Texture,
   DoubleSide,
   BufferAttribute,
-  ObjectLoader,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 

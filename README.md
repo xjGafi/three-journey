@@ -54,12 +54,12 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 `BufferGeometry` 顶点位置数据解析渲染
 
-1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
+1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-5. 通过 `MeshBasicMaterial` API 创建 **三角面（网格）材质对象**，`Mesh` API 创建 **网格模型对象**
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineDashedMaterial` 创建 **虚线材质对象**，`Line` 创建 **线模型对象**
+4. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+5. 通过 `MeshBasicMaterial` 创建 **三角面（网格）材质对象**，`Mesh` 创建 **网格模型对象**
 
 > 旋转的四种（点、虚线、实线、面）渲染模式的三维几何体（纯色）
 
@@ -67,13 +67,13 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 `BufferGeometry` 顶点颜色数据插值计算
 
-1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
+1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
    - 使用类型数组 `Float32Array` 创建顶点颜色 color 数据
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-5. 通过 `MeshBasicMaterial` API 创建 **三角面（网格）材质对象**，`Mesh` API 创建 **网格模型对象**
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineDashedMaterial` 创建 **虚线材质对象**，`Line` 创建 **线模型对象**
+4. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+5. 通过 `MeshBasicMaterial` 创建 **三角面（网格）材质对象**，`Mesh` 创建 **网格模型对象**
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
@@ -81,14 +81,14 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 `BufferGeometry` 顶点法向量数据光照计算
 
-1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
+1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
    - 使用类型数组 `Float32Array` 创建顶点颜色 color 数据
    - 使用类型数组 `Float32Array` 创建顶点法向量 normal 数据（🚨 此处：法向量未生效）
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-5. 通过 `MeshBasicMaterial` API 创建 **三角面（网格）材质对象**，`Mesh` API 创建 **网格模型对象**
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineDashedMaterial` 创建 **虚线材质对象**，`Line` 创建 **线模型对象**
+4. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+5. 通过 `MeshBasicMaterial` 创建 **三角面（网格）材质对象**，`Mesh` 创建 **网格模型对象**
 
 问题（未解决）
 
@@ -100,14 +100,14 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 `BufferGeometry` 顶点索引复用顶点数据
 
-1. 通过 `BufferGeometry` 和 `BufferAttribute` 两个 API 自定义了一个具有六个顶点数据的几何体
+1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有六个顶点数据的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据
    - 使用类型数组 `Float32Array` 创建顶点颜色 color 数据
    - 使用类型数组 `Uint16Array` 创建顶点索引 index 数据
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**（使用顶点索引后，虚线失效）
-4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-5. 通过 `MeshBasicMaterial` API 创建 **三角面（网格）材质对象**，`Mesh` API 创建 **网格模型对象**
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineDashedMaterial` 创建 **虚线材质对象**，`Line` 创建 **线模型对象**（使用顶点索引后，虚线失效）
+4. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+5. 通过 `MeshBasicMaterial` 创建 **三角面（网格）材质对象**，`Mesh` 创建 **网格模型对象**
 
 > 四种（点、虚线、实线、面）渲染模式的二维几何体（渐变色）
 
@@ -115,10 +115,10 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 常用材质介绍
 
-1. 通过 `SphereGeometry` API 创建一个球体几何对象
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineDashedMaterial` API 创建 **虚线材质对象**，`Line` API 创建 **线模型对象**（🚨 此处：虚线未生效）
+1. 通过 `SphereGeometry` 创建一个球体几何对象
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+4. 通过 `LineDashedMaterial` 创建 **虚线材质对象**，`Line` 创建 **线模型对象**（🚨 此处：虚线未生效）
 
 问题（已解决）
 
@@ -132,12 +132,12 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 点、线、网格模型介绍
 
-1. 通过 `BoxGeometry` API 创建一个立方体几何对象
-2. 通过 `PointsMaterial` API 创建 **点材质对象**，`Points` API 创建 **点模型对象**
-3. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`Line` API 创建 **线模型对象**
-4. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`LineLoop` API 创建 **线模型对象**
-5. 通过 `LineBasicMaterial` API 创建 **实线材质对象**，`LineSegments` API 创建 **线模型对象**
-6. 通过 `MeshBasicMaterial` API 创建 **实线材质对象**，`Mesh` API 创建 **网格模型对象**
+1. 通过 `BoxGeometry` 创建一个立方体几何对象
+2. 通过 `PointsMaterial` 创建 **点材质对象**，`Points` 创建 **点模型对象**
+3. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`Line` 创建 **线模型对象**
+4. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`LineLoop` 创建 **线模型对象**
+5. 通过 `LineBasicMaterial` 创建 **实线材质对象**，`LineSegments` 创建 **线模型对象**
+6. 通过 `MeshBasicMaterial` 创建 **实线材质对象**，`Mesh` 创建 **网格模型对象**
    - 可以设置 `wireframe：true` 属性使得网格模型以线条的模式渲染
 
 `Line`，`LineLoop` 和 `LineSegments`：三者的区别：
@@ -152,11 +152,11 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 常见光源类型
 
-1. 通过 `BoxGeometry` API 创建一个立方体几何对象（颜色为： 0xffffff）
-2. 通过 `AmbientLight` API 创建 **环境光**（颜色为： 0x0000ff)
-3. 通过 `SpotLight` API 创建 **聚光光源**（颜色为： 0xff0000)
-4. 通过 `PointLight` API 创建 **点光源**（颜色为： 0xff0000)
-5. 通过 `DirectionalLight` API 创建 **平行光光源**（颜色为： 0xff0000)
+1. 通过 `BoxGeometry` 创建一个立方体几何对象（颜色为： 0xffffff）
+2. 通过 `AmbientLight` 创建 **环境光**（颜色为： 0x0000ff)
+3. 通过 `SpotLight` 创建 **聚光光源**（颜色为： 0xff0000)
+4. 通过 `PointLight` 创建 **点光源**（颜色为： 0xff0000)
+5. 通过 `DirectionalLight` 创建 **平行光光源**（颜色为： 0xff0000)
 
 > 一个由四种光源照射的立方体几何对象
 
@@ -164,13 +164,13 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 光照阴影实时计算
 
-1. 通过 `BoxGeometry` API 创建一个立方体几何对象（颜色为： 0xffffff）
+1. 通过 `BoxGeometry` 创建一个立方体几何对象（颜色为： 0xffffff）
    - 使用 `castShadow` 设置立方体可以产生投影
-2. 通过 `PlaneGeometry` API 创建一个平面几何对象作为投影面（颜色为： 0xffffff）
+2. 通过 `PlaneGeometry` 创建一个平面几何对象作为投影面（颜色为： 0xffffff）
    - 使用 `receiveShadow` 设置平面可以接收阴影
-3. 通过 `DirectionalLight` API 创建 **平行光光源**（颜色为： 0xffff00)
+3. 通过 `DirectionalLight` 创建 **平行光光源**（颜色为： 0xffff00)
    - 使用 `castShadow` 设置光源可以用于计算阴影
-4. 通过 `SpotLight` API 创建 **聚光光源**（颜色为： 0xff00ff)
+4. 通过 `SpotLight` 创建 **聚光光源**（颜色为： 0xff00ff)
    - 使用 `castShadow` 设置光源可以用于计算阴影
 5. 通过 `renderer.shadowMap.enabled = true` 允许在场景中使用阴影贴图
 
@@ -207,3 +207,13 @@ UV 映射原理(顶点纹理坐标)
 5. 对比四个平面几何图形整体的效果
 
 > 四个平面几何图形采用不同贴图的效果对比
+
+### [Lessons 17](./packages/lessons17/src/main.ts)
+
+绘制正弦曲线
+
+1. 通过 `SplineCurve` 创建平滑的二维样条曲线
+2. 通过 `BufferGeometry` 自定义顶点（利用 `y = A * sin(x)` 公式生成顶点坐标）
+3. 对比两个二维样条曲线整体的效果
+
+> 两个二维样条曲线
