@@ -10,12 +10,13 @@ import {
   BufferAttribute,
   SplineCurve,
   Vector2,
+  EllipseCurve,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
-const AMPLITUDE = 1; // 振幅：数值越大，曲线越陡峭 y = A * sin(x)
+const AMPLITUDE = 1; // 振幅（圆弧半径）：数值越大，曲线越陡峭 y = A * sin(x)
 const ACCURACY = 50; // 精度：数值越大，曲线越光滑
 
 init();
@@ -26,19 +27,26 @@ function init() {
 
   // Canera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100);
-  camera.position.set(0, 0, 30);
+  camera.position.set(0, 0, 10);
 
   // Scene
   scene = new Scene();
 
   // Axes
-  const axesHelper = new AxesHelper(30);
+  const axesHelper = new AxesHelper(100);
   scene.add(axesHelper);
 
   // Object
+  // 正弦曲线
   addSinByFloat32Array();
   addSinByVector2();
   addSinBySplineCurve();
+  // 圆形
+  addArcCurve(1, 1);
+  addEllipseCurve(1, 1);
+  // 椭圆形
+  addArcCurve(3, 1);
+  addEllipseCurve(3, 1);
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -49,7 +57,7 @@ function init() {
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener("change", render);
-  controls.minDistance = 10;
+  controls.minDistance = 1;
   controls.maxDistance = 80;
   controls.update();
 
@@ -83,25 +91,24 @@ function addSinByFloat32Array() {
 
   const material = new LineBasicMaterial({ color: 0xffff00 });
   const line = new Line(geometry, material);
+  line.position.y = 1;
   scene.add(line);
 }
 
 function addSinByVector2() {
-  // 创建 x 轴 [0, 2π] 范围的坐标点
   let points = [];
-  let x = 0;
-  let y = 0;
-  do {
+  // 批量生成圆弧上的顶点数据
+  for (let i = 0; i <= ACCURACY; i++) {
+    const angle = ((2 * Math.PI) / ACCURACY) * i;
+    const x = angle;
+    const y = AMPLITUDE * Math.sin(angle);
     points.push(new Vector2(x, y));
-    x += 1 / ACCURACY;
-    y = Math.sin(x) * AMPLITUDE;
-  } while (x.toFixed(3) <= pi(2).toFixed(3));
+  }
   // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x00ffff });
   const line = new Line(geometry, material);
-  line.position.y = 1;
   scene.add(line);
 }
 
@@ -114,12 +121,49 @@ function addSinBySplineCurve() {
     new Vector2(pi(3 / 2), -1 * AMPLITUDE),
     new Vector2(pi(2), 0),
   ]);
-  // 根据关键坐标点生成 ACCURACY + 2 个坐标点
+  // 根据关键坐标点生成 ACCURACY + 1 个坐标点
   const points = curve.getPoints(ACCURACY);
   // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xff00ff });
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addArcCurve(scaleX: number, scaleY: number) {
+  let points = [];
+  // 批量生成圆弧上的顶点数据
+  for (let i = 0; i <= ACCURACY; i++) {
+    const angle = ((2 * Math.PI) / ACCURACY) * i;
+    const x = AMPLITUDE * scaleX * Math.sin(angle);
+    const y = AMPLITUDE * scaleY * Math.cos(angle);
+    points.push(new Vector2(x, y));
+  }
+  // 设置几何体的坐标点
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addEllipseCurve(scaleX: number, scaleY: number) {
+  const curve = new EllipseCurve(
+    0,
+    0,
+    AMPLITUDE * scaleX,
+    AMPLITUDE * scaleY,
+    0,
+    2 * Math.PI,
+    false, // 是否顺时针绘制，默认值为 false
+    0
+  );
+  const points = curve.getPoints(ACCURACY);
+  // 设置几何体的坐标点
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
   const line = new Line(geometry, material);
   scene.add(line);
 }
