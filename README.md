@@ -210,13 +210,21 @@ UV 映射原理(顶点纹理坐标)
 
 ### [Lessons 17](./packages/lessons17/src/main.ts)
 
-绘制正弦曲线（二维样条曲线）
+常见几何体和曲线
 
 1. 通过 `Float32Array` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
 2. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
 3. 通过 `SplineCurve` 创建平滑的正弦曲线（二维样条曲线）
-4. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(sin(angle), cos(angle))`），生成圆形和椭圆形
-5. 通过 `EllipseCurve` 创建圆形和椭圆形
-6. 分别对比不同方式生成的正弦曲线（二维样条曲线）、圆形和椭圆形的效果
+4. 通过 `addCurveByCatmullRomCurve3` 创建平滑的正弦曲线（二维样条曲线）
+5. 通过 `ArcCurve` 创建圆形
+6. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(sin(angle), cos(angle))`），生成圆形
+7. 通过 `EllipseCurve` 创建圆形
+8. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(xRadius * sin(angle), yRadius * cos(angle))`），生成椭圆形
+9. 通过 `EllipseCurve` 创建椭圆形
+10. 通过 `Float32Array` 自定义顶点，生成折线
+11. 通过 `Vector2` 自定义顶点，生成折线
+12. 通过 `LineCurve` 创建直线
+13. 通过 `LineCurve3` 创建直线
+14. 分别对比不同方式生成的正弦曲线、圆形、椭圆形、折线和直线的效果
 
-> 三个正弦曲线（二维样条曲线）、两个圆形和两个椭圆形
+> 正弦曲线、圆形、椭圆形、折线和直线

@@ -10,14 +10,19 @@ import {
   BufferAttribute,
   SplineCurve,
   Vector2,
+  Vector3,
   EllipseCurve,
+  ArcCurve,
+  LineCurve,
+  LineCurve3,
+  CatmullRomCurve3,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
 const AMPLITUDE = 1; // 振幅（圆弧半径）：数值越大，曲线越陡峭 y = A * sin(x)
-const ACCURACY = 50; // 精度：数值越大，曲线越光滑
+const ACCURACY = 100; // 精度：数值越大，曲线越光滑
 
 init();
 render();
@@ -38,15 +43,27 @@ function init() {
 
   // Object
   // 正弦曲线
-  addSinByFloat32Array();
-  addSinByVector2();
-  addSinBySplineCurve();
+  addCurveFloat32Array();
+  addCurveByVector2();
+  addCurveBySplineCurve();
+  addCurveByCatmullRomCurve3();
+
   // 圆形
-  addArcCurve(1, 1);
-  addEllipseCurve(1, 1);
+  addRingByArcCurve(1);
+  addRingByVector2(1, 1);
+  addRingByEllipseCurve(1, 1);
+
   // 椭圆形
-  addArcCurve(3, 1);
-  addEllipseCurve(3, 1);
+  addRingByVector2(0.5, 1);
+  addRingByEllipseCurve(0.5, 1);
+
+  // 折线
+  addLineByFloat32Array();
+  addLineByVector2();
+
+  // 直线
+  addLineByLineCurve();
+  addLineByLineCurve3();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -65,11 +82,11 @@ function init() {
   window.addEventListener("resize", onWindowResize);
 }
 
-function pi(scale: number) {
-  return Math.PI * scale;
+function pi(piScale: number) {
+  return Math.PI * piScale;
 }
 
-function addSinByFloat32Array() {
+function addCurveFloat32Array() {
   // 创建 x 轴 [0, 2π] 范围的坐标点
   let points = [];
   let x = 0;
@@ -89,17 +106,16 @@ function addSinByFloat32Array() {
     attribuePositions
   );
 
-  const material = new LineBasicMaterial({ color: 0xffff00 });
+  const material = new LineBasicMaterial({ color: 0xff0000 });
   const line = new Line(geometry, material);
-  line.position.y = 1;
   scene.add(line);
 }
 
-function addSinByVector2() {
+function addCurveByVector2() {
   let points = [];
   // 批量生成圆弧上的顶点数据
   for (let i = 0; i <= ACCURACY; i++) {
-    const angle = ((2 * Math.PI) / ACCURACY) * i;
+    const angle = (pi(2) / ACCURACY) * i;
     const x = angle;
     const y = AMPLITUDE * Math.sin(angle);
     points.push(new Vector2(x, y));
@@ -107,12 +123,13 @@ function addSinByVector2() {
   // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
-  const material = new LineBasicMaterial({ color: 0x00ffff });
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
   const line = new Line(geometry, material);
+  line.position.y = 0.1;
   scene.add(line);
 }
 
-function addSinBySplineCurve() {
+function addCurveBySplineCurve() {
   // 创建 x 轴 [0, 2π] 范围内的 5 个关键坐标点
   const curve = new SplineCurve([
     new Vector2(pi(0), 0),
@@ -126,20 +143,35 @@ function addSinBySplineCurve() {
   // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
-  const material = new LineBasicMaterial({ color: 0xff00ff });
+  const material = new LineBasicMaterial({ color: 0x0000ff });
   const line = new Line(geometry, material);
+  line.position.y = 0.2;
   scene.add(line);
 }
 
-function addArcCurve(scaleX: number, scaleY: number) {
-  let points = [];
-  // 批量生成圆弧上的顶点数据
-  for (let i = 0; i <= ACCURACY; i++) {
-    const angle = ((2 * Math.PI) / ACCURACY) * i;
-    const x = AMPLITUDE * scaleX * Math.sin(angle);
-    const y = AMPLITUDE * scaleY * Math.cos(angle);
-    points.push(new Vector2(x, y));
-  }
+function addCurveByCatmullRomCurve3() {
+  const curve = new CatmullRomCurve3([
+    new Vector3(pi(0), 0, 0),
+    new Vector3(pi(1 / 2), 1 * AMPLITUDE, 0),
+    new Vector3(pi(1), 0, 0),
+    new Vector3(pi(3 / 2), -1 * AMPLITUDE, 0),
+    new Vector3(pi(2), 0, 0),
+  ]);
+
+  const points = curve.getPoints(ACCURACY);
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xffff00 });
+
+  const line = new Line(geometry, material);
+  line.position.y = 0.3;
+  scene.add(line);
+}
+
+function addRingByArcCurve(radiusScale: number) {
+  const curve = new ArcCurve(0, 0, AMPLITUDE * radiusScale, 0, pi(2), true);
+  // 根据关键坐标点生成 ACCURACY + 1 个坐标点
+  const points = curve.getPoints(ACCURACY);
   // 设置几何体的坐标点
   const geometry = new BufferGeometry().setFromPoints(points);
 
@@ -148,14 +180,32 @@ function addArcCurve(scaleX: number, scaleY: number) {
   scene.add(line);
 }
 
-function addEllipseCurve(scaleX: number, scaleY: number) {
+function addRingByVector2(xRadiusScale: number, yRadiusScale: number) {
+  let points = [];
+  // 批量生成圆弧上的顶点数据
+  for (let i = 0; i <= ACCURACY; i++) {
+    const angle = (pi(2) / ACCURACY) * i;
+    const x = AMPLITUDE * xRadiusScale * Math.sin(angle);
+    const y = AMPLITUDE * yRadiusScale * Math.cos(angle);
+    points.push(new Vector2(x, y));
+  }
+  // 设置几何体的坐标点
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.1;
+  scene.add(line);
+}
+
+function addRingByEllipseCurve(xRadiusScale: number, yRadiusScale: number) {
   const curve = new EllipseCurve(
     0,
     0,
-    AMPLITUDE * scaleX,
-    AMPLITUDE * scaleY,
+    AMPLITUDE * xRadiusScale,
+    AMPLITUDE * yRadiusScale,
     0,
-    2 * Math.PI,
+    pi(2),
     false, // 是否顺时针绘制，默认值为 false
     0
   );
@@ -165,6 +215,58 @@ function addEllipseCurve(scaleX: number, scaleY: number) {
 
   const material = new LineBasicMaterial({ color: 0x0000ff });
   const line = new Line(geometry, material);
+  line.position.y = 0.2;
+  scene.add(line);
+}
+
+function addLineByFloat32Array() {
+  const points = [0, 0, 0, 1, 1, 0, 2, -1, 0, 3, 0, 0];
+  const positions = new Float32Array(points);
+  const attribuePositions = new BufferAttribute(positions, 3);
+  const geometry = new BufferGeometry().setAttribute(
+    "position",
+    attribuePositions
+  );
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addLineByVector2() {
+  const points = [
+    new Vector2(0, 0),
+    new Vector2(1, 1),
+    new Vector2(2, -1),
+    new Vector2(3, 0),
+  ];
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.1;
+  scene.add(line);
+}
+
+function addLineByLineCurve() {
+  const curve = new LineCurve(new Vector2(0, 0), new Vector2(1, 1));
+  const points = curve.getPoints(ACCURACY);
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+  const line = new Line(geometry, material);
+  line.position.y = 0.2;
+  scene.add(line);
+}
+
+function addLineByLineCurve3() {
+  const curve = new LineCurve3(new Vector3(0, 0, 0), new Vector3(1, 1, 0));
+  const points = curve.getPoints(ACCURACY);
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xffff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.3;
   scene.add(line);
 }
 
