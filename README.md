@@ -214,17 +214,28 @@ UV 映射原理(顶点纹理坐标)
 
 1. 通过 `Float32Array` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
 2. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
-3. 通过 `SplineCurve` 创建平滑的正弦曲线（二维样条曲线）
-4. 通过 `addCurveByCatmullRomCurve3` 创建平滑的正弦曲线（二维样条曲线）
-5. 通过 `ArcCurve` 创建圆形
+3. 通过 `SplineCurve` 创建平滑的正弦曲线（从一系列的点中，创建一个平滑的 **二维** 样条曲线。）
+4. 通过 `CatmullRomCurve3` 创建平滑的正弦曲线（使用 Catmull-Rom 算法， 从一系列的点创建一条平滑的 **三维** 样条曲线）
+5. 通过 `ArcCurve` 创建一个形状为圆形的曲线，`EllipseCurve` 的别名
 6. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(sin(angle), cos(angle))`），生成圆形
-7. 通过 `EllipseCurve` 创建圆形
+7. 通过 `EllipseCurve` 创建一个形状为圆形的曲线（将 `xRadius` 与 `yRadius` 设为相等）
 8. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(xRadius * sin(angle), yRadius * cos(angle))`），生成椭圆形
-9. 通过 `EllipseCurve` 创建椭圆形
+9. 通过 `EllipseCurve` 创建一个形状为椭圆的曲线
 10. 通过 `Float32Array` 自定义顶点，生成折线
 11. 通过 `Vector2` 自定义顶点，生成折线
-12. 通过 `LineCurve` 创建直线
-13. 通过 `LineCurve3` 创建直线
+12. 通过 `LineCurve` 创建一条 **二维** 线段的曲线
+13. 通过 `LineCurve3` 创建一条 **三维** 线段的曲线
 14. 分别对比不同方式生成的正弦曲线、圆形、椭圆形、折线和直线的效果
 
 > 正弦曲线、圆形、椭圆形、折线和直线
+
+### [Lessons 18](./packages/lessons18/src/main.ts)
+
+贝赛尔曲线，多个线条组合曲线
+
+1. 通过 `CubicBezierCurve` 创建一条平滑的 **二维三次** 贝塞尔曲线，由起点、终点和 **两个** 控制点所定义。
+2. 通过 `CubicBezierCurve3` 创建一条平滑的 **三维三次** 贝塞尔曲线，由起点、终点和 **两个** 控制点所定义。
+3. 通过 `QuadraticBezierCurve` 创建一条平滑的 **二维二次** 贝塞尔曲线，由起点、终点和 **一个** 控制点所定义。
+4. 通过 `QuadraticBezierCurve3` 创建一条平滑的 **三维二次** 贝塞尔曲线，由起点、终点和 **一个** 控制点所定义。
+
+> 贝赛尔曲线、胶囊形状曲线
