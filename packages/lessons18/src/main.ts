@@ -73,6 +73,7 @@ function addCubicBezierCurve() {
   );
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xff0000 });
@@ -89,6 +90,7 @@ function addQuadraticBezierCurve() {
   );
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
@@ -106,6 +108,7 @@ function addCubicBezierCurve3() {
   );
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x0000ff });
@@ -122,6 +125,7 @@ function addQuadraticBezierCurve3() {
   );
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xffff00 });
@@ -144,9 +148,10 @@ function addCurvePath() {
     new Vector2(-RADIUS, HEIGHT)
   );
 
-  const curvePath = new CurvePath();
-  curvePath.curves.push(line1, arc1, line2, arc2);
+  const curvePath = new CurvePath(); // 创建 CurvePath 对象
+  curvePath.curves.push(line1, arc1, line2, arc2); // 插入多段线条
   const points = curvePath.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points as Array<Vector2>);
 
   const material = new LineBasicMaterial({ color: 0x00ffff });

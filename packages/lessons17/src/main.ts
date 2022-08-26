@@ -120,7 +120,7 @@ function addCurveByVector2() {
     const y = AMPLITUDE * Math.sin(angle);
     points.push(new Vector2(x, y));
   }
-  // 设置几何体的坐标点
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
@@ -140,7 +140,7 @@ function addCurveBySplineCurve() {
   ]);
   // 根据关键坐标点生成 ACCURACY + 1 个坐标点
   const points = curve.getPoints(ACCURACY);
-  // 设置几何体的坐标点
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x0000ff });
@@ -159,6 +159,7 @@ function addCurveByCatmullRomCurve3() {
   ]);
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xffff00 });
@@ -172,7 +173,7 @@ function addRingByArcCurve(radiusScale: number) {
   const curve = new ArcCurve(0, 0, AMPLITUDE * radiusScale, 0, pi(2), true);
   // 根据关键坐标点生成 ACCURACY + 1 个坐标点
   const points = curve.getPoints(ACCURACY);
-  // 设置几何体的坐标点
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xff0000 });
@@ -189,7 +190,7 @@ function addRingByVector2(xRadiusScale: number, yRadiusScale: number) {
     const y = AMPLITUDE * yRadiusScale * Math.cos(angle);
     points.push(new Vector2(x, y));
   }
-  // 设置几何体的坐标点
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
@@ -210,7 +211,7 @@ function addRingByEllipseCurve(xRadiusScale: number, yRadiusScale: number) {
     0
   );
   const points = curve.getPoints(ACCURACY);
-  // 设置几何体的坐标点
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x0000ff });
@@ -240,6 +241,7 @@ function addLineByVector2() {
     new Vector2(2, -1),
     new Vector2(3, 0),
   ];
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
@@ -251,6 +253,7 @@ function addLineByVector2() {
 function addLineByLineCurve() {
   const curve = new LineCurve(new Vector2(0, 0), new Vector2(1, 1));
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0x0000ff });

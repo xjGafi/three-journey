@@ -72,6 +72,7 @@ function addCurveByCatmullRomCurve3() {
   ]);
 
   const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xff0000 });
@@ -87,6 +88,7 @@ function addTubeByCatmullRomCurve3() {
     new Vector3(2, -1, 1),
     new Vector3(3, 0, 0),
   ]);
+  // 通过曲线路径创建生成管道
   const geometry = new TubeGeometry(
     path,
     TUBE_TUBULARSEGMENTS,
@@ -118,9 +120,11 @@ function addCurveByCurvePath() {
   const curvePath = new CurvePath();
   curvePath.curves.push(line1, curve1, line2, curve2);
   const points = curvePath.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points as Array<Vector3>);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
+
   const line = new Line(geometry, material);
   line.position.x = -1.25;
   line.position.y = -1.25;
@@ -141,8 +145,9 @@ function addTubeByCurvePath() {
   const line1 = new LineCurve3(new Vector3(1, 1, 0), new Vector3(1, 0, 0));
   const line2 = new LineCurve3(new Vector3(-1, 0, 0), new Vector3(-1, 1, 0));
 
-  const path: CurvePath<Vector3> = new CurvePath();
-  path.curves.push(line1, curve1, line2, curve2);
+  const path: CurvePath<Vector3> = new CurvePath(); // 创建 CurvePath 对象
+  path.curves.push(line1, curve1, line2, curve2); // 插入多段线条
+  // 通过曲线路径创建生成管道
   const geometry = new TubeGeometry(
     path,
     TUBE_TUBULARSEGMENTS,
@@ -152,6 +157,7 @@ function addTubeByCurvePath() {
   );
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
+
   const line = new Line(geometry, material);
   line.position.x = -1.25;
   line.position.y = 1.25;

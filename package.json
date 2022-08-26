@@ -22,7 +22,8 @@
     "dev:16": "pnpm run -C packages/lessons16 dev",
     "dev:17": "pnpm run -C packages/lessons17 dev",
     "dev:18": "pnpm run -C packages/lessons18 dev",
-    "dev:19": "pnpm run -C packages/lessons19 dev"
+    "dev:19": "pnpm run -C packages/lessons19 dev",
+    "dev:20": "pnpm run -C packages/lessons20 dev"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7",

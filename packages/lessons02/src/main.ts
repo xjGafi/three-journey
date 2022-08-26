@@ -54,6 +54,7 @@ function lineGeometry(length: number) {
     new Vector3(0, length, 0),
     new Vector3(length, 0, 0),
   ];
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
   return geometry;
 }
