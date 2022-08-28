@@ -17,6 +17,7 @@ import {
   DoubleSide,
   MeshBasicMaterial,
   Shape,
+  Mesh,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -100,10 +101,10 @@ function addLatheByCubicBezierCurve() {
   const material = new MeshBasicMaterial({ color: 0xff0000, side: DoubleSide });
   // material.wireframe = true; //线条模式渲染(查看细分数)
 
-  const line = new Line(geometry, material);
-  line.position.x = 7;
-  line.position.y = 2;
-  scene.add(line);
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 7;
+  mesh.position.y = 2;
+  scene.add(mesh);
 }
 
 function addCurveByQuadraticBezierCurve() {
@@ -134,9 +135,9 @@ function addLatheByQuadraticBezierCurve() {
   const material = new MeshBasicMaterial({ color: 0x00ff00, side: DoubleSide });
   // material.wireframe = true; //线条模式渲染(查看细分数)
 
-  const line = new Line(geometry, material);
-  line.position.y = 2;
-  scene.add(line);
+  const mesh = new Mesh(geometry, material);
+  mesh.position.y = 2;
+  scene.add(mesh);
 }
 
 function addCurveByCurvePath() {
@@ -185,10 +186,10 @@ function addLatheByCurvePath() {
 
   const material = new MeshBasicMaterial({ color: 0x0000ff, side: DoubleSide });
 
-  const line = new Line(geometry, material);
-  line.position.x = -5;
-  line.position.y = 5;
-  scene.add(line);
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = -5;
+  mesh.position.y = 5;
+  scene.add(mesh);
 }
 
 function addCurveByShape() {
@@ -205,6 +206,7 @@ function addCurveByShape() {
   const geometry = new BufferGeometry().setFromPoints(points);
 
   const material = new LineBasicMaterial({ color: 0xffff00 });
+  // material.wireframe = true; // 线条模式渲染(查看细分数)
 
   const line = new Line(geometry, material);
   line.position.x = 14;
@@ -227,10 +229,10 @@ function addLatheByShape() {
   const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
   // material.wireframe = true; // 线条模式渲染(查看细分数)
 
-  const line = new Line(geometry, material);
-  line.position.x = 14;
-  line.position.y = 2;
-  scene.add(line);
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 14;
+  mesh.position.y = 2;
+  scene.add(mesh);
 }
 
 function onWindowResize() {

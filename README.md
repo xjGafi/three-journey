@@ -262,7 +262,23 @@ UV 映射原理(顶点纹理坐标)
 4. 在上一步的基础上，通过 `LatheGeometry` 创建旋转网格模型
 5. 通过 `CurvePath` 把多个圆弧线、样条曲线、直线等多个曲线合并成一个曲线
 6. 在上一步的基础上，通过 `LatheGeometry` 创建旋转网格模型
-7. 通过 `Shape` 创建一个平滑的 **二维** 样条曲线
+7. 通过 `Shape` 和 `splineThru` 创建一个平滑的 **二维** 样条曲线
 8. 在上一步的基础上，通过 `LatheGeometry` 创建旋转网格模型
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状网格模型
+
+### [Lessons 21](./packages/lessons21/src/main.ts)
+
+形状和轮廓填充
+
+1. 通过 `Shape` 和 `splineThru` 创建一个平滑的 **二维** 样条曲线
+2. 通过 `Shape` 和 `ShapeGeometry` 创建一个矩形（与 1 中样条曲线坐标一致）
+3. 通过 `Shape` 和 `ShapeGeometry` 创建一个矩形（通过 **顶点定义** 轮廓）
+4. 通过 `Shape` 和 `ShapeGeometry` 创建一个矩形（通过 **四条直线绘制** 轮廓）
+5. 通过 `Shape` 和 `ShapeGeometry` 创建一个圆形（使用 `absarc()`）
+6. 通过 `Shape` 和 `ShapeGeometry` 创建一个胶囊形状网格模型（使用 `absarc()`）
+7. 通过 `Shape`，`Path` 和 `ShapeGeometry` 创建一个外轮廓嵌套内轮脸状网格模型（使用 `arc()`，`holes`）
+8. 通过 `Shape`，`Path` 和 `ShapeGeometry` 创建一个多个轮廓同时填充脸状网格模型（使用 `arc()`）
+9. 通过 `Shape`，`Path` 和 `ShapeGeometry` 创建一个矩形嵌套矩形网格模型（使用 `moveTo()`，`lineTo()`，`holes`）
+
+> 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型

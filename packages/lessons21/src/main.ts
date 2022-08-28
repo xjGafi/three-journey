@@ -66,11 +66,12 @@ function init() {
 }
 
 function addCurveByShape() {
+  const UNIT = 2;
   const positions = [
-    new Vector2(-2, 2),
-    new Vector2(2, 2),
-    new Vector2(2, -2),
-    new Vector2(-2, -2),
+    new Vector2(-UNIT, UNIT),
+    new Vector2(UNIT, UNIT),
+    new Vector2(UNIT, -UNIT),
+    new Vector2(-UNIT, -UNIT),
   ];
   const shape = new Shape();
   shape.splineThru(positions); // 顶点带入样条插值计算函数
