@@ -282,3 +282,11 @@ UV 映射原理(顶点纹理坐标)
 9. 通过 `Shape`，`Path` 和 `ShapeGeometry` 创建一个矩形嵌套矩形网格模型（使用 `moveTo()`，`lineTo()`，`holes`）
 
 > 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
+
+### [Lessons 22](./packages/lessons22/src/main.ts)
+
+拉伸扫描成型
+
+在 Lessons 21 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
+
+> 3D 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
