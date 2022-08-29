@@ -20,16 +20,16 @@ importers:
       typescript: 4.7.4
       vite: 3.0.2
 
-  packages/lessons01:
+  packages/lesson01:
     specifiers: {}
 
-  packages/lessons02:
+  packages/lesson02:
     specifiers: {}
 
-  packages/lessons03:
+  packages/lesson03:
     specifiers: {}
 
-  packages/lessons04:
+  packages/lesson04:
     specifiers: {}
 
 packages:

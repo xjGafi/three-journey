@@ -14,19 +14,19 @@
 
 ## 目录说明
 
-### [Lessons 01](./packages/lessons01/src/main.ts)
+### [Lesson 01](./packages/lesson01/src/main.ts)
 
 [创建一个场景（Creating a scene）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
 > 旋转的绿色立方体
 
-### [Lessons 02](./packages/lessons02/src/main.ts)
+### [Lesson 02](./packages/lesson02/src/main.ts)
 
 [画线（Drawing lines）](https://threejs.org/docs/index.html#manual/zh/introduction/Drawing-lines)
 
 > 蓝色虚线向上箭头
 
-### [Lessons 03](./packages/lessons03/src/main.ts)
+### [Lesson 03](./packages/lesson03/src/main.ts)
 
 [创建文字（Creating text）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-text)
 
@@ -34,7 +34,7 @@ WebGL / geometry / text：[示例](https://threejs.org/examples/#webgl_geometry_
 
 > 提夫尼绿色 Hello, three.js! 立体字
 
-### [Lessons 04](./packages/lessons04/src/main.ts)
+### [Lesson 04](./packages/lesson04/src/main.ts)
 
 [载入 3D 模型（Loading 3D models）](https://threejs.org/docs/index.html#manual/zh/introduction/Loading-3D-models)
 
@@ -42,7 +42,7 @@ WebGL / loader / gltf：[示例](https://threejs.org/examples/#webgl_loader_gltf
 
 > 机器人头盔
 
-### [Lessons 05](./packages/lessons05/src/main.ts)
+### [Lesson 05](./packages/lesson05/src/main.ts)
 
 [虚线材质(LineDashedMaterial)](https://threejs.org/docs/index.html#api/zh/materials/LineDashedMaterial)
 
@@ -50,7 +50,7 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 > 旋转的绿色虚线立方体
 
-### [Lessons 06](./packages/lessons06/src/main.ts)
+### [Lesson 06](./packages/lesson06/src/main.ts)
 
 `BufferGeometry` 顶点位置数据解析渲染
 
@@ -63,7 +63,7 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 > 旋转的四种（点、虚线、实线、面）渲染模式的三维几何体（纯色）
 
-### [Lessons 07](./packages/lessons07/src/main.ts)
+### [Lesson 07](./packages/lesson07/src/main.ts)
 
 `BufferGeometry` 顶点颜色数据插值计算
 
@@ -77,7 +77,7 @@ WebGL / lines / dashed：[示例](https://threejs.org/examples/#webgl_lines_dash
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-### [Lessons 08](./packages/lessons08/src/main.ts)
+### [Lesson 08](./packages/lesson08/src/main.ts)
 
 `BufferGeometry` 顶点法向量数据光照计算
 
@@ -96,7 +96,7 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-### [Lessons 09](./packages/lessons09/src/main.ts)
+### [Lesson 09](./packages/lesson09/src/main.ts)
 
 `BufferGeometry` 顶点索引复用顶点数据
 
@@ -111,7 +111,7 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 > 四种（点、虚线、实线、面）渲染模式的二维几何体（渐变色）
 
-### [Lessons 10](./packages/lessons10/src/main.ts)
+### [Lesson 10](./packages/lesson10/src/main.ts)
 
 常用材质介绍
 
@@ -128,7 +128,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 三种（点、实线、虚线）渲染模式的球体几何对象
 
-### [Lessons 11](./packages/lessons11/src/main.ts)
+### [Lesson 11](./packages/lesson11/src/main.ts)
 
 点、线、网格模型介绍
 
@@ -148,7 +148,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 五种（点、线、网格）渲染模式的立方体几何对象
 
-### [Lessons 12](./packages/lessons12/src/main.ts)
+### [Lesson 12](./packages/lesson12/src/main.ts)
 
 常见光源类型
 
@@ -160,7 +160,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个由四种光源照射的立方体几何对象
 
-### [Lessons 13](./packages/lessons13/src/main.ts)
+### [Lesson 13](./packages/lesson13/src/main.ts)
 
 光照阴影实时计算
 
@@ -176,7 +176,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个由两种光源照射的有投影的立方体几何对象
 
-### [Lessons 14](./packages/lessons14/src/main.ts)
+### [Lesson 14](./packages/lesson14/src/main.ts)
 
 层级模型节点命名、查找、遍历
 
@@ -186,7 +186,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个小人
 
-### [Lessons 15](./packages/lessons15/src/main.ts)
+### [Lesson 15](./packages/lesson15/src/main.ts)
 
 常见几何体和曲线
 
@@ -207,7 +207,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 正弦曲线、圆形、椭圆形、折线和直线
 
-### [Lessons 16](./packages/lessons16/src/main.ts)
+### [Lesson 16](./packages/lesson16/src/main.ts)
 
 贝赛尔曲线，多个线条组合曲线
 
@@ -219,7 +219,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 贝赛尔曲线、胶囊形状曲线
 
-### [Lessons 17](./packages/lessons17/src/main.ts)
+### [Lesson 17](./packages/lesson17/src/main.ts)
 
 曲线路径管道成型
 
@@ -230,7 +230,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状圆管
 
-### [Lessons 18](./packages/lessons18/src/main.ts)
+### [Lesson 18](./packages/lesson18/src/main.ts)
 
 旋转造型
 
@@ -245,7 +245,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状网格模型
 
-### [Lessons 19](./packages/lessons19/src/main.ts)
+### [Lesson 19](./packages/lesson19/src/main.ts)
 
 形状和轮廓填充
 
@@ -261,15 +261,15 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
 
-### [Lessons 20](./packages/lessons20/src/main.ts)
+### [Lesson 20](./packages/lesson20/src/main.ts)
 
 拉伸扫描成型
 
-在 Lessons 21 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
+在 Lesson 21 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
 
 > 3D 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
 
-### [Lessons 21](./packages/lessons21/src/main.ts)
+### [Lesson 21](./packages/lesson21/src/main.ts)
 
 创建纹理贴图
 
@@ -279,7 +279,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 六个几何图形（平面、立方体、球体）采用不同贴图的效果对比
 
-### [Lessons 22](./packages/lessons22/src/main.ts)
+### [Lesson 22](./packages/lesson22/src/main.ts)
 
 UV 映射原理(顶点纹理坐标)
 

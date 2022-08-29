@@ -19,5 +19,5 @@
       "@/*": ["../../assets/*"]
     }
   },
-  "include": ["../lesson20/src"]
+  "include": ["src"]
 }
