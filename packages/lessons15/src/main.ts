@@ -4,23 +4,25 @@ import {
   Scene,
   WebGLRenderer,
   AxesHelper,
-  TextureLoader,
-  Mesh,
-  MeshLambertMaterial,
-  PlaneGeometry,
-  AmbientLight,
-  BoxGeometry,
-  SphereGeometry,
   BufferGeometry,
-  ImageLoader,
-  Texture,
-  DoubleSide,
+  Line,
+  LineBasicMaterial,
+  BufferAttribute,
+  SplineCurve,
+  Vector2,
+  Vector3,
+  EllipseCurve,
+  ArcCurve,
+  LineCurve,
+  LineCurve3,
+  CatmullRomCurve3,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-import url from "@/textures/avatar.jpeg?url";
-
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+
+const AMPLITUDE = 1; // 振幅（圆弧半径）：数值越大，曲线越陡峭 y = A * sin(x)
+const ACCURACY = 100; // 精度：数值越大，曲线越光滑
 
 init();
 render();
@@ -29,8 +31,8 @@ function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
-  camera.position.set(0, 0, 300);
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100);
+  camera.position.set(0, 0, 10);
 
   // Scene
   scene = new Scene();
@@ -39,14 +41,29 @@ function init() {
   const axesHelper = new AxesHelper(100);
   scene.add(axesHelper);
 
-  // Light
-  const ambient = new AmbientLight(0xffffff);
-  scene.add(ambient);
-
   // Object
-  addPlane();
-  addCube();
-  addBall();
+  // 正弦曲线
+  addCurveFloat32Array();
+  addCurveByVector2();
+  addCurveBySplineCurve();
+  addCurveByCatmullRomCurve3();
+
+  // 圆形
+  addRingByArcCurve(1);
+  addRingByVector2(1, 1);
+  addRingByEllipseCurve(1, 1);
+
+  // 椭圆形
+  addRingByVector2(0.5, 1);
+  addRingByEllipseCurve(0.5, 1);
+
+  // 折线
+  addLineByFloat32Array();
+  addLineByVector2();
+
+  // 直线
+  addLineByLineCurve();
+  addLineByLineCurve3();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -57,75 +74,203 @@ function init() {
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener("change", render);
-  controls.minDistance = 100;
-  controls.maxDistance = 800;
+  controls.minDistance = 1;
+  controls.maxDistance = 80;
   controls.update();
 
   // Resize
   window.addEventListener("resize", onWindowResize);
 }
 
-function addPlane() {
-  // 纹理贴图映射到一个矩形平面上
-  const geometry = new PlaneGeometry(80, 80);
-  textureLoader(geometry, -100);
-  imageLoader(geometry, -100);
+function pi(piScale: number) {
+  return Math.PI * piScale;
 }
 
-function addCube() {
-  // 纹理贴图映射到一个立方体上
-  const geometry = new BoxGeometry(80, 80, 80);
-  textureLoader(geometry);
-  imageLoader(geometry);
+function addCurveFloat32Array() {
+  // 创建 x 轴 [0, 2π] 范围的坐标点
+  let points = [];
+  let x = 0;
+  let y = 0;
+  do {
+    points.push(x, y, 0);
+    x += 1 / ACCURACY;
+    y = Math.sin(x) * AMPLITUDE;
+  } while (x.toFixed(3) <= pi(2).toFixed(3));
+  // Float32Array 类型数组创建顶点位置 position 数据
+  const positions = new Float32Array(points);
+  // 创建 position 属性缓冲区对象
+  const attribuePositions = new BufferAttribute(positions, 3);
+  // 设置几何体 attributes 属性的 position 属性
+  const geometry = new BufferGeometry().setAttribute(
+    "position",
+    attribuePositions
+  );
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+  const line = new Line(geometry, material);
+  scene.add(line);
 }
 
-function addBall() {
-  // 纹理贴图映射到一个球体上
-  const geometry = new SphereGeometry(40, 25, 25);
-  textureLoader(geometry, 100);
-  imageLoader(geometry, 100);
+function addCurveByVector2() {
+  let points = [];
+  // 批量生成圆弧上的顶点数据
+  for (let i = 0; i <= ACCURACY; i++) {
+    const angle = (pi(2) / ACCURACY) * i;
+    const x = angle;
+    const y = AMPLITUDE * Math.sin(angle);
+    points.push(new Vector2(x, y));
+  }
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.1;
+  scene.add(line);
 }
 
-function textureLoader(geometry: BufferGeometry, offsetX = 0) {
-  // TextureLoader 创建一个纹理加载器对象，可以加载图片作为几何体纹理
-  const textureLoader = new TextureLoader();
-  // 执行 load 方法，加载纹理贴图成功后，返回一个纹理对象 Texture
-  textureLoader.load(url, (texture) => {
-    const material = new MeshLambertMaterial({
-      color: 0xff0000,
-      map: texture, // 设置纹理贴图
-      side: DoubleSide,
-    });
-    const mesh = new Mesh(geometry, material);
-    mesh.position.set(offsetX, 50, 0);
-    scene.add(mesh);
+function addCurveBySplineCurve() {
+  // 创建 x 轴 [0, 2π] 范围内的 5 个关键坐标点
+  const curve = new SplineCurve([
+    new Vector2(pi(0), 0),
+    new Vector2(pi(1 / 2), 1 * AMPLITUDE),
+    new Vector2(pi(1), 0),
+    new Vector2(pi(3 / 2), -1 * AMPLITUDE),
+    new Vector2(pi(2), 0),
+  ]);
+  // 根据关键坐标点生成 ACCURACY + 1 个坐标点
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
 
-    //纹理贴图加载成功后，调用渲染函数执行渲染操作
-    render();
-  });
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+  const line = new Line(geometry, material);
+  line.position.y = 0.2;
+  scene.add(line);
 }
 
-function imageLoader(geometry: BufferGeometry, offsetX = 0) {
-  // ImageLoader 创建一个图片加载器对象，可以加载图片作为几何体纹理
-  const imageLoader = new ImageLoader();
-  // 执行 load 方法，加载图片成功后，返回一个 html 的元素 img 对象
-  imageLoader.load(url, (image) => {
-    // image 对象作为参数，创建一个纹理对象 Texture
-    const texture = new Texture(image);
-    // 下次使用纹理时触发更新
-    texture.needsUpdate = true;
-    const material = new MeshLambertMaterial({
-      color: 0x00ff00,
-      map: texture, // 设置纹理贴图
-      side: DoubleSide,
-    });
-    const mesh = new Mesh(geometry, material);
-    mesh.position.set(offsetX, -50, 0);
-    scene.add(mesh);
+function addCurveByCatmullRomCurve3() {
+  const curve = new CatmullRomCurve3([
+    new Vector3(pi(0), 0, 0),
+    new Vector3(pi(1 / 2), 1 * AMPLITUDE, 0),
+    new Vector3(pi(1), 0, 0),
+    new Vector3(pi(3 / 2), -1 * AMPLITUDE, 0),
+    new Vector3(pi(2), 0, 0),
+  ]);
 
-    //纹理贴图加载成功后，调用渲染函数执行渲染操作
-    render();
-  });
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xffff00 });
+
+  const line = new Line(geometry, material);
+  line.position.y = 0.3;
+  scene.add(line);
+}
+
+function addRingByArcCurve(radiusScale: number) {
+  const curve = new ArcCurve(0, 0, AMPLITUDE * radiusScale, 0, pi(2), true);
+  // 根据关键坐标点生成 ACCURACY + 1 个坐标点
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addRingByVector2(xRadiusScale: number, yRadiusScale: number) {
+  let points = [];
+  // 批量生成圆弧上的顶点数据
+  for (let i = 0; i <= ACCURACY; i++) {
+    const angle = (pi(2) / ACCURACY) * i;
+    const x = AMPLITUDE * xRadiusScale * Math.sin(angle);
+    const y = AMPLITUDE * yRadiusScale * Math.cos(angle);
+    points.push(new Vector2(x, y));
+  }
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.1;
+  scene.add(line);
+}
+
+function addRingByEllipseCurve(xRadiusScale: number, yRadiusScale: number) {
+  const curve = new EllipseCurve(
+    0,
+    0,
+    AMPLITUDE * xRadiusScale,
+    AMPLITUDE * yRadiusScale,
+    0,
+    pi(2),
+    false, // 是否顺时针绘制，默认值为 false
+    0
+  );
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+  const line = new Line(geometry, material);
+  line.position.y = 0.2;
+  scene.add(line);
+}
+
+function addLineByFloat32Array() {
+  const points = [0, 0, 0, 1, 1, 0, 2, -1, 0, 3, 0, 0];
+  const positions = new Float32Array(points);
+  const attribuePositions = new BufferAttribute(positions, 3);
+  const geometry = new BufferGeometry().setAttribute(
+    "position",
+    attribuePositions
+  );
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addLineByVector2() {
+  const points = [
+    new Vector2(0, 0),
+    new Vector2(1, 1),
+    new Vector2(2, -1),
+    new Vector2(3, 0),
+  ];
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.1;
+  scene.add(line);
+}
+
+function addLineByLineCurve() {
+  const curve = new LineCurve(new Vector2(0, 0), new Vector2(1, 1));
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+  const line = new Line(geometry, material);
+  line.position.y = 0.2;
+  scene.add(line);
+}
+
+function addLineByLineCurve3() {
+  const curve = new LineCurve3(new Vector3(0, 0, 0), new Vector3(1, 1, 0));
+  const points = curve.getPoints(ACCURACY);
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xffff00 });
+  const line = new Line(geometry, material);
+  line.position.y = 0.3;
+  scene.add(line);
 }
 
 function onWindowResize() {

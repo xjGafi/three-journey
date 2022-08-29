@@ -188,33 +188,11 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 ### [Lessons 15](./packages/lessons15/src/main.ts)
 
-创建纹理贴图
-
-1. 通过 `TextureLoader` 创建一个纹理加载器对象
-2. 通过 `ImageLoader` 创建一个图片加载器对象
-3. 创建两组几何图形（平面、立方体、球体），并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
-
-> 六个几何图形（平面、立方体、球体）采用不同贴图的效果对比
-
-### [Lessons 16](./packages/lessons16/src/main.ts)
-
-UV 映射原理(顶点纹理坐标)
-
-1. 通过 `TextureLoader` 创建一个纹理加载器对象
-2. 通过 `ImageLoader` 创建一个图片加载器对象
-3. 通过 `PlaneGeometry` 创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
-4. 通过 `BufferGeometry` 自定义顶点 UV 坐标创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
-5. 对比四个平面几何图形整体的效果
-
-> 四个平面几何图形采用不同贴图的效果对比
-
-### [Lessons 17](./packages/lessons17/src/main.ts)
-
 常见几何体和曲线
 
 1. 通过 `Float32Array` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
 2. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(angle, sin(angle))`），生成正弦曲线
-3. 通过 `SplineCurve` 创建平滑的正弦曲线（从一系列的点中，创建一个平滑的 **二维** 样条曲线。）
+3. 通过 `SplineCurve` 创建平滑的正弦曲线（从一系列的点中，创建一个平滑的 **二维** 样条曲线）
 4. 通过 `CatmullRomCurve3` 创建平滑的正弦曲线（使用 Catmull-Rom 算法， 从一系列的点创建一条平滑的 **三维** 样条曲线）
 5. 通过 `ArcCurve` 创建一个形状为圆形的曲线，`EllipseCurve` 的别名
 6. 通过 `Vector2` 自定义顶点（利用三角函数生成顶点坐标 `(sin(angle), cos(angle))`），生成圆形
@@ -229,7 +207,7 @@ UV 映射原理(顶点纹理坐标)
 
 > 正弦曲线、圆形、椭圆形、折线和直线
 
-### [Lessons 18](./packages/lessons18/src/main.ts)
+### [Lessons 16](./packages/lessons16/src/main.ts)
 
 贝赛尔曲线，多个线条组合曲线
 
@@ -241,7 +219,7 @@ UV 映射原理(顶点纹理坐标)
 
 > 贝赛尔曲线、胶囊形状曲线
 
-### [Lessons 19](./packages/lessons19/src/main.ts)
+### [Lessons 17](./packages/lessons17/src/main.ts)
 
 曲线路径管道成型
 
@@ -252,7 +230,7 @@ UV 映射原理(顶点纹理坐标)
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状圆管
 
-### [Lessons 20](./packages/lessons20/src/main.ts)
+### [Lessons 18](./packages/lessons18/src/main.ts)
 
 旋转造型
 
@@ -267,7 +245,7 @@ UV 映射原理(顶点纹理坐标)
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状网格模型
 
-### [Lessons 21](./packages/lessons21/src/main.ts)
+### [Lessons 19](./packages/lessons19/src/main.ts)
 
 形状和轮廓填充
 
@@ -283,10 +261,32 @@ UV 映射原理(顶点纹理坐标)
 
 > 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
 
-### [Lessons 22](./packages/lessons22/src/main.ts)
+### [Lessons 20](./packages/lessons20/src/main.ts)
 
 拉伸扫描成型
 
 在 Lessons 21 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
 
 > 3D 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
+
+### [Lessons 21](./packages/lessons21/src/main.ts)
+
+创建纹理贴图
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象
+2. 通过 `ImageLoader` 创建一个图片加载器对象
+3. 创建两组几何图形（平面、立方体、球体），并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
+
+> 六个几何图形（平面、立方体、球体）采用不同贴图的效果对比
+
+### [Lessons 22](./packages/lessons22/src/main.ts)
+
+UV 映射原理(顶点纹理坐标)
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象
+2. 通过 `ImageLoader` 创建一个图片加载器对象
+3. 通过 `PlaneGeometry` 创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
+4. 通过 `BufferGeometry` 自定义顶点 UV 坐标创建两个平面几何图形，并分别使用 `TextureLoader` 和 `ImageLoader` 来设置材质，对比两种贴图方式的效果
+5. 对比四个平面几何图形整体的效果
+
+> 四个平面几何图形采用不同贴图的效果对比

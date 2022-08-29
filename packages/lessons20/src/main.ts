@@ -4,27 +4,22 @@ import {
   Scene,
   WebGLRenderer,
   AxesHelper,
-  BufferGeometry,
-  Line,
-  LineBasicMaterial,
   Vector2,
-  CubicBezierCurve,
-  QuadraticBezierCurve,
-  ArcCurve,
-  LineCurve,
-  CurvePath,
-  LatheGeometry,
-  DoubleSide,
-  MeshBasicMaterial,
   Shape,
+  MeshBasicMaterial,
   Mesh,
+  Path,
+  DoubleSide,
+  // 拉伸造型
+  ExtrudeGeometry,
+  Vector3,
+  CatmullRomCurve3,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
-const ACCURACY = 100; // 精度：数值越大，曲线越光滑
-const LATHE_SEGMENTS = 50; // 圆周方向细分数，默认 12
+const DEPTH = 1;
 
 init();
 render();
@@ -44,14 +39,16 @@ function init() {
   scene.add(axesHelper);
 
   // Object
-  addCurveByCubicBezierCurve();
-  addLatheByCubicBezierCurve();
-  addCurveByQuadraticBezierCurve();
-  addLatheByQuadraticBezierCurve();
-  addCurveByCurvePath();
-  addLatheByCurvePath();
   addCurveByShape();
-  addLatheByShape();
+  addCubeByExtrudeGeometry();
+  addBoxByExtrudeGeometry();
+  addArcByExtrudeGeometry();
+  addCapsuleByExtrudeGeometry();
+  addFaceByExtrudeGeometry();
+  addFace2ByExtrudeGeometry();
+  addFace3ByExtrudeGeometry();
+  addSquareByExtrudeGeometry();
+  addSquare2ByExtrudeGeometry();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -70,168 +67,319 @@ function init() {
   window.addEventListener("resize", onWindowResize);
 }
 
-function addCurveByCubicBezierCurve() {
-  const curve = new CubicBezierCurve(
-    new Vector2(0, 0),
-    new Vector2(1, 3),
-    new Vector2(2, -3),
-    new Vector2(3, 0)
+function addCurveByShape() {
+  const UNIT = 2;
+
+  const positions = [
+    new Vector2(-UNIT, UNIT),
+    new Vector2(UNIT, UNIT),
+    new Vector2(UNIT, -UNIT),
+    new Vector2(-UNIT, -UNIT),
+  ];
+  const shape = new Shape();
+  shape.splineThru(positions); // 顶点带入样条插值计算函数
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
   );
-  const points = curve.getPoints(ACCURACY);
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const geometry = new BufferGeometry().setFromPoints(points);
 
-  const material = new LineBasicMaterial({ color: 0xff0000 });
-
-  const line = new Line(geometry, material);
-  line.position.x = 7;
-  scene.add(line);
-}
-
-function addLatheByCubicBezierCurve() {
-  const curve = new CubicBezierCurve(
-    new Vector2(0, 0),
-    new Vector2(1, 3),
-    new Vector2(2, -3),
-    new Vector2(3, 0)
-  );
-  const points = curve.getPoints(ACCURACY);
-  const geometry = new LatheGeometry(points, LATHE_SEGMENTS); // 旋转造型
-
-  const material = new MeshBasicMaterial({ color: 0xff0000, side: DoubleSide });
-  // material.wireframe = true; //线条模式渲染(查看细分数)
+  const material = new MeshBasicMaterial({ color: 0xff0000 });
 
   const mesh = new Mesh(geometry, material);
-  mesh.position.x = 7;
-  mesh.position.y = 2;
   scene.add(mesh);
 }
 
-function addCurveByQuadraticBezierCurve() {
-  const curve = new QuadraticBezierCurve(
-    new Vector2(0, 0),
-    new Vector2(1, 3),
-    new Vector2(3, 0)
+function addCubeByExtrudeGeometry() {
+  const UNIT = 2;
+
+  const positions = [
+    new Vector2(-UNIT, UNIT),
+    new Vector2(UNIT, UNIT),
+    new Vector2(UNIT, -UNIT),
+    new Vector2(-UNIT, -UNIT),
+  ];
+  // 通过顶点定义轮廓
+  const shape = new Shape(positions);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
   );
-  const points = curve.getPoints(ACCURACY);
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const geometry = new BufferGeometry().setFromPoints(points);
 
-  const material = new LineBasicMaterial({ color: 0x00ff00 });
-
-  const line = new Line(geometry, material);
-  scene.add(line);
-}
-
-function addLatheByQuadraticBezierCurve() {
-  const curve = new QuadraticBezierCurve(
-    new Vector2(0, 0),
-    new Vector2(1, 3),
-    new Vector2(3, 0)
-  );
-  const points = curve.getPoints(ACCURACY);
-  const geometry = new LatheGeometry(points, LATHE_SEGMENTS); // 旋转造型
-
-  const material = new MeshBasicMaterial({ color: 0x00ff00, side: DoubleSide });
-  // material.wireframe = true; //线条模式渲染(查看细分数)
+  const material = new MeshBasicMaterial({ color: 0x00ff00 });
 
   const mesh = new Mesh(geometry, material);
-  mesh.position.y = 2;
+  mesh.position.z = -2;
   scene.add(mesh);
 }
 
-function addCurveByCurvePath() {
-  const RADIUS = 1;
-  const HEIGHT = 2;
-  const arc1 = new ArcCurve(0, 0, RADIUS, 0, Math.PI, true);
-  const arc2 = new ArcCurve(0, HEIGHT, RADIUS, Math.PI, 0, true);
-  const line1 = new LineCurve(
-    new Vector2(RADIUS, HEIGHT),
-    new Vector2(RADIUS, 0)
-  );
-  const line2 = new LineCurve(
-    new Vector2(-RADIUS, 0),
-    new Vector2(-RADIUS, HEIGHT)
+function addBoxByExtrudeGeometry() {
+  const UNIT = 2;
+
+  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
+  const shape = new Shape();
+  // 四条直线绘制一个矩形轮廓
+  shape.moveTo(-UNIT, UNIT); // 第 1 点(起点)
+  shape.lineTo(UNIT, UNIT); //第 2 点
+  shape.lineTo(UNIT, -UNIT); //第 3 点
+  shape.lineTo(-UNIT, -UNIT); //第 4 点
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
   );
 
-  const curvePath = new CurvePath();
-  curvePath.curves.push(line1, arc1, line2, arc2);
-  const points = curvePath.getPoints(ACCURACY);
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const geometry = new BufferGeometry().setFromPoints(points as Array<Vector2>);
+  const material = new MeshBasicMaterial({ color: 0x00ff00 });
 
-  const material = new LineBasicMaterial({ color: 0x0000ff });
-  const line = new Line(geometry, material);
-  line.position.x = -5;
-  scene.add(line);
+  const mesh = new Mesh(geometry, material);
+  mesh.position.z = -4;
+  scene.add(mesh);
 }
 
-function addLatheByCurvePath() {
-  const RADIUS = 1;
-  const HEIGHT = 2;
-  const arc1 = new ArcCurve(0, 0, RADIUS, 0, Math.PI, true);
-  const arc2 = new ArcCurve(0, HEIGHT, RADIUS, Math.PI, 0, true);
-  const line1 = new LineCurve(
-    new Vector2(RADIUS, HEIGHT),
-    new Vector2(RADIUS, 0)
+function addArcByExtrudeGeometry() {
+  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
+  const shape = new Shape();
+  shape.absarc(0, 0, 2, 0, 2 * Math.PI, false); // 圆弧轮廓
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
   );
-  const line2 = new LineCurve(
-    new Vector2(-RADIUS, 0),
-    new Vector2(-RADIUS, HEIGHT)
-  );
-  const curvePath = new CurvePath(); // 创建 CurvePath 对象
-  curvePath.curves.push(line1, arc1, line2, arc2); // 插入多段线条
-  const points = curvePath.getPoints(ACCURACY);
-  const geometry = new LatheGeometry(points as Array<Vector2>, LATHE_SEGMENTS); // 旋转造型
 
-  const material = new MeshBasicMaterial({ color: 0x0000ff, side: DoubleSide });
+  const material = new MeshBasicMaterial({ color: 0x0000ff });
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.z = -6;
+  scene.add(mesh);
+}
+
+function addCapsuleByExtrudeGeometry() {
+  const R = 1;
+
+  const shape = new Shape();
+  shape.absarc(0, 0, R, 0, Math.PI, false);
+  // shape.lineTo(-R, -2);
+  shape.absarc(0, -2, R, Math.PI, 2 * Math.PI, false);
+  // shape.lineTo(R, 0);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
+  );
+
+  const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 4;
+  mesh.position.y = 1;
+  scene.add(mesh);
+}
+
+function addFaceByExtrudeGeometry() {
+  const R = 2;
+
+  // 外轮廓（脸）
+  const shape = new Shape();
+  shape.arc(0, 0, R, 0, 2 * Math.PI, false);
+
+  // 内轮廓（嘴巴）
+  const path1 = new Path();
+  path1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
+  // 内轮廓（鼻子）
+  const path2 = new Path();
+  path2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
+  // 内轮廓（左眼）
+  const path3 = new Path();
+  path3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓（右眼）
+  const path4 = new Path();
+  path4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓分别插入到 holes 属性中
+  shape.holes.push(path1, path2, path3, path4);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
+  );
+
+  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 8;
+  scene.add(mesh);
+}
+
+function addFace2ByExtrudeGeometry() {
+  const R = 2;
+
+  // 内轮廓（嘴巴）
+  const shape1 = new Shape();
+  shape1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
+  // 内轮廓（鼻子）
+  const shape2 = new Shape();
+  shape2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
+  // 内轮廓（左眼）
+  const shape3 = new Shape();
+  shape3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓（右眼）
+  const shape4 = new Shape();
+  shape4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    [shape1, shape2, shape3, shape4], // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
+  );
+
+  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 8;
+  mesh.position.y = 4;
+  scene.add(mesh);
+}
+
+function addFace3ByExtrudeGeometry() {
+  const R = 2;
+
+  // 内轮廓（嘴巴）
+  const shape1 = new Shape();
+  shape1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
+  // 内轮廓（鼻子）
+  const shape2 = new Shape();
+  shape2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
+  // 内轮廓（左眼）
+  const shape3 = new Shape();
+  shape3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓（右眼）
+  const shape4 = new Shape();
+  shape4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+
+  // 创建轮廓的扫描轨迹(3D样条曲线)
+  const curve = new CatmullRomCurve3([
+    new Vector3(0, 0, 0),
+    new Vector3(3, 3, -3),
+    new Vector3(0, 6, -6),
+    new Vector3(-3, 9, -9),
+  ]);
+
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    [shape1, shape2, shape3, shape4], // 二维轮廓
+    {
+      steps: 50, // 扫描方向细分数
+      extrudePath: curve, // 选择扫描轨迹
+      bevelEnabled: false, // 无倒角
+    }
+  );
+
+  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 8;
+  mesh.position.y = 4;
+  mesh.position.z = -5;
+  scene.add(mesh);
+}
+
+function addSquareByExtrudeGeometry() {
+  const UNIT = 1;
+
+  const shape = new Shape();
+  shape.moveTo(-UNIT, UNIT);
+  shape.lineTo(UNIT, UNIT);
+  shape.lineTo(UNIT, -UNIT);
+  shape.lineTo(-UNIT, -UNIT);
+
+  const path = new Path();
+  path.moveTo(-UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, -UNIT / 2);
+  path.lineTo(-UNIT / 2, -UNIT / 2);
+
+  shape.holes.push(path);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      depth: DEPTH, // 拉伸长度
+      bevelEnabled: false, // 无倒角
+    }
+  );
+
+  const material = new MeshBasicMaterial({ color: 0xff00ff, side: DoubleSide });
+  // material.wireframe = true;
 
   const mesh = new Mesh(geometry, material);
   mesh.position.x = -5;
-  mesh.position.y = 5;
   scene.add(mesh);
 }
 
-function addCurveByShape() {
-  const positions = [
-    new Vector2(0, 0),
-    new Vector2(1, 1),
-    new Vector2(2, -1),
-    new Vector2(3, 0),
-  ];
+function addSquare2ByExtrudeGeometry() {
+  const UNIT = 1;
+
   const shape = new Shape();
-  shape.splineThru(positions); // 顶点带入样条插值计算函数
-  const points = shape.getPoints(ACCURACY);
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const geometry = new BufferGeometry().setFromPoints(points);
+  shape.moveTo(-UNIT, UNIT);
+  shape.lineTo(UNIT, UNIT);
+  shape.lineTo(UNIT, -UNIT);
+  shape.lineTo(-UNIT, -UNIT);
 
-  const material = new LineBasicMaterial({ color: 0xffff00 });
-  // material.wireframe = true; // 线条模式渲染(查看细分数)
+  const path = new Path();
+  path.moveTo(-UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, -UNIT / 2);
+  path.lineTo(-UNIT / 2, -UNIT / 2);
 
-  const line = new Line(geometry, material);
-  line.position.x = 14;
-  scene.add(line);
-}
+  // 创建轮廓的扫描轨迹(3D样条曲线)
+  const curve = new CatmullRomCurve3([
+    new Vector3(0, 0, 0),
+    new Vector3(-3, 3, 3),
+    new Vector3(-6, 6, 0),
+    new Vector3(-9, 9, -3),
+  ]);
 
-function addLatheByShape() {
-  const positions = [
-    new Vector2(0, 0),
-    new Vector2(1, 1),
-    new Vector2(2, -1),
-    new Vector2(3, 0),
-  ];
-  const shape = new Shape();
-  shape.splineThru(positions); // 顶点带入样条插值计算函数
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const points = shape.getPoints(ACCURACY);
-  const geometry = new LatheGeometry(points, LATHE_SEGMENTS); // 旋转造型
+  shape.holes.push(path);
+  // 拉伸造型
+  const geometry = new ExtrudeGeometry(
+    shape, // 二维轮廓
+    {
+      steps: 50, // 扫描方向细分数
+      extrudePath: curve, // 选择扫描轨迹
+      bevelEnabled: false, // 无倒角
+    }
+  );
 
-  const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
-  // material.wireframe = true; // 线条模式渲染(查看细分数)
+  const material = new MeshBasicMaterial({ color: 0xff00ff, side: DoubleSide });
+  // material.wireframe = true;
 
   const mesh = new Mesh(geometry, material);
-  mesh.position.x = 14;
-  mesh.position.y = 2;
+  mesh.position.x = -5;
+  mesh.position.z = -5;
   scene.add(mesh);
 }
 

@@ -4,22 +4,24 @@ import {
   Scene,
   WebGLRenderer,
   AxesHelper,
-  TextureLoader,
-  Mesh,
-  MeshLambertMaterial,
-  PlaneGeometry,
-  AmbientLight,
   BufferGeometry,
-  ImageLoader,
-  Texture,
-  DoubleSide,
-  BufferAttribute,
+  Line,
+  LineBasicMaterial,
+  Vector2,
+  CubicBezierCurve,
+  CubicBezierCurve3,
+  Vector3,
+  QuadraticBezierCurve,
+  QuadraticBezierCurve3,
+  ArcCurve,
+  LineCurve,
+  CurvePath,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-import url from "@/textures/avatar.jpeg?url";
-
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+
+const ACCURACY = 100; // 精度：数值越大，曲线越光滑
 
 init();
 render();
@@ -28,23 +30,22 @@ function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
-  camera.position.set(0, 0, 300);
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100);
+  camera.position.set(0, 0, 10);
 
   // Scene
   scene = new Scene();
 
   // Axes
-  const axesHelper = new AxesHelper(300);
+  const axesHelper = new AxesHelper(100);
   scene.add(axesHelper);
 
-  // Light
-  const ambient = new AmbientLight(0xffffff);
-  scene.add(ambient);
-
   // Object
-  addPlaneByPlaneGeometry();
-  addPlaneByUV();
+  addCubicBezierCurve();
+  addQuadraticBezierCurve();
+  addCubicBezierCurve3();
+  addQuadraticBezierCurve3();
+  addCurvePath();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -55,144 +56,107 @@ function init() {
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener("change", render);
-  controls.minDistance = 100;
-  controls.maxDistance = 800;
+  controls.minDistance = 1;
+  controls.maxDistance = 80;
   controls.update();
 
   // Resize
   window.addEventListener("resize", onWindowResize);
 }
 
-function addPlaneByPlaneGeometry() {
-  // 纹理贴图映射到一个矩形平面上
-  const geometry = new PlaneGeometry(80, 80);
-  textureLoader(geometry, -40, 40);
-  imageLoader(geometry, -40, -40);
+function addCubicBezierCurve() {
+  const curve = new CubicBezierCurve(
+    new Vector2(0, 0),
+    new Vector2(1, 3),
+    new Vector2(2, -3),
+    new Vector2(3, 0)
+  );
+
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xff0000 });
+
+  const line = new Line(geometry, material);
+  scene.add(line);
 }
 
-function addPlaneByUV() {
-  // Float32Array 类型数组创建顶点位置 position 数据
-  const vertices = new Float32Array([
-    0,
-    0,
-    0, // 顶点 1 坐标
-    80,
-    0,
-    0, // 顶点 2 坐标
-    80,
-    80,
-    0, // 顶点 3 坐标
-    0,
-    80,
-    0, // 顶点 4 坐标
-  ]);
-  // 创建 position 属性缓冲区对象
-  const attribueVertices = new BufferAttribute(vertices, 3); // 3 个为一组
+function addQuadraticBezierCurve() {
+  const curve = new QuadraticBezierCurve(
+    new Vector2(0, 0),
+    new Vector2(1, 3),
+    new Vector2(3, 0)
+  );
 
-  // Float32Array 类型数据创建顶点法向量 normal 数据
-  const normals = new Float32Array([
-    0,
-    0,
-    1, // 顶点 1 法向量
-    0,
-    0,
-    1, // 顶点 2 法向量
-    0,
-    0,
-    1, // 顶点 3 法向量
-    0,
-    0,
-    1, // 顶点 4 法向量
-  ]);
-  // 创建 normal 属性缓冲区对象
-  const attribueNormals = new BufferAttribute(normals, 3); // 3 个为一组
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
 
-  // Float32Array 类型数据创建顶点纹理坐标 uv 数据
-  const uvs = new Float32Array([
-    0,
-    0, // 图片左下角
-    1,
-    0, // 图片右下角
-    1,
-    1, // 图片右上角
-    0,
-    1, // 图片左上角
-  ]);
-  // 创建 uv 属性缓冲区对象
-  const attribueUVs = new BufferAttribute(uvs, 2);
+  const material = new LineBasicMaterial({ color: 0x00ff00 });
 
-  // Uint16Array 类型数组创建顶点索引 indexes 数据
-  const indexes = new Uint16Array([
-    0,
-    1,
-    2, // 第一个三角形
-    2,
-    3,
-    0, // 第二个三角形
-  ]);
-  // 创建 indexes 属性缓冲区对象
-  const attribueIndexes = new BufferAttribute(indexes, 1); // 1 个为一组
-
-  const geometry = new BufferGeometry();
-  // 设置几何体 attributes 属性的 position, normal, uv 属性
-  geometry.setAttribute("position", attribueVertices);
-  geometry.setAttribute("normal", attribueNormals);
-  geometry.setAttribute("uv", attribueUVs);
-  // 索引数据赋值给几何体的 index 属性
-  geometry.setIndex(attribueIndexes);
-
-  textureLoader(geometry, 0, 0);
-  imageLoader(geometry, 0, -80);
+  const line = new Line(geometry, material);
+  scene.add(line);
 }
 
-function textureLoader(
-  geometry: BufferGeometry,
-  offsetX: number,
-  offsetY: number
-) {
-  // TextureLoader 创建一个纹理加载器对象，可以加载图片作为几何体纹理
-  const textureLoader = new TextureLoader();
-  // 执行 load 方法，加载纹理贴图成功后，返回一个纹理对象 Texture
-  textureLoader.load(url, (texture) => {
-    const material = new MeshLambertMaterial({
-      color: 0xff0000,
-      map: texture, // 设置纹理贴图
-      side: DoubleSide,
-    });
-    const mesh = new Mesh(geometry, material);
-    mesh.position.set(offsetX, offsetY, 0);
-    scene.add(mesh);
+function addCubicBezierCurve3() {
+  const curve = new CubicBezierCurve3(
+    new Vector3(0, 0, 0),
+    new Vector3(1, 3, -3),
+    new Vector3(2, -3, 3),
+    new Vector3(3, 0, 0)
+  );
 
-    //纹理贴图加载成功后，调用渲染函数执行渲染操作
-    render();
-  });
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+
+  const line = new Line(geometry, material);
+  scene.add(line);
 }
 
-function imageLoader(
-  geometry: BufferGeometry,
-  offsetX: number,
-  offsetY: number
-) {
-  // ImageLoader 创建一个图片加载器对象，可以加载图片作为几何体纹理
-  const imageLoader = new ImageLoader();
-  // 执行 load 方法，加载图片成功后，返回一个 html 的元素 img 对象
-  imageLoader.load(url, (image) => {
-    // image 对象作为参数，创建一个纹理对象 Texture
-    const texture = new Texture(image);
-    // 下次使用纹理时触发更新
-    texture.needsUpdate = true;
-    const material = new MeshLambertMaterial({
-      color: 0x00ff00,
-      map: texture, // 设置纹理贴图
-      side: DoubleSide,
-    });
-    const mesh = new Mesh(geometry, material);
-    mesh.position.set(offsetX, offsetY, 0);
-    scene.add(mesh);
+function addQuadraticBezierCurve3() {
+  const curve = new QuadraticBezierCurve3(
+    new Vector3(0, 0, 0),
+    new Vector3(1, 3, -3),
+    new Vector3(3, 0, 0)
+  );
 
-    //纹理贴图加载成功后，调用渲染函数执行渲染操作
-    render();
-  });
+  const points = curve.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points);
+
+  const material = new LineBasicMaterial({ color: 0xffff00 });
+
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addCurvePath() {
+  const RADIUS = 1;
+  const HEIGHT = 2;
+  const arc1 = new ArcCurve(0, 0, RADIUS, 0, Math.PI, true);
+  const arc2 = new ArcCurve(0, HEIGHT, RADIUS, Math.PI, 0, true);
+  const line1 = new LineCurve(
+    new Vector2(RADIUS, HEIGHT),
+    new Vector2(RADIUS, 0)
+  );
+  const line2 = new LineCurve(
+    new Vector2(-RADIUS, 0),
+    new Vector2(-RADIUS, HEIGHT)
+  );
+
+  const curvePath = new CurvePath(); // 创建 CurvePath 对象
+  curvePath.curves.push(line1, arc1, line2, arc2); // 插入多段线条
+  const points = curvePath.getPoints(ACCURACY);
+  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
+  const geometry = new BufferGeometry().setFromPoints(points as Array<Vector2>);
+
+  const material = new LineBasicMaterial({ color: 0x00ffff });
+  const line = new Line(geometry, material);
+  scene.add(line);
 }
 
 function onWindowResize() {

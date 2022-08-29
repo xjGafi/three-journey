@@ -7,21 +7,19 @@ import {
   BufferGeometry,
   Line,
   LineBasicMaterial,
-  CatmullRomCurve3,
-  Vector3,
-  LineCurve3,
-  CurvePath,
-  TubeGeometry,
-  QuadraticBezierCurve3,
+  Vector2,
+  Shape,
+  ShapeGeometry,
+  MeshBasicMaterial,
+  Mesh,
+  Path,
+  DoubleSide,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
 const ACCURACY = 100; // 精度：数值越大，曲线越光滑
-const TUBE_TUBULARSEGMENTS = 100; // 路径方向细分数，默认 64
-const TUBE_RADIUS = 0.1; // 管道半径，默认 1
-const TUBE_RADIUS_SEGMENTS = 10; // 管道圆弧细分数，默认 8
 
 init();
 render();
@@ -31,7 +29,7 @@ function init() {
 
   // Canera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100);
-  camera.position.set(0, 0, 10);
+  camera.position.set(0, 0, 20);
 
   // Scene
   scene = new Scene();
@@ -41,10 +39,14 @@ function init() {
   scene.add(axesHelper);
 
   // Object
-  addCurveByCatmullRomCurve3();
-  addTubeByCatmullRomCurve3();
-  addCurveByCurvePath();
-  addTubeByCurvePath();
+  addCurveByShape();
+  addCubeByShapeGeometry();
+  addBoxByShapeGeometry();
+  addArcByShapeGeometry();
+  addCapsuleByShapeGeometry();
+  addFaceByShapeGeometry();
+  addFace2ByShapeGeometry();
+  addSquareByShapeGeometry();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -63,15 +65,18 @@ function init() {
   window.addEventListener("resize", onWindowResize);
 }
 
-function addCurveByCatmullRomCurve3() {
-  const curve = new CatmullRomCurve3([
-    new Vector3(0, 0, 0),
-    new Vector3(1, 1, 1),
-    new Vector3(2, -1, 1),
-    new Vector3(3, 0, 0),
-  ]);
+function addCurveByShape() {
+  const UNIT = 2;
 
-  const points = curve.getPoints(ACCURACY);
+  const positions = [
+    new Vector2(-UNIT, UNIT),
+    new Vector2(UNIT, UNIT),
+    new Vector2(UNIT, -UNIT),
+    new Vector2(-UNIT, -UNIT),
+  ];
+  const shape = new Shape();
+  shape.splineThru(positions); // 顶点带入样条插值计算函数
+  const points = shape.getPoints(ACCURACY);
   // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
   const geometry = new BufferGeometry().setFromPoints(points);
 
@@ -81,87 +86,160 @@ function addCurveByCatmullRomCurve3() {
   scene.add(line);
 }
 
-function addTubeByCatmullRomCurve3() {
-  const path = new CatmullRomCurve3([
-    new Vector3(0, 0, 0),
-    new Vector3(1, 1, 1),
-    new Vector3(2, -1, 1),
-    new Vector3(3, 0, 0),
-  ]);
-  // 通过曲线路径创建生成管道
-  const geometry = new TubeGeometry(
-    path,
-    TUBE_TUBULARSEGMENTS,
-    TUBE_RADIUS,
-    TUBE_RADIUS_SEGMENTS
-  );
+function addCubeByShapeGeometry() {
+  const UNIT = 2;
 
-  const material = new LineBasicMaterial({ color: 0xff0000 });
-
-  const line = new Line(geometry, material);
-  line.position.y = 1;
-  scene.add(line);
-}
-
-function addCurveByCurvePath() {
-  const curve1 = new QuadraticBezierCurve3(
-    new Vector3(1, 0, 0),
-    new Vector3(0, -1, 1),
-    new Vector3(-1, 0, 0)
-  );
-  const curve2 = new QuadraticBezierCurve3(
-    new Vector3(-1, 1, 0),
-    new Vector3(0, 2, 1),
-    new Vector3(1, 1, 0)
-  );
-  const line1 = new LineCurve3(new Vector3(1, 1, 0), new Vector3(1, 0, 0));
-  const line2 = new LineCurve3(new Vector3(-1, 0, 0), new Vector3(-1, 1, 0));
-
-  const curvePath = new CurvePath();
-  curvePath.curves.push(line1, curve1, line2, curve2);
-  const points = curvePath.getPoints(ACCURACY);
-  // setFromPoints 方法从 points 中提取数据改变几何体的顶点属性 vertices
-  const geometry = new BufferGeometry().setFromPoints(points as Array<Vector3>);
+  const positions = [
+    new Vector2(-UNIT, UNIT),
+    new Vector2(UNIT, UNIT),
+    new Vector2(UNIT, -UNIT),
+    new Vector2(-UNIT, -UNIT),
+  ];
+  // 通过顶点定义轮廓
+  const shape = new Shape(positions);
+  // shape 可以理解为一个需要填充轮廓
+  // 所谓填充：ShapeGeometry 算法利用顶点计算出三角面 face3 数据填充轮廓
+  const geometry = new ShapeGeometry(shape, ACCURACY);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
 
   const line = new Line(geometry, material);
-  line.position.x = -1.25;
-  line.position.y = -1.25;
   scene.add(line);
 }
 
-function addTubeByCurvePath() {
-  const curve1 = new QuadraticBezierCurve3(
-    new Vector3(1, 0, 0),
-    new Vector3(0, -1, 1),
-    new Vector3(-1, 0, 0)
-  );
-  const curve2 = new QuadraticBezierCurve3(
-    new Vector3(-1, 1, 0),
-    new Vector3(0, 2, 1),
-    new Vector3(1, 1, 0)
-  );
-  const line1 = new LineCurve3(new Vector3(1, 1, 0), new Vector3(1, 0, 0));
-  const line2 = new LineCurve3(new Vector3(-1, 0, 0), new Vector3(-1, 1, 0));
+function addBoxByShapeGeometry() {
+  const UNIT = 1;
 
-  const path: CurvePath<Vector3> = new CurvePath(); // 创建 CurvePath 对象
-  path.curves.push(line1, curve1, line2, curve2); // 插入多段线条
-  // 通过曲线路径创建生成管道
-  const geometry = new TubeGeometry(
-    path,
-    TUBE_TUBULARSEGMENTS,
-    TUBE_RADIUS,
-    TUBE_RADIUS_SEGMENTS,
-    true
-  );
+  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
+  const shape = new Shape();
+  // 四条直线绘制一个矩形轮廓
+  shape.moveTo(-UNIT, UNIT); // 第 1 点(起点)
+  shape.lineTo(UNIT, UNIT); //第 2 点
+  shape.lineTo(UNIT, -UNIT); //第 3 点
+  shape.lineTo(-UNIT, -UNIT); //第 4 点
+  const geometry = new ShapeGeometry(shape, ACCURACY);
 
   const material = new LineBasicMaterial({ color: 0x00ff00 });
 
   const line = new Line(geometry, material);
-  line.position.x = -1.25;
-  line.position.y = 1.25;
   scene.add(line);
+}
+
+function addArcByShapeGeometry() {
+  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
+  const shape = new Shape();
+  shape.absarc(0, 0, 2, 0, 2 * Math.PI, false); // 圆弧轮廓
+  const geometry = new ShapeGeometry(shape, ACCURACY);
+
+  const material = new LineBasicMaterial({ color: 0x0000ff });
+
+  const line = new Line(geometry, material);
+  scene.add(line);
+}
+
+function addCapsuleByShapeGeometry() {
+  const R = 1;
+
+  const shape = new Shape();
+  shape.absarc(0, 0, R, 0, Math.PI, false);
+  // shape.lineTo(-R, -2);
+  shape.absarc(0, -2, R, Math.PI, 2 * Math.PI, false);
+  // shape.lineTo(R, 0);
+  const geometry = new ShapeGeometry(shape, ACCURACY);
+
+  const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 4;
+  mesh.position.y = 1;
+  scene.add(mesh);
+}
+
+function addFaceByShapeGeometry() {
+  const R = 2;
+
+  // 外轮廓（脸）
+  const shape = new Shape();
+  shape.arc(0, 0, R, 0, 2 * Math.PI, false);
+
+  // 内轮廓（嘴巴）
+  const path1 = new Path();
+  path1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
+  // 内轮廓（鼻子）
+  const path2 = new Path();
+  path2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
+  // 内轮廓（左眼）
+  const path3 = new Path();
+  path3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓（右眼）
+  const path4 = new Path();
+  path4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓分别插入到 holes 属性中
+  shape.holes.push(path1, path2, path3, path4);
+  const geometry = new ShapeGeometry(shape, ACCURACY);
+
+  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 8;
+  scene.add(mesh);
+}
+
+function addFace2ByShapeGeometry() {
+  const R = 2;
+
+  // 内轮廓（嘴巴）
+  const shape1 = new Shape();
+  shape1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
+  // 内轮廓（鼻子）
+  const shape2 = new Shape();
+  shape2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
+  // 内轮廓（左眼）
+  const shape3 = new Shape();
+  shape3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  // 内轮廓（右眼）
+  const shape4 = new Shape();
+  shape4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
+  const geometry = new ShapeGeometry(
+    [shape1, shape2, shape3, shape4],
+    ACCURACY
+  );
+
+  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = 8;
+  mesh.position.y = 4;
+  scene.add(mesh);
+}
+
+function addSquareByShapeGeometry() {
+  const UNIT = 2;
+
+  const shape = new Shape();
+  shape.moveTo(-UNIT, UNIT);
+  shape.lineTo(UNIT, UNIT);
+  shape.lineTo(UNIT, -UNIT);
+  shape.lineTo(-UNIT, -UNIT);
+
+  const path = new Path();
+  path.moveTo(-UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, UNIT / 2);
+  path.lineTo(UNIT / 2, -UNIT / 2);
+  path.lineTo(-UNIT / 2, -UNIT / 2);
+
+  shape.holes.push(path);
+  const geometry = new ShapeGeometry(shape, ACCURACY);
+
+  const material = new MeshBasicMaterial({ color: 0xff00ff, side: DoubleSide });
+  // material.wireframe = true;
+
+  const mesh = new Mesh(geometry, material);
+  mesh.position.x = -5;
+  scene.add(mesh);
 }
 
 function onWindowResize() {

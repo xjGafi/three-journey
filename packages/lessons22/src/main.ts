@@ -4,22 +4,22 @@ import {
   Scene,
   WebGLRenderer,
   AxesHelper,
-  Vector2,
-  Shape,
-  MeshBasicMaterial,
+  TextureLoader,
   Mesh,
-  Path,
+  MeshLambertMaterial,
+  PlaneGeometry,
+  AmbientLight,
+  BufferGeometry,
+  ImageLoader,
+  Texture,
   DoubleSide,
-  // 拉伸造型
-  ExtrudeGeometry,
-  Vector3,
-  CatmullRomCurve3,
+  BufferAttribute,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+import url from "@/textures/avatar.jpeg?url";
 
-const DEPTH = 1;
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
 init();
 render();
@@ -28,27 +28,23 @@ function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window;
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100);
-  camera.position.set(0, 0, 20);
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
+  camera.position.set(0, 0, 300);
 
   // Scene
   scene = new Scene();
 
   // Axes
-  const axesHelper = new AxesHelper(100);
+  const axesHelper = new AxesHelper(300);
   scene.add(axesHelper);
 
+  // Light
+  const ambient = new AmbientLight(0xffffff);
+  scene.add(ambient);
+
   // Object
-  addCurveByShape();
-  addCubeByExtrudeGeometry();
-  addBoxByExtrudeGeometry();
-  addArcByExtrudeGeometry();
-  addCapsuleByExtrudeGeometry();
-  addFaceByExtrudeGeometry();
-  addFace2ByExtrudeGeometry();
-  addFace3ByExtrudeGeometry();
-  addSquareByExtrudeGeometry();
-  addSquare2ByExtrudeGeometry();
+  addPlaneByPlaneGeometry();
+  addPlaneByUV();
 
   // Renderer
   const canvas = document.querySelector("canvas#webgl")!;
@@ -59,328 +55,144 @@ function init() {
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener("change", render);
-  controls.minDistance = 1;
-  controls.maxDistance = 80;
+  controls.minDistance = 100;
+  controls.maxDistance = 800;
   controls.update();
 
   // Resize
   window.addEventListener("resize", onWindowResize);
 }
 
-function addCurveByShape() {
-  const UNIT = 2;
-
-  const positions = [
-    new Vector2(-UNIT, UNIT),
-    new Vector2(UNIT, UNIT),
-    new Vector2(UNIT, -UNIT),
-    new Vector2(-UNIT, -UNIT),
-  ];
-  const shape = new Shape();
-  shape.splineThru(positions); // 顶点带入样条插值计算函数
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0xff0000 });
-
-  const mesh = new Mesh(geometry, material);
-  scene.add(mesh);
+function addPlaneByPlaneGeometry() {
+  // 纹理贴图映射到一个矩形平面上
+  const geometry = new PlaneGeometry(80, 80);
+  textureLoader(geometry, -40, 40);
+  imageLoader(geometry, -40, -40);
 }
 
-function addCubeByExtrudeGeometry() {
-  const UNIT = 2;
-
-  const positions = [
-    new Vector2(-UNIT, UNIT),
-    new Vector2(UNIT, UNIT),
-    new Vector2(UNIT, -UNIT),
-    new Vector2(-UNIT, -UNIT),
-  ];
-  // 通过顶点定义轮廓
-  const shape = new Shape(positions);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x00ff00 });
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.z = -2;
-  scene.add(mesh);
-}
-
-function addBoxByExtrudeGeometry() {
-  const UNIT = 2;
-
-  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
-  const shape = new Shape();
-  // 四条直线绘制一个矩形轮廓
-  shape.moveTo(-UNIT, UNIT); // 第 1 点(起点)
-  shape.lineTo(UNIT, UNIT); //第 2 点
-  shape.lineTo(UNIT, -UNIT); //第 3 点
-  shape.lineTo(-UNIT, -UNIT); //第 4 点
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x00ff00 });
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.z = -4;
-  scene.add(mesh);
-}
-
-function addArcByExtrudeGeometry() {
-  // 通过 shpae 基类 path 的方法绘制轮廓（本质也是生成顶点）
-  const shape = new Shape();
-  shape.absarc(0, 0, 2, 0, 2 * Math.PI, false); // 圆弧轮廓
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x0000ff });
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.z = -6;
-  scene.add(mesh);
-}
-
-function addCapsuleByExtrudeGeometry() {
-  const R = 1;
-
-  const shape = new Shape();
-  shape.absarc(0, 0, R, 0, Math.PI, false);
-  // shape.lineTo(-R, -2);
-  shape.absarc(0, -2, R, Math.PI, 2 * Math.PI, false);
-  // shape.lineTo(R, 0);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
-  // material.wireframe = true;
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = 4;
-  mesh.position.y = 1;
-  scene.add(mesh);
-}
-
-function addFaceByExtrudeGeometry() {
-  const R = 2;
-
-  // 外轮廓（脸）
-  const shape = new Shape();
-  shape.arc(0, 0, R, 0, 2 * Math.PI, false);
-
-  // 内轮廓（嘴巴）
-  const path1 = new Path();
-  path1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
-  // 内轮廓（鼻子）
-  const path2 = new Path();
-  path2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
-  // 内轮廓（左眼）
-  const path3 = new Path();
-  path3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-  // 内轮廓（右眼）
-  const path4 = new Path();
-  path4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-  // 内轮廓分别插入到 holes 属性中
-  shape.holes.push(path1, path2, path3, path4);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
-  // material.wireframe = true;
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = 8;
-  scene.add(mesh);
-}
-
-function addFace2ByExtrudeGeometry() {
-  const R = 2;
-
-  // 内轮廓（嘴巴）
-  const shape1 = new Shape();
-  shape1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
-  // 内轮廓（鼻子）
-  const shape2 = new Shape();
-  shape2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
-  // 内轮廓（左眼）
-  const shape3 = new Shape();
-  shape3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-  // 内轮廓（右眼）
-  const shape4 = new Shape();
-  shape4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    [shape1, shape2, shape3, shape4], // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
-  // material.wireframe = true;
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = 8;
-  mesh.position.y = 4;
-  scene.add(mesh);
-}
-
-function addFace3ByExtrudeGeometry() {
-  const R = 2;
-
-  // 内轮廓（嘴巴）
-  const shape1 = new Shape();
-  shape1.arc(0, -R / 2, R / 4, 0, 2 * Math.PI, false);
-  // 内轮廓（鼻子）
-  const shape2 = new Shape();
-  shape2.arc(0, -R / 12, R / 20, 0, 2 * Math.PI, false);
-  // 内轮廓（左眼）
-  const shape3 = new Shape();
-  shape3.arc(R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-  // 内轮廓（右眼）
-  const shape4 = new Shape();
-  shape4.arc(-R / 2, R / 4, R / 8, 0, 2 * Math.PI, false);
-
-  // 创建轮廓的扫描轨迹(3D样条曲线)
-  const curve = new CatmullRomCurve3([
-    new Vector3(0, 0, 0),
-    new Vector3(3, 3, -3),
-    new Vector3(0, 6, -6),
-    new Vector3(-3, 9, -9),
+function addPlaneByUV() {
+  // Float32Array 类型数组创建顶点位置 position 数据
+  const vertices = new Float32Array([
+    0,
+    0,
+    0, // 顶点 1 坐标
+    80,
+    0,
+    0, // 顶点 2 坐标
+    80,
+    80,
+    0, // 顶点 3 坐标
+    0,
+    80,
+    0, // 顶点 4 坐标
   ]);
+  // 创建 position 属性缓冲区对象
+  const attribueVertices = new BufferAttribute(vertices, 3); // 3 个为一组
 
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    [shape1, shape2, shape3, shape4], // 二维轮廓
-    {
-      steps: 50, // 扫描方向细分数
-      extrudePath: curve, // 选择扫描轨迹
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0x00ffff, side: DoubleSide });
-  // material.wireframe = true;
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = 8;
-  mesh.position.y = 4;
-  mesh.position.z = -5;
-  scene.add(mesh);
-}
-
-function addSquareByExtrudeGeometry() {
-  const UNIT = 1;
-
-  const shape = new Shape();
-  shape.moveTo(-UNIT, UNIT);
-  shape.lineTo(UNIT, UNIT);
-  shape.lineTo(UNIT, -UNIT);
-  shape.lineTo(-UNIT, -UNIT);
-
-  const path = new Path();
-  path.moveTo(-UNIT / 2, UNIT / 2);
-  path.lineTo(UNIT / 2, UNIT / 2);
-  path.lineTo(UNIT / 2, -UNIT / 2);
-  path.lineTo(-UNIT / 2, -UNIT / 2);
-
-  shape.holes.push(path);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      depth: DEPTH, // 拉伸长度
-      bevelEnabled: false, // 无倒角
-    }
-  );
-
-  const material = new MeshBasicMaterial({ color: 0xff00ff, side: DoubleSide });
-  // material.wireframe = true;
-
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = -5;
-  scene.add(mesh);
-}
-
-function addSquare2ByExtrudeGeometry() {
-  const UNIT = 1;
-
-  const shape = new Shape();
-  shape.moveTo(-UNIT, UNIT);
-  shape.lineTo(UNIT, UNIT);
-  shape.lineTo(UNIT, -UNIT);
-  shape.lineTo(-UNIT, -UNIT);
-
-  const path = new Path();
-  path.moveTo(-UNIT / 2, UNIT / 2);
-  path.lineTo(UNIT / 2, UNIT / 2);
-  path.lineTo(UNIT / 2, -UNIT / 2);
-  path.lineTo(-UNIT / 2, -UNIT / 2);
-
-  // 创建轮廓的扫描轨迹(3D样条曲线)
-  const curve = new CatmullRomCurve3([
-    new Vector3(0, 0, 0),
-    new Vector3(-3, 3, 3),
-    new Vector3(-6, 6, 0),
-    new Vector3(-9, 9, -3),
+  // Float32Array 类型数据创建顶点法向量 normal 数据
+  const normals = new Float32Array([
+    0,
+    0,
+    1, // 顶点 1 法向量
+    0,
+    0,
+    1, // 顶点 2 法向量
+    0,
+    0,
+    1, // 顶点 3 法向量
+    0,
+    0,
+    1, // 顶点 4 法向量
   ]);
+  // 创建 normal 属性缓冲区对象
+  const attribueNormals = new BufferAttribute(normals, 3); // 3 个为一组
 
-  shape.holes.push(path);
-  // 拉伸造型
-  const geometry = new ExtrudeGeometry(
-    shape, // 二维轮廓
-    {
-      steps: 50, // 扫描方向细分数
-      extrudePath: curve, // 选择扫描轨迹
-      bevelEnabled: false, // 无倒角
-    }
-  );
+  // Float32Array 类型数据创建顶点纹理坐标 uv 数据
+  const uvs = new Float32Array([
+    0,
+    0, // 图片左下角
+    1,
+    0, // 图片右下角
+    1,
+    1, // 图片右上角
+    0,
+    1, // 图片左上角
+  ]);
+  // 创建 uv 属性缓冲区对象
+  const attribueUVs = new BufferAttribute(uvs, 2);
 
-  const material = new MeshBasicMaterial({ color: 0xff00ff, side: DoubleSide });
-  // material.wireframe = true;
+  // Uint16Array 类型数组创建顶点索引 indexes 数据
+  const indexes = new Uint16Array([
+    0,
+    1,
+    2, // 第一个三角形
+    2,
+    3,
+    0, // 第二个三角形
+  ]);
+  // 创建 indexes 属性缓冲区对象
+  const attribueIndexes = new BufferAttribute(indexes, 1); // 1 个为一组
 
-  const mesh = new Mesh(geometry, material);
-  mesh.position.x = -5;
-  mesh.position.z = -5;
-  scene.add(mesh);
+  const geometry = new BufferGeometry();
+  // 设置几何体 attributes 属性的 position, normal, uv 属性
+  geometry.setAttribute("position", attribueVertices);
+  geometry.setAttribute("normal", attribueNormals);
+  geometry.setAttribute("uv", attribueUVs);
+  // 索引数据赋值给几何体的 index 属性
+  geometry.setIndex(attribueIndexes);
+
+  textureLoader(geometry, 0, 0);
+  imageLoader(geometry, 0, -80);
+}
+
+function textureLoader(
+  geometry: BufferGeometry,
+  offsetX: number,
+  offsetY: number
+) {
+  // TextureLoader 创建一个纹理加载器对象，可以加载图片作为几何体纹理
+  const textureLoader = new TextureLoader();
+  // 执行 load 方法，加载纹理贴图成功后，返回一个纹理对象 Texture
+  textureLoader.load(url, (texture) => {
+    const material = new MeshLambertMaterial({
+      color: 0xff0000,
+      map: texture, // 设置纹理贴图
+      side: DoubleSide,
+    });
+    const mesh = new Mesh(geometry, material);
+    mesh.position.set(offsetX, offsetY, 0);
+    scene.add(mesh);
+
+    //纹理贴图加载成功后，调用渲染函数执行渲染操作
+    render();
+  });
+}
+
+function imageLoader(
+  geometry: BufferGeometry,
+  offsetX: number,
+  offsetY: number
+) {
+  // ImageLoader 创建一个图片加载器对象，可以加载图片作为几何体纹理
+  const imageLoader = new ImageLoader();
+  // 执行 load 方法，加载图片成功后，返回一个 html 的元素 img 对象
+  imageLoader.load(url, (image) => {
+    // image 对象作为参数，创建一个纹理对象 Texture
+    const texture = new Texture(image);
+    // 下次使用纹理时触发更新
+    texture.needsUpdate = true;
+    const material = new MeshLambertMaterial({
+      color: 0x00ff00,
+      map: texture, // 设置纹理贴图
+      side: DoubleSide,
+    });
+    const mesh = new Mesh(geometry, material);
+    mesh.position.set(offsetX, offsetY, 0);
+    scene.add(mesh);
+
+    //纹理贴图加载成功后，调用渲染函数执行渲染操作
+    render();
+  });
 }
 
 function onWindowResize() {
