@@ -290,3 +290,11 @@ UV 映射原理(顶点纹理坐标)
 5. 对比四个平面几何图形整体的效果
 
 > 四个平面几何图形采用不同贴图的效果对比
+
+### [Lesson 23](./packages/lesson23/src/main.ts)
+
+[JSON 文件的加载器（ObjectLoader）](https://threejs.org/docs/index.html#api/zh/loaders/ObjectLoader)
+
+WebGL / materials / lightmap：[示例](https://threejs.org/examples/#webgl_materials_lightmap)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_lightmap.html)
+
+> 砖墙纹路场景
