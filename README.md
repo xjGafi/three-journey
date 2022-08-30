@@ -364,3 +364,12 @@ Canvas、视频作为纹理贴图
 3. 设置纹理阵列和重复数量
 
 > 使用 Canvas 和 视频制作纹理贴图
+
+### [Lesson 26](./packages/lesson26/src/main.ts)
+
+[物理网格材质(MeshPhysicalMaterial)](https://threejs.org/docs/index.html#api/zh/materials/MeshPhysicalMaterial)
+
+WebGL / materials / physical /
+clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clearcoat)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_physical_clearcoat.html)
+
+> 法线贴图应用：汽车喷漆材质球、碳纤维材质球、高尔夫球和台球

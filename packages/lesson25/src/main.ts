@@ -17,7 +17,7 @@ import {
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import url from '@/video/trailer.mp4?url';
+import url from '@/textures/sintel.mp4?url';
 
 let camera: PerspectiveCamera,
   scene: Scene,
@@ -117,6 +117,7 @@ function addVideoTexture() {
   let video = document.createElement('video');
   video.src = url;
   video.autoplay = true;
+  video.loop = true;
 
   // video 对象作为 VideoTexture 参数创建纹理对象
   let texture = new VideoTexture(video);

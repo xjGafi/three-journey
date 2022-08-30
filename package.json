@@ -28,17 +28,18 @@
     "dev:22": "pnpm run -C packages/lesson22 dev",
     "dev:23": "pnpm run -C packages/lesson23 dev",
     "dev:24": "pnpm run -C packages/lesson24 dev",
-    "dev:25": "pnpm run -C packages/lesson25 dev"
+    "dev:25": "pnpm run -C packages/lesson25 dev",
+    "dev:26": "pnpm run -C packages/lesson26 dev"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7",
     "@types/node": "^18.6.1",
-    "@types/three": "^0.142.0",
+    "@types/three": "^0.143.0",
     "dat.gui": "^0.7.9",
     "typescript": "^4.7.4",
     "vite": "^3.0.0"
   },
   "dependencies": {
-    "three": "^0.142.0"
+    "three": "^0.143.0"
   }
 }
