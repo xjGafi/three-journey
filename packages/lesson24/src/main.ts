@@ -66,6 +66,7 @@ function init() {
     map: texture, // 设置纹理贴图
     side: DoubleSide
   });
+
   const mesh = new Mesh(geometry, material);
   scene.add(mesh);
 

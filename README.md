@@ -352,3 +352,15 @@ lightmap：[示例](https://threejs.org/examples/#webgl_materials_lightmap)、[�
 3. 设置纹理偏移和旋转动画
 
 > 移动的纹理贴图
+
+### [Lesson 25](./packages/lesson25/src/main.ts)
+
+Canvas、视频作为纹理贴图
+
+1. 通过 `CanvasTexture` 让 Canvas 作为纹理贴图（使用
+   `document.createElement('canvas')` 创建 canvas 对象，设置画布尺寸和图文）
+2. 通过 `VideoTexture` 让视频作为纹理贴图（使用
+   `document.createElement('video')` 创建 video 对象，设置视频地址和自动播放）
+3. 设置纹理阵列和重复数量
+
+> 使用 Canvas 和 视频制作纹理贴图
