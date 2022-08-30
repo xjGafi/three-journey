@@ -1,12 +1,12 @@
 // vite.config.ts
-import path from 'path';
-import { defineConfig } from 'vite';
+import path from "path";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  assetsInclude: ['**/*.gltf'],
+  assetsInclude: ["**/*.gltf"],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '../../assets')
-    }
-  }
+      "@": path.resolve(__dirname, "../../assets"),
+    },
+  },
 });

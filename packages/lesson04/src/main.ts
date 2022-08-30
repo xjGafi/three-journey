@@ -1,4 +1,4 @@
-import './style.css';
+import "./style.css";
 import {
   PerspectiveCamera,
   Scene,
@@ -6,15 +6,15 @@ import {
   AxesHelper,
   EquirectangularReflectionMapping,
   ACESFilmicToneMapping,
-  sRGBEncoding
-} from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import Stats from 'three/examples/jsm/libs/stats.module';
+  sRGBEncoding,
+} from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import Stats from "three/examples/jsm/libs/stats.module";
 
-import RoyalEsplanade from '@/textures/royal_esplanade_1k.hdr?url';
-import DamagedHelmet from '@/models/DamagedHelmet.gltf?url';
+import RoyalEsplanade from "@/textures/royal_esplanade_1k.hdr?url";
+import DamagedHelmet from "@/models/DamagedHelmet.gltf?url";
 
 let camera: PerspectiveCamera,
   scene: Scene,
@@ -57,7 +57,7 @@ function init() {
   });
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
+  const canvas = document.querySelector("canvas#webgl")!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(devicePixelRatio);
@@ -68,7 +68,7 @@ function init() {
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   // 不要同时使用 requestAnimationFrame() 或 controls.addEventListener('change', render) 调用同一个函数，这样会冲突。
-  controls.addEventListener('change', render);
+  controls.addEventListener("change", render);
   controls.minDistance = 2;
   controls.maxDistance = 10;
   controls.target.set(0, 0, -0.2);
@@ -79,7 +79,7 @@ function init() {
   document.body.appendChild(stats.dom);
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener("resize", onWindowResize);
 }
 
 function onWindowResize() {
