@@ -49,7 +49,7 @@ function init() {
   scene.add(light);
 
   // Object
-  addTextureNormal();
+  addTextureBump();
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
@@ -72,7 +72,7 @@ function init() {
   window.addEventListener('resize', onWindowResize);
 }
 
-function addTextureNormal() {
+function addTextureBump() {
   const geometry = new SphereGeometry(80, 64, 32);
   let material: MeshPhongMaterial;
   let mesh: Mesh;

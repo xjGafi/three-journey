@@ -383,4 +383,19 @@ clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clea
    凸贴图
 3. 通过 `SphereGeometry` 创建球体模型
 
-> 凹凸贴图应用：五个材质球
+> 五个使用凹凸贴图的材质球
+
+### [Lesson 28](./packages/lesson28/src/main.ts)
+
+环境贴图
+
+[CubeTextureLoader ](https://threejs.org/docs/index.html?q=CubeTextureLoader#api/zh/loaders/CubeTextureLoader)
+WebGL / materials / cubemap /
+dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_cubemap_dynamic.html)
+
+1. 通过 `CubeTextureLoader` 创建一个纹理加载器对象，加载环境贴图所用的 6 张纹理
+   贴图
+2. 通过 `SphereGeometry` 创建球体模型，设置 **反射** 材质贴图
+3. 通过 `SphereGeometry` 创建球体模型，设置 **折射** 材质贴图
+
+> 两个环境贴图的材质球
