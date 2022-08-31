@@ -373,3 +373,14 @@ WebGL / materials / physical /
 clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clearcoat)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_physical_clearcoat.html)
 
 > 法线贴图应用：汽车喷漆材质球、碳纤维材质球、高尔夫球和台球
+
+### [Lesson 27](./packages/lesson27/src/main.ts)
+
+凹凸贴图
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象，加载多张纹理贴图
+2. 通过 `MeshPhongMaterial` 创建材质，同时设置 `.map` 普通纹理贴图,`.bumpMap` 凹
+   凸贴图
+3. 通过 `SphereGeometry` 创建球体模型
+
+> 凹凸贴图应用：五个材质球
