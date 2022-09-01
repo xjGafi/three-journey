@@ -10,37 +10,37 @@ import {
   CubeTextureLoader,
   CubeRefractionMapping,
   SphereGeometry,
-  PointLight
+  PointLight,
+  CubeTexture
 } from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// import { GUI } from 'dat.gui';
+import { GUI } from 'dat.gui';
 
-import star1 from '@/textures/star/px.jpg?url';
-import star2 from '@/textures/star/nx.jpg?url';
-import star3 from '@/textures/star/py.jpg?url';
-import star4 from '@/textures/star/ny.jpg?url';
-import star5 from '@/textures/star/pz.jpg?url';
-import star6 from '@/textures/star/nz.jpg?url';
-
-import park1 from '@/textures/park/px.jpg?url';
-import park2 from '@/textures/park/nx.jpg?url';
-import park3 from '@/textures/park/py.jpg?url';
-import park4 from '@/textures/park/ny.jpg?url';
-import park5 from '@/textures/park/pz.jpg?url';
-import park6 from '@/textures/park/nz.jpg?url';
+// 全景图
+import { textureMap } from './textures';
 
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   stats: Stats;
 
-// 全景图
-const textureMap = {
-  star: [star1, star2, star3, star4, star5, star6],
-  park: [park1, park2, park3, park4, park5, park6]
+// 反射、折射球体网格模型
+let reflectionMesh: Mesh, refractionMesh: Mesh;
+
+type TextureName = keyof typeof textureMap;
+interface Settings {
+  texture: TextureName;
+  reflectivity: number;
+  refractionRatio: number;
+  [key: string]: any;
+}
+// GUI 设置项
+const settings: Settings = {
+  texture: 'bridge', // 全景图名称
+  reflectivity: 1, // 反射率
+  refractionRatio: 0.98 // 折射比
 };
-let textureList = textureMap.park;
 
 init();
 animate();
@@ -77,7 +77,7 @@ function init() {
   document.body.appendChild(stats.dom);
 
   // GUI
-  // initGUI();
+  initGUI();
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -89,50 +89,93 @@ function init() {
   window.addEventListener('resize', onWindowResize);
 }
 
+// 添加 CubeTexture 材质的球体模型
 function addCubeTexture() {
   const geometry = new SphereGeometry(150, 100, 100);
   let material: MeshLambertMaterial;
-  let mesh: Mesh;
 
-  const cubeTextureLoader = new CubeTextureLoader();
-  // 反射材质
-  const reflectionCube = cubeTextureLoader.load(textureList);
-  // 折射材质
-  const refractionCube = cubeTextureLoader.load(textureList);
-  refractionCube.mapping = CubeRefractionMapping;
+  // 加载材质
+  const cubeTextures = getCubeTextures(settings.texture);
 
-  // 反射材质球
+  // 设置反射材质球
   material = new MeshLambertMaterial({
-    envMap: reflectionCube
+    envMap: cubeTextures.reflectionTexture,
+    reflectivity: settings.reflectivity // 反射率
   });
-  mesh = new Mesh(geometry, material);
-  mesh.position.set(200, 0, 0);
-  scene.add(mesh);
+  // 设置反射材质球体网格模型
+  reflectionMesh = new Mesh(geometry, material);
+  reflectionMesh.position.set(-200, 0, 0);
+  scene.add(reflectionMesh);
 
-  // 折射材质球
+  // 设置折射材质球
   material = new MeshLambertMaterial({
-    envMap: refractionCube
+    envMap: cubeTextures.refractionTexture,
+    refractionRatio: settings.refractionRatio // 折射比
   });
-  mesh = new Mesh(geometry, material);
-  mesh.position.set(-200, 0, 0);
-  scene.add(mesh);
-
-  scene.background = reflectionCube;
+  // 设置折射材质球体网格模型
+  refractionMesh = new Mesh(geometry, material);
+  refractionMesh.position.set(200, 0, 0);
+  scene.add(refractionMesh);
 }
 
-// function initGUI() {
-//   const settings = {
-//     texture: 'star'
-//   };
-//   const gui = new GUI();
-//   const settingsFolder = gui.addFolder('Background');
-//   settingsFolder
-//     .add(settings, 'texture', Object.keys(textureMap))
-//     .onChange((key: string) => {
-//       textureList = textureMap[key];
-//     });
-//   settingsFolder.open();
-// }
+interface LoadCubeTexture {
+  reflectionTexture: CubeTexture;
+  refractionTexture: CubeTexture;
+}
+// 加载材质
+function getCubeTextures(textureName: TextureName): LoadCubeTexture {
+  const textures = textureMap[textureName];
+
+  // 实例化 CubeTexture 加载器
+  const cubeTextureLoader = new CubeTextureLoader();
+
+  // 设置反射材质
+  const reflectionTexture = cubeTextureLoader.load(textures);
+
+  // 设置折射材质
+  const refractionTexture = cubeTextureLoader.load(textures);
+  refractionTexture.mapping = CubeRefractionMapping;
+
+  // 设置场景背景为反射材质
+  scene.background = reflectionTexture;
+
+  return { reflectionTexture, refractionTexture };
+}
+
+function initGUI() {
+  const gui = new GUI();
+  const settingsFolder = gui.addFolder('Settings');
+  // 修改全景图
+  settingsFolder
+    .add(settings, 'texture', Object.keys(textureMap))
+    .onChange((value: TextureName) => {
+      // 加载材质
+      const cubeTextures = getCubeTextures(value);
+
+      // 设置反射材质球体网格模型
+      (reflectionMesh.material as MeshLambertMaterial).envMap =
+        cubeTextures.reflectionTexture;
+
+      // 设置折射材质球体网格模型
+      (refractionMesh.material as MeshLambertMaterial).envMap =
+        cubeTextures.refractionTexture;
+    });
+  // 修改反射率
+  settingsFolder
+    .add(settings, 'reflectivity', 0, 1, 0.01)
+    .onChange((value: number) => {
+      // 设置反射材质球体网格模型
+      (reflectionMesh.material as MeshLambertMaterial).reflectivity = value;
+    });
+  // 修改折射比
+  settingsFolder
+    .add(settings, 'refractionRatio', 0, 1, 0.01)
+    .onChange((value: number) => {
+      // 设置折射材质球体网格模型
+      (refractionMesh.material as MeshLambertMaterial).refractionRatio = value;
+    });
+  settingsFolder.open();
+}
 
 function onWindowResize() {
   const { innerWidth, innerHeight } = window;
