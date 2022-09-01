@@ -1,4 +1,4 @@
-import "./style.css";
+import './style.css';
 import {
   PerspectiveCamera,
   Scene,
@@ -10,10 +10,10 @@ import {
   LineDashedMaterial,
   Line,
   AxesHelper,
-  Group,
-} from "three";
-import Stats from "three/examples/jsm/libs/stats.module";
-import { GUI } from "dat.gui";
+  Group
+} from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { Pane } from 'tweakpane';
 
 let camera: PerspectiveCamera,
   scene: Scene,
@@ -51,7 +51,7 @@ function init() {
   addLineDashedMaterial();
 
   // Renderer
-  const canvas = document.querySelector("canvas#webgl")!;
+  const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(devicePixelRatio);
@@ -60,11 +60,11 @@ function init() {
   stats = Stats();
   document.body.appendChild(stats.dom);
 
-  // GUI
-  initGUI();
+  // Pane
+  initPane();
 
   // Resize
-  window.addEventListener("resize", onWindowResize);
+  window.addEventListener('resize', onWindowResize);
 }
 
 function addPointsMaterial() {
@@ -73,7 +73,7 @@ function addPointsMaterial() {
   // 点材质对象
   const material = new PointsMaterial({
     color: 0xff0000,
-    size: 3, // 点渲染尺寸
+    size: 3 // 点渲染尺寸
   });
   // 点模型对象
   const point = new Points(geometry, material);
@@ -86,7 +86,7 @@ function addLineBasicMaterial() {
   const geometry = new SphereGeometry(100, 25, 25);
   // 直线基础材质对象
   const material = new LineBasicMaterial({
-    color: 0x00ff00,
+    color: 0x00ff00
   });
   // 线模型对象
   const line = new Line(geometry, material);
@@ -101,7 +101,7 @@ function addLineDashedMaterial() {
   const material = new LineDashedMaterial({
     color: 0x0000ff,
     dashSize: 10, // 显示线段的大小。默认为 3。
-    gapSize: 5, // 间隙的大小。默认为 1
+    gapSize: 5 // 间隙的大小。默认为 1
   });
   // 线模型对象
   const line = new Line(geometry, material);
@@ -111,16 +111,26 @@ function addLineDashedMaterial() {
   group.add(line);
 }
 
-function initGUI() {
-  const gui = new GUI();
-  const cubeFolder = gui.addFolder("Group");
-  cubeFolder.add(group.rotation, "x", 0, Math.PI * 2);
-  cubeFolder.add(group.rotation, "y", 0, Math.PI * 2);
-  cubeFolder.add(group.rotation, "z", 0, Math.PI * 2);
-  cubeFolder.open();
-  const cameraFolder = gui.addFolder("Camera");
-  cameraFolder.add(camera.position, "z", 0, 1000);
-  cameraFolder.open();
+function initPane() {
+  const pane = new Pane();
+  const groupFolder = pane.addFolder({ title: 'Group' });
+  groupFolder.addInput(group.rotation, 'x', {
+    min: 0,
+    max: Math.PI * 2
+  });
+  groupFolder.addInput(group.rotation, 'y', {
+    min: 0,
+    max: Math.PI * 2
+  });
+  groupFolder.addInput(group.rotation, 'z', {
+    min: 0,
+    max: Math.PI * 2
+  });
+  const cameraFolder = pane.addFolder({ title: 'Camera' });
+  cameraFolder.addInput(camera.position, 'z', {
+    min: 0,
+    max: 1000
+  });
 }
 
 function onWindowResize() {

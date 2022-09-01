@@ -1,4 +1,4 @@
-import "./style.css";
+import './style.css';
 import {
   PerspectiveCamera,
   Scene,
@@ -13,11 +13,11 @@ import {
   LineLoop,
   LineSegments,
   Mesh,
-  MeshBasicMaterial,
-} from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import Stats from "three/examples/jsm/libs/stats.module";
-import { GUI } from "dat.gui";
+  MeshBasicMaterial
+} from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { Pane } from 'tweakpane';
 
 let camera: PerspectiveCamera,
   scene: Scene,
@@ -56,7 +56,7 @@ function init() {
   addMeshCube();
 
   // Renderer
-  const canvas = document.querySelector("canvas#webgl")!;
+  const canvas = document.querySelector('canvas#webgl')!;
   renderer = new WebGLRenderer({ canvas });
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(devicePixelRatio);
@@ -71,11 +71,11 @@ function init() {
   stats = Stats();
   document.body.appendChild(stats.dom);
 
-  // GUI
-  initGUI();
+  // Pane
+  initPane();
 
   // Resize
-  window.addEventListener("resize", onWindowResize);
+  window.addEventListener('resize', onWindowResize);
 }
 
 function addPointsCube() {
@@ -84,7 +84,7 @@ function addPointsCube() {
   // 点材质对象
   const material = new PointsMaterial({
     color: 0xff0000,
-    size: 10, // 点渲染尺寸
+    size: 10 // 点渲染尺寸
   });
   // 点模型对象
   const point = new Points(geometry, material);
@@ -97,7 +97,7 @@ function addLineCube() {
   const geometry = new BoxGeometry(80, 80, 80);
   // 直线基础材质对象
   const material = new LineBasicMaterial({
-    color: 0x00ff00,
+    color: 0x00ff00
   });
   // 线模型对象
   const line = new Line(geometry, material);
@@ -110,7 +110,7 @@ function addLineLoopCube() {
   const geometry = new BoxGeometry(80, 80, 80);
   // 直线基础材质对象
   const material = new LineBasicMaterial({
-    color: 0x0000ff,
+    color: 0x0000ff
   });
   // 线模型对象
   const lineLoop = new LineLoop(geometry, material);
@@ -122,7 +122,7 @@ function addLineSegmentsCube() {
   const geometry = new BoxGeometry(80, 80, 80);
   // 直线基础材质对象
   const material = new LineBasicMaterial({
-    color: 0xffff00,
+    color: 0xffff00
   });
   // 线模型对象
   const lineSegments = new LineSegments(geometry, material);
@@ -135,7 +135,7 @@ function addMeshCube() {
   const geometry = new BoxGeometry(80, 80, 80);
   // 直线基础材质对象
   material = new MeshBasicMaterial({
-    color: 0x00ffff,
+    color: 0x00ffff
   });
   // 线模型对象
   const mesh = new Mesh(geometry, material);
@@ -143,11 +143,9 @@ function addMeshCube() {
   group.add(mesh);
 }
 
-function initGUI() {
-  const gui = new GUI();
-  const cameraFolder = gui.addFolder("MeshBasicMaterial");
-  cameraFolder.add(material, "wireframe");
-  cameraFolder.open();
+function initPane() {
+  const pane = new Pane({ title: 'Material' });
+  pane.addInput(material, 'wireframe');
 }
 
 function onWindowResize() {

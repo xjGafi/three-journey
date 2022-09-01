@@ -34,14 +34,14 @@
     "dev:28": "pnpm run -C packages/lesson28 dev"
   },
   "devDependencies": {
-    "@types/dat.gui": "^0.7.7",
+    "@tweakpane/core": "^1.1.0",
     "@types/node": "^18.6.1",
     "@types/three": "^0.143.0",
-    "dat.gui": "^0.7.9",
     "typescript": "^4.7.4",
     "vite": "^3.0.0"
   },
   "dependencies": {
-    "three": "^0.143.0"
+    "three": "^0.143.0",
+    "tweakpane": "^3.1.0"
   }
 }

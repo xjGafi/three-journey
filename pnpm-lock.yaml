@@ -4,20 +4,20 @@ importers:
 
   .:
     specifiers:
-      '@types/dat.gui': ^0.7.7
+      '@tweakpane/core': ^1.1.0
       '@types/node': ^18.6.1
       '@types/three': ^0.143.0
-      dat.gui: ^0.7.9
       three: ^0.143.0
+      tweakpane: ^3.1.0
       typescript: ^4.7.4
       vite: ^3.0.0
     dependencies:
       three: 0.143.0
+      tweakpane: 3.1.0
     devDependencies:
-      '@types/dat.gui': 0.7.7
+      '@tweakpane/core': 1.1.0
       '@types/node': 18.7.14
       '@types/three': 0.143.2
-      dat.gui: 0.7.9
       typescript: 4.8.2
       vite: 3.0.9
 
@@ -99,6 +99,12 @@ importers:
   packages/lesson26:
     specifiers: {}
 
+  packages/lesson27:
+    specifiers: {}
+
+  packages/lesson28:
+    specifiers: {}
+
 packages:
 
   /@esbuild/linux-loong64/0.14.54:
@@ -110,8 +116,8 @@ packages:
     dev: true
     optional: true
 
-  /@types/dat.gui/0.7.7:
-    resolution: {integrity: sha512-CxLCme0He5Jk3uQwfO/fGZMyNhb/ypANzqX0yU9lviBQMlen5SOvQTBQ/Cd9x5mFlUAK5Tk8RgvTyLj1nYkz+w==}
+  /@tweakpane/core/1.1.0:
+    resolution: {integrity: sha512-vbbiQb+aoFI13lIbE7DJvhHZVE1YlUpGoaAamSpU6wLp2jA3VowS1wfRJBBB8IBCYm7nF6ULl7zfJKxl1XdyfA==}
     dev: true
 
   /@types/node/18.7.14:
@@ -126,10 +132,6 @@ packages:
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
-    dev: true
-
-  /dat.gui/0.7.9:
-    resolution: {integrity: sha512-sCNc1OHobc+Erc1HqiswYgHdVNpSJUlk/Hz8vzOCsER7rl+oF/4+v8GXFUyCgtXpoCX6+bnmg07DedLvBLwYKQ==}
     dev: true
 
   /esbuild-android-64/0.14.54:
@@ -418,6 +420,10 @@ packages:
 
   /three/0.143.0:
     resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
+    dev: false
+
+  /tweakpane/3.1.0:
+    resolution: {integrity: sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==}
     dev: false
 
   /typescript/4.8.2:

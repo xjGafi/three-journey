@@ -15,7 +15,7 @@ import {
 } from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GUI } from 'dat.gui';
+import { Pane } from 'tweakpane';
 
 // 全景图
 import { textureMap } from './textures';
@@ -28,16 +28,15 @@ let camera: PerspectiveCamera,
 // 反射、折射球体网格模型
 let reflectionMesh: Mesh, refractionMesh: Mesh;
 
-type TextureName = keyof typeof textureMap;
-interface Settings {
-  texture: TextureName;
+interface Params {
+  texture: string;
   reflectivity: number;
   refractionRatio: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 // GUI 设置项
-const settings: Settings = {
-  texture: 'bridge', // 全景图名称
+const PARAMS: Params = {
+  texture: 'bridge',
   reflectivity: 1, // 反射率
   refractionRatio: 0.98 // 折射比
 };
@@ -76,8 +75,8 @@ function init() {
   stats = Stats();
   document.body.appendChild(stats.dom);
 
-  // GUI
-  initGUI();
+  // Pane
+  initPane();
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -94,13 +93,14 @@ function addCubeTexture() {
   const geometry = new SphereGeometry(150, 100, 100);
   let material: MeshLambertMaterial;
 
-  // 加载材质
-  const cubeTextures = getCubeTextures(settings.texture);
+  // 加载材质贴图
+  const urls = textureMap[PARAMS.texture];
+  const cubeTextures = getCubeTextures(urls);
 
   // 设置反射材质球
   material = new MeshLambertMaterial({
     envMap: cubeTextures.reflectionTexture,
-    reflectivity: settings.reflectivity // 反射率
+    reflectivity: PARAMS.reflectivity // 反射率
   });
   // 设置反射材质球体网格模型
   reflectionMesh = new Mesh(geometry, material);
@@ -110,7 +110,7 @@ function addCubeTexture() {
   // 设置折射材质球
   material = new MeshLambertMaterial({
     envMap: cubeTextures.refractionTexture,
-    refractionRatio: settings.refractionRatio // 折射比
+    refractionRatio: PARAMS.refractionRatio // 折射比
   });
   // 设置折射材质球体网格模型
   refractionMesh = new Mesh(geometry, material);
@@ -122,18 +122,16 @@ interface LoadCubeTexture {
   reflectionTexture: CubeTexture;
   refractionTexture: CubeTexture;
 }
-// 加载材质
-function getCubeTextures(textureName: TextureName): LoadCubeTexture {
-  const textures = textureMap[textureName];
-
+// 加载材质贴图
+function getCubeTextures(urls: Array<string>): LoadCubeTexture {
   // 实例化 CubeTexture 加载器
   const cubeTextureLoader = new CubeTextureLoader();
 
   // 设置反射材质
-  const reflectionTexture = cubeTextureLoader.load(textures);
+  const reflectionTexture = cubeTextureLoader.load(urls);
 
   // 设置折射材质
-  const refractionTexture = cubeTextureLoader.load(textures);
+  const refractionTexture = cubeTextureLoader.load(urls);
   refractionTexture.mapping = CubeRefractionMapping;
 
   // 设置场景背景为反射材质
@@ -142,15 +140,17 @@ function getCubeTextures(textureName: TextureName): LoadCubeTexture {
   return { reflectionTexture, refractionTexture };
 }
 
-function initGUI() {
-  const gui = new GUI();
-  const settingsFolder = gui.addFolder('Settings');
-  // 修改全景图
-  settingsFolder
-    .add(settings, 'texture', Object.keys(textureMap))
-    .onChange((value: TextureName) => {
-      // 加载材质
-      const cubeTextures = getCubeTextures(value);
+function initPane() {
+  const pane = new Pane({ title: 'Material' });
+  // 修改材质贴图
+  pane
+    .addInput(PARAMS, 'texture', {
+      options: textureMap
+    })
+    .on('change', ({ value }) => {
+      // 加载材质贴图
+      const urls = value as unknown;
+      const cubeTextures = getCubeTextures(urls as Array<string>);
 
       // 设置反射材质球体网格模型
       (reflectionMesh.material as MeshLambertMaterial).envMap =
@@ -161,20 +161,27 @@ function initGUI() {
         cubeTextures.refractionTexture;
     });
   // 修改反射率
-  settingsFolder
-    .add(settings, 'reflectivity', 0, 1, 0.01)
-    .onChange((value: number) => {
+  pane
+    .addInput(PARAMS, 'reflectivity', {
+      step: 0.01,
+      min: 0,
+      max: 1
+    })
+    .on('change', ({ value }) => {
       // 设置反射材质球体网格模型
       (reflectionMesh.material as MeshLambertMaterial).reflectivity = value;
     });
   // 修改折射比
-  settingsFolder
-    .add(settings, 'refractionRatio', 0, 1, 0.01)
-    .onChange((value: number) => {
+  pane
+    .addInput(PARAMS, 'refractionRatio', {
+      step: 0.01,
+      min: 0,
+      max: 1
+    })
+    .on('change', ({ value }) => {
       // 设置折射材质球体网格模型
       (refractionMesh.material as MeshLambertMaterial).refractionRatio = value;
     });
-  settingsFolder.open();
 }
 
 function onWindowResize() {
