@@ -397,6 +397,6 @@ dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic
    贴图
 2. 通过 `SphereGeometry` 创建球体模型，设置 **反射** 材质贴图
 3. 通过 `SphereGeometry` 创建球体模型，设置 **折射** 材质贴图
-4. 通过 GUI 可以动态修改材质贴图参数
+4. 通过 Tweakpane 动态修改材质贴图参数
 
 > 两个环境贴图的材质球

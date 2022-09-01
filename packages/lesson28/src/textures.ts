@@ -49,7 +49,7 @@ interface TextureMap {
   star: Array<string>;
   [key: string]: Array<string>;
 }
-// 全景图
+// 材质贴图路径
 export const textureMap: TextureMap = {
   bridge: [bridge1, bridge2, bridge3, bridge4, bridge5, bridge6],
   castle: [castle1, castle2, castle3, castle4, castle5, castle6],
