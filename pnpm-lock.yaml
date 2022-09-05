@@ -21,88 +21,91 @@ importers:
       typescript: 4.8.2
       vite: 3.0.9
 
-  packages/lesson01:
+  examples/clock:
     specifiers: {}
 
-  packages/lesson02:
+  lessones/lesson01:
     specifiers: {}
 
-  packages/lesson03:
+  lessones/lesson02:
     specifiers: {}
 
-  packages/lesson04:
+  lessones/lesson03:
     specifiers: {}
 
-  packages/lesson05:
+  lessones/lesson04:
     specifiers: {}
 
-  packages/lesson06:
+  lessones/lesson05:
     specifiers: {}
 
-  packages/lesson07:
+  lessones/lesson06:
     specifiers: {}
 
-  packages/lesson08:
+  lessones/lesson07:
     specifiers: {}
 
-  packages/lesson09:
+  lessones/lesson08:
     specifiers: {}
 
-  packages/lesson10:
+  lessones/lesson09:
     specifiers: {}
 
-  packages/lesson11:
+  lessones/lesson10:
     specifiers: {}
 
-  packages/lesson12:
+  lessones/lesson11:
     specifiers: {}
 
-  packages/lesson13:
+  lessones/lesson12:
     specifiers: {}
 
-  packages/lesson14:
+  lessones/lesson13:
     specifiers: {}
 
-  packages/lesson15:
+  lessones/lesson14:
     specifiers: {}
 
-  packages/lesson16:
+  lessones/lesson15:
     specifiers: {}
 
-  packages/lesson17:
+  lessones/lesson16:
     specifiers: {}
 
-  packages/lesson18:
+  lessones/lesson17:
     specifiers: {}
 
-  packages/lesson19:
+  lessones/lesson18:
     specifiers: {}
 
-  packages/lesson20:
+  lessones/lesson19:
     specifiers: {}
 
-  packages/lesson21:
+  lessones/lesson20:
     specifiers: {}
 
-  packages/lesson22:
+  lessones/lesson21:
     specifiers: {}
 
-  packages/lesson23:
+  lessones/lesson22:
     specifiers: {}
 
-  packages/lesson24:
+  lessones/lesson23:
     specifiers: {}
 
-  packages/lesson25:
+  lessones/lesson24:
     specifiers: {}
 
-  packages/lesson26:
+  lessones/lesson25:
     specifiers: {}
 
-  packages/lesson27:
+  lessones/lesson26:
     specifiers: {}
 
-  packages/lesson28:
+  lessones/lesson27:
+    specifiers: {}
+
+  lessones/lesson28:
     specifiers: {}
 
 packages:
