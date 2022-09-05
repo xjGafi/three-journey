@@ -386,7 +386,3 @@ dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic
 4. 通过 Tweakpane 动态修改材质贴图参数
 
 > 两个环境贴图的材质球
-
-## [Lesson 29](./examples/clock/src/main.ts)
-
-时间可视化（demo）
