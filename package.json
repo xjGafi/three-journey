@@ -32,6 +32,7 @@
     "dev:26": "pnpm run -C lessones/lesson26 dev",
     "dev:27": "pnpm run -C lessones/lesson27 dev",
     "dev:28": "pnpm run -C lessones/lesson28 dev",
+    "dev:29": "pnpm run -C lessones/lesson29 dev",
     "dev:clock": "pnpm run -C examples/clock dev"
   },
   "devDependencies": {

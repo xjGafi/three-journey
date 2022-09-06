@@ -386,3 +386,19 @@ dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic
 4. 通过 Tweakpane 动态修改材质贴图参数
 
 > 两个环境贴图的材质球
+
+## [Lesson 29](./lesson29/src/main.ts)
+
+精灵模型 Sprite 和 SpriteMaterial
+
+[精灵（Sprite）](https://threejs.org/docs/index.html?q=Sprite#api/zh/objects/Sprite)
+[精灵材质(SpriteMaterial)](https://threejs.org/docs/index.html?q=Sprite#api/zh/materials/SpriteMaterial)
+WebGL / sprites
+[示例](https://threejs.org/examples/#webgl_sprites)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_sprites.html)
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象，加载精灵纹理贴图
+2. 通过 `SpriteMaterial` 创建创建精灵材质对象，设置精灵纹理贴图
+3. 通过 `Sprite` 创建精灵模型对象，不需要设置几何体 geometry 参数
+4. 通过自定义函数 `spriteGenerator` 批量生成精灵模型对象
+
+> 自动旋转的三种贴图的精灵模型对象
