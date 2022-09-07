@@ -422,3 +422,17 @@ Sprite 用途：
 7. 调整纹理阵列和重复数量，设置草地纹理贴图
 
 > 通过一个精灵模拟模拟下雨的场景
+
+## [Lesson 31](./lesson31/src/main.ts)
+
+编辑关键帧并解析播放
+
+1. 通过 `SphereGeometry` 创建一个球体几何对象
+2. 通过 `BoxGeometry` 创建一个立方体几何对象
+3. 通过 `KeyframeTrack` 和 `AnimationClip` 创建关键帧动画
+4. 通过 `AnimationAction` 和 `AnimationMixer` 播放关键帧动画
+5. 通过 `Clock` 的 `getDelta()` 获得渲染间隔时间
+6. 在 `render()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
+   间间隔
+
+> 尺寸变化的球体几何对象，颜色变化的立方体几何对象
