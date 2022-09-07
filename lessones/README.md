@@ -397,8 +397,22 @@ WebGL / sprites
 [示例](https://threejs.org/examples/#webgl_sprites)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_sprites.html)
 
 1. 通过 `TextureLoader` 创建一个纹理加载器对象，加载精灵纹理贴图
-2. 通过 `SpriteMaterial` 创建创建精灵材质对象，设置精灵纹理贴图
+2. 通过 `SpriteMaterial` 创建精灵材质对象，设置精灵纹理贴图
 3. 通过 `Sprite` 创建精灵模型对象，不需要设置几何体 geometry 参数
 4. 通过自定义函数 `spriteGenerator` 批量生成精灵模型对象
 
 > 自动旋转的三种贴图的精灵模型对象
+
+## [Lesson 30](./lesson30/src/main.ts)
+
+精灵模型 Sprite 模拟下雨效果
+
+1. 通过 `TextureLoader` 创建一个纹理加载器对象，加载雨滴纹理贴图
+2. 通过 `SpriteMaterial` 创建精灵材质对象，设置雨滴纹理贴图
+3. 通过 `Sprite` 创建精灵模型对象，不需要设置几何体 geometry 参数
+4. 通过自定义函数 `spriteGenerator` 批量生成精灵模型对象
+5. 通过 `PlaneGeometry` 创建一个平面几何对象作为地面
+6. 通过 `TextureLoader` 创建一个纹理加载器对象，加载草地纹理贴图
+7. 调整纹理阵列和重复数量，设置草地纹理贴图
+
+> 通过一个精灵模拟模拟下雨的场景
