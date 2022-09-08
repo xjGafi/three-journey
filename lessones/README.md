@@ -430,9 +430,28 @@ Sprite 用途：
 1. 通过 `SphereGeometry` 创建一个球体几何对象
 2. 通过 `BoxGeometry` 创建一个立方体几何对象
 3. 通过 `KeyframeTrack` 和 `AnimationClip` 创建关键帧动画
-4. 通过 `AnimationAction` 和 `AnimationMixer` 播放关键帧动画
+4. 通过 `AnimationMixer` 播放关键帧动画
 5. 通过 `Clock` 的 `getDelta()` 获得渲染间隔时间
 6. 在 `render()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
    间间隔
 
 > 尺寸变化的球体几何对象，颜色变化的立方体几何对象
+
+## [Lesson 32](./lesson32/src/main.ts)
+
+解析外部模型的帧动画
+
+1. 通过 `HemisphereLight` 创建一个半球光（放置于场景之上的光源，光照颜色从天空光
+   线颜色渐变到地面光线颜色）
+2. 通过 `DirectionalLight` 创建平行光光源
+   - 使用 `castShadow` 设置光源可以用于计算阴影
+3. 通过 `PlaneGeometry` 创建一个平面几何对象作为地面
+4. 通过 `GridHelper` 创建一个坐标格辅助对象
+5. 通过 `GLTFLoader` 创建一个资源的加载器对象，加载模型
+6. 通过 `AnimationClip` 创建关键帧动画
+7. 通过 `AnimationMixer` 播放关键帧动画
+8. 通过 `Clock` 的 `getDelta()` 获得渲染间隔时间
+9. 在 `render()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
+   间间隔
+
+> 向前走的两条腿
