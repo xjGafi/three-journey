@@ -6,25 +6,27 @@ import {
   sRGBEncoding,
   Clock,
   AnimationMixer,
-  GridHelper,
   Mesh,
-  MeshPhongMaterial,
   PlaneGeometry,
   Color,
   Fog,
-  Material,
   DirectionalLight,
   HemisphereLight,
-  SkinnedMesh
+  SkinnedMesh,
+  MeshLambertMaterial,
+  RepeatWrapping,
+  Texture,
+  TextureLoader
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import SimpleSkinning from '@/models/SimpleSkinning.gltf?url';
+import grass from '@/textures/grass.png?url';
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
 
-let grid: GridHelper;
+let texture: Texture;
 
 let mixer: AnimationMixer;
 
@@ -42,15 +44,8 @@ function init() {
 
   // Scene
   scene = new Scene();
-  scene.background = new Color(0xa0a0a0);
-  scene.fog = new Fog(0xa0a0a0, 70, 100);
-
-  // Grid
-  grid = new GridHelper(500, 100, 0x000000, 0x000000);
-  grid.position.y = -5;
-  (grid.material as Material).opacity = 0.2;
-  (grid.material as Material).transparent = true;
-  scene.add(grid);
+  scene.background = new Color(0xffffff);
+  scene.fog = new Fog(0xffffff, 70, 100);
 
   // Light
   const hemiLight = new HemisphereLight(0xffffff, 0x444444, 0.6);
@@ -90,9 +85,17 @@ function init() {
 
 function addGround() {
   const geometry = new PlaneGeometry(500, 500);
-  const material = new MeshPhongMaterial({
-    color: 0x999999,
-    depthWrite: false
+
+  // 加载纹理贴图
+  texture = new TextureLoader().load(grass);
+  // 设置阵列
+  texture.wrapS = RepeatWrapping;
+  texture.wrapT = RepeatWrapping;
+  // uv 两个方向纹理重复数量
+  texture.repeat.set(100, 100);
+
+  const material = new MeshLambertMaterial({
+    map: texture // 设置纹理贴图
   });
 
   const ground = new Mesh(geometry, material);
@@ -139,11 +142,11 @@ function animate() {
   if (typeof mixer !== 'undefined') {
     // 获得两帧的时间间隔
     const getDelta = clock.getDelta();
+
+    // 地板后移，产生模型向前走的效果
+    texture.offset.y -= getDelta;
     // 更新混合器相关的时间
     mixer.update(getDelta);
-
-    // 地板网格后移，产生模型向前走的效果
-    grid.position.z -= getDelta * 5;
   }
 
   render();
