@@ -334,8 +334,9 @@ lightmap：[示例](https://threejs.org/examples/#webgl_materials_lightmap)、[�
 纹理对象阵列、偏移和旋转
 
 1. 通过 `TextureLoader` 创建一个纹理加载器对象
-2. 设置纹理阵列和重复数量
-3. 设置纹理偏移和旋转动画
+2. 通过 `PlaneGeometry` 创建一个平面几何对象
+3. 设置纹理阵列和重复数量
+4. 设置纹理偏移和旋转动画
 
 > 移动的纹理贴图
 
@@ -432,7 +433,7 @@ Sprite 用途：
 3. 通过 `KeyframeTrack` 和 `AnimationClip` 创建关键帧动画
 4. 通过 `AnimationMixer` 播放关键帧动画
 5. 通过 `Clock` 的 `getDelta()` 获得渲染间隔时间
-6. 在 `render()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
+6. 在 `animate()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
    间间隔
 
 > 尺寸变化的球体几何对象，颜色变化的立方体几何对象
@@ -446,12 +447,13 @@ Sprite 用途：
 2. 通过 `DirectionalLight` 创建平行光光源
    - 使用 `castShadow` 设置光源可以用于计算阴影
 3. 通过 `PlaneGeometry` 创建一个平面几何对象作为地面
+   - 设置纹理阵列和重复数量
 4. 通过 `GridHelper` 创建一个坐标格辅助对象
 5. 通过 `GLTFLoader` 创建一个资源的加载器对象，加载模型
 6. 通过 `AnimationClip` 创建关键帧动画
 7. 通过 `AnimationMixer` 播放关键帧动画
 8. 通过 `Clock` 的 `getDelta()` 获得渲染间隔时间
-9. 在 `render()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
+9. 在 `animate()` 中执行 `mixer.update(渲染间隔时间)` 设置帧动画系统两次渲染的时
    间间隔
 
 > 向前走的两条腿
