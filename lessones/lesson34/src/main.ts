@@ -160,7 +160,7 @@ function addAudioVisualizer() {
 
     // 音频分析器和音频绑定，可以实时采集音频时域数据进行快速傅里叶变换
     analyser = new AudioAnalyser(audio, 2 * COUNT);
-    console.log('🌈 analyser:', analyser.getFrequencyData());
+    // console.log('🌈 analyser:', analyser.getFrequencyData());
   });
 }
 

@@ -376,7 +376,7 @@ clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clea
 
 环境贴图
 
-[CubeTextureLoader ](https://threejs.org/docs/index.html?q=CubeTextureLoader#api/zh/loaders/CubeTextureLoader)
+[CubeTextureLoader ](https://threejs.org/docs/index.html#api/zh/loaders/CubeTextureLoader)
 WebGL / materials / cubemap /
 dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_cubemap_dynamic.html)
 
@@ -392,8 +392,8 @@ dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic
 
 精灵模型 Sprite 和 SpriteMaterial
 
-[精灵（Sprite）](https://threejs.org/docs/index.html?q=Sprite#api/zh/objects/Sprite)
-[精灵材质(SpriteMaterial)](https://threejs.org/docs/index.html?q=Sprite#api/zh/materials/SpriteMaterial)
+[精灵（Sprite）](https://threejs.org/docs/index.html#api/zh/objects/Sprite)
+[精灵材质(SpriteMaterial)](https://threejs.org/docs/index.html#api/zh/materials/SpriteMaterial)
 WebGL / sprites
 [示例](https://threejs.org/examples/#webgl_sprites)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_sprites.html)
 
@@ -496,3 +496,10 @@ Sprite 用途：
      型的长度方向伸缩变化。
 
 > 语音模块 Demo
+
+## [Lesson 35](./lesson35/src/main.ts)
+
+骨骼动画原理
+
+[蒙皮网格（SkinnedMesh）](https://threejs.org/docs/#api/zh/objects/SkinnedMesh)
+[示例](https://threejs.org/docs/scenes/bones-browser.html)、[代码](view-source:https://threejs.org/docs/scenes/bones-browser.html)
