@@ -19,6 +19,12 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Pane } from 'tweakpane';
 
+/**
+ * @params segmentHeight: 骨关节高度
+ * @params segmentCount: 骨关节数量
+ * @params height: 骨骼高度
+ * @params halfHeight: 骨骼高度 / 2
+ */
 interface Sizing {
   segmentHeight: number;
   segmentCount: number;
@@ -88,13 +94,12 @@ function addBones() {
   const segmentHeight = 8;
   const segmentCount = 4;
   const height = segmentHeight * segmentCount;
-  const halfHeight = height / 2;
 
   const sizing: Sizing = {
-    segmentHeight: segmentHeight,
-    segmentCount: segmentCount,
-    height: height,
-    halfHeight: halfHeight
+    segmentHeight,
+    segmentCount,
+    height,
+    halfHeight: height / 2
   };
 
   const geometry = createGeometry(sizing);
@@ -106,6 +111,7 @@ function addBones() {
 }
 
 function createGeometry(sizing: Sizing) {
+  // 创建一个八棱柱几何体，高度 sizing.height，顶点坐标 y 分量范围[-sizing.halfHeight, sizing.halfHeight]
   const geometry = new CylinderGeometry(
     5,
     5,
@@ -115,30 +121,30 @@ function createGeometry(sizing: Sizing) {
     true
   );
 
-  const position = geometry.attributes.position;
-
+  // 实现一个模拟腿部骨骼运动的效果
+  const { position } = geometry.attributes;
   const vertex = new Vector3();
 
-  const skinIndices = [];
-  const skinWeights = [];
+  const skinIndices = []; // 骨骼蒙皮索引属性
+  const skinWeights = []; // 骨骼蒙皮权重属性
 
   for (let i = 0; i < position.count; i++) {
-    vertex.fromBufferAttribute(position, i);
+    vertex.fromBufferAttribute(position, i); // 第 i 个顶点
 
     const y = vertex.y + sizing.halfHeight;
 
-    const skinIndex = Math.floor(y / sizing.segmentHeight);
-    const skinWeight = (y % sizing.segmentHeight) / sizing.segmentHeight;
+    const skinIndex = Math.floor(y / sizing.segmentHeight); // 设置每个顶点蒙皮索引属性
+    const skinWeight = (y % sizing.segmentHeight) / sizing.segmentHeight; // 设置每个顶点蒙皮权重属性
 
     skinIndices.push(skinIndex, skinIndex + 1, 0, 0);
     skinWeights.push(1 - skinWeight, skinWeight, 0, 0);
   }
 
-  geometry.setAttribute('skinIndex', new Uint16BufferAttribute(skinIndices, 4));
-  geometry.setAttribute(
-    'skinWeight',
-    new Float32BufferAttribute(skinWeights, 4)
-  );
+  const skinIndexAttribute = new Uint16BufferAttribute(skinIndices, 4);
+  const skinWeightAttribute = new Float32BufferAttribute(skinWeights, 4);
+
+  geometry.setAttribute('skinIndex', skinIndexAttribute);
+  geometry.setAttribute('skinWeight', skinWeightAttribute);
 
   return geometry;
 }
@@ -146,16 +152,17 @@ function createGeometry(sizing: Sizing) {
 function createBones(sizing: Sizing) {
   const bones = [];
 
-  let prevBone = new Bone();
+  let prevBone = new Bone(); // 上一节骨关节
   bones.push(prevBone);
   prevBone.position.y = -sizing.halfHeight;
 
+  // 设置关节父子关系，多个骨头关节构成一个树结构
   for (let i = 0; i < sizing.segmentCount; i++) {
-    const bone = new Bone();
-    bone.position.y = sizing.segmentHeight;
-    bones.push(bone);
-    prevBone.add(bone);
-    prevBone = bone;
+    const nextBone = new Bone();
+    nextBone.position.y = sizing.segmentHeight;
+    bones.push(nextBone);
+    prevBone.add(nextBone);
+    prevBone = nextBone;
   }
 
   return bones;
@@ -173,7 +180,16 @@ function createMesh(
   });
 
   const mesh = new SkinnedMesh(geometry, material);
+  // 创建骨骼系统
+  // 所有 Bone 对象插入到 Skeleton 中，全部设置为 .bones 属性的元素
   const skeleton = new Skeleton(bones);
+
+  // // 查看 .bones 属性中所有骨关节
+  // console.log('🌈 skeleton.bones:', skeleton.bones);
+  // // 返回所有关节的世界坐标
+  // skeleton.bones.forEach((bone) => {
+  //   console.log(bone.getWorldPosition(new Vector3()));
+  // });
 
   mesh.add(bones[0]);
 
@@ -199,7 +215,9 @@ function initPane() {
       title: 'reset'
     })
     .on('click', () => {
+      state.animateBones = false;
       mesh.pose();
+      pane.refresh();
     });
 
   const bones = mesh.skeleton.bones;
@@ -273,10 +291,11 @@ function animate() {
 
   const time = Date.now() * 0.001;
 
-  // Wiggle the bones
+  // 改变骨关节角度
   if (state.animateBones) {
     for (let i = 0; i < mesh.skeleton.bones.length; i++) {
-      mesh.skeleton.bones[i].rotation.z = Math.sin(time);
+      mesh.skeleton.bones[i].rotation.z =
+        (Math.sin(time) * 2) / mesh.skeleton.bones.length;
     }
   }
 
