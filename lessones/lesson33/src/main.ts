@@ -18,8 +18,7 @@ import {
   Texture,
   TextureLoader,
   AnimationAction,
-  AnimationClip,
-  LoopOnce
+  AnimationClip
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Stats from 'three/examples/jsm/libs/stats.module';
