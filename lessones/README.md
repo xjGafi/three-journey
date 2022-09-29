@@ -503,3 +503,11 @@ Sprite 用途：
 
 [蒙皮网格（SkinnedMesh）](https://threejs.org/docs/#api/zh/objects/SkinnedMesh)
 [示例](https://threejs.org/docs/scenes/bones-browser.html)、[代码](view-source:https://threejs.org/docs/scenes/bones-browser.html)
+
+> 八棱柱几何体骨骼动画
+
+解析外部模型变形动画目标数据
+
+[示例](https://threejs.org/examples/#webgl_animation_skinning_morph)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_morph.html)
+
+> 机器人动画

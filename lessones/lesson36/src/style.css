@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+}
+
+.tp-dfwv {
+  width: auto !important;
+  bottom: 8px;
+}
+
+.tp-rotv {
+  max-height: 100%;
+  overflow: scroll;
+}
+
+.tp-rotv::-webkit-scrollbar {
+  display: none;
+}
