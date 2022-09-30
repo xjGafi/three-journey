@@ -17,10 +17,14 @@ import {
   TextureLoader,
   Vector3,
   AnimationAction,
-  LoopOnce
+  LoopOnce,
+  Group,
+  Texture,
+  SkeletonHelper,
+  MeshStandardMaterial
 } from 'three';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
 import RobotExpressive from '@/models/RobotExpressive/RobotExpressive.glb?url';
@@ -36,7 +40,7 @@ let camera: PerspectiveCamera,
 interface Actions {
   [key: string]: AnimationAction;
 }
-let model: GLTF,
+let model: Group,
   mixer: AnimationMixer,
   currentAction: AnimationAction, // 当前播放的动作
   previousAction: AnimationAction, // 上一次播放的动作
@@ -52,7 +56,7 @@ const LOOP_REPEAT_LIST = [
 ];
 // 不可循环播放动作列表
 const LOOP_ONCE_LIST = [
-  { text: '死亡', value: 'Death' },
+  { text: '倒地', value: 'Death' },
   { text: '坐下', value: 'Sitting' },
   { text: '站立', value: 'Standing' },
   { text: '跳跃', value: 'Jump' },
@@ -62,6 +66,9 @@ const LOOP_ONCE_LIST = [
   { text: '攻击', value: 'Punch' },
   { text: '点赞', value: 'ThumbsUp' }
 ];
+
+let texture: Texture;
+let textureOffsetY = 0;
 
 interface Params {
   loopRepeat: string;
@@ -88,7 +95,6 @@ function init() {
   // Canera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.25, 100);
   camera.position.set(-5, 3, 10);
-  camera.lookAt(new Vector3(0, 2, 0));
 
   // Light
   const hemiLight = new HemisphereLight(0xffffff, 0x444444, 0.6);
@@ -117,10 +123,11 @@ function init() {
   renderer.outputEncoding = sRGBEncoding;
 
   // Controls
-  // const controls = new OrbitControls(camera, renderer.domElement);
-  // controls.minDistance = 5;
-  // controls.maxDistance = 50;
-  // controls.update();
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target = new Vector3(0, 2, 0);
+  controls.minDistance = 5;
+  controls.maxDistance = 40;
+  controls.update();
 
   // Clock
   clock = new Clock();
@@ -128,9 +135,6 @@ function init() {
   // Stats
   stats = Stats();
   document.body.appendChild(stats.dom);
-
-  // Pane
-  initPane();
 
   // Resize
   window.addEventListener('resize', onWindowResize);
@@ -140,12 +144,12 @@ function addGround() {
   const geometry = new PlaneGeometry(500, 500);
 
   // 加载纹理贴图
-  let texture = new TextureLoader().load(grass);
+  texture = new TextureLoader().load(grass);
   // 设置阵列
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
   // uv 两个方向纹理重复数量
-  texture.repeat.set(100, 100);
+  texture.repeat.set(200, 200);
 
   const material = new MeshLambertMaterial({
     map: texture // 设置纹理贴图
@@ -161,22 +165,33 @@ function addModel() {
   // 3D Model
   const loader = new GLTFLoader();
   loader.load(RobotExpressive, (gltf) => {
-    model = gltf;
-    scene.add(model.scene);
+    model = gltf.scene;
+    scene.add(model);
 
-    model.scene.traverse((child) => {
-      if (child.isObject3D) child.castShadow = true;
+    model.traverse((child) => {
+      // console.log('🌈 child:', child);
+      if (child.type === 'Mesh' || child.type === 'SkinnedMesh') {
+        // 开启阴影
+        child.castShadow = true;
+
+        // 显示模型网格
+        ((child as Mesh).material as MeshStandardMaterial).wireframe = true;
+      }
+
+      // 显示骨骼
+      const skeletonHelper = new SkeletonHelper(child);
+      scene.add(skeletonHelper);
     });
 
-    // model.scene 作为混合器的参数，可以播放 model.scene 包含的帧动画数据
-    mixer = new AnimationMixer(model.scene);
+    // gltf.scene 作为混合器的参数，可以播放 gltf.scene 包含的帧动画数据
+    mixer = new AnimationMixer(model);
 
     const loopOnceNameList = LOOP_ONCE_LIST.map((item) => {
       return item.value;
     });
     actions = {};
     // 获得剪辑 clip 对象
-    model.animations.map((clip) => {
+    gltf.animations.map((clip) => {
       // 剪辑 clip 作为参数，通过混合器 clipAction 方法返回一个操作对象 AnimationAction
       const action = mixer.clipAction(clip);
       actions[clip.name] = action;
@@ -190,6 +205,9 @@ function addModel() {
     // 播放默认动作
     currentAction = actions[PARAMS.loopRepeat];
     currentAction.play();
+
+    // Pane
+    initPane();
   });
 }
 
@@ -227,7 +245,7 @@ function initPane() {
       currentAction.timeScale = value;
     });
   // 恢复初始状态
-  folder.addButton({ title: '重 置' }).on('click', () => {
+  folder.addButton({ title: '重置动作' }).on('click', () => {
     PARAMS.loopRepeat = 'Walking';
     PARAMS.paused = false;
     PARAMS.timeScale = 1;
@@ -243,6 +261,23 @@ function initPane() {
       mixer.addEventListener('finished', restoreActive);
     });
   });
+
+  // // 面部表情动作配置（不生效）
+  // const face = model.getObjectByName('Head_4')!;
+  // const expressions = Object.keys((face as Mesh).morphTargetDictionary!);
+  // folder = pane.addFolder({ title: 'Face' });
+  // expressions.map((item) => {
+  //   folder
+  //     .addInput((face as Mesh).morphTargetDictionary!, item, {
+  //       step: 0.1,
+  //       min: 0,
+  //       max: 3
+  //     })
+  //     .on('change', ({ value }) => {
+  //       (face as Mesh).morphTargetDictionary![item] = value;
+  //       // console.log('🌈 face:', face.morphTargetDictionary);
+  //     });
+  // });
 }
 
 // 切换动作
@@ -284,6 +319,12 @@ function animate() {
   if (typeof mixer !== 'undefined') {
     // 获得两帧的时间间隔
     const getDelta = clock.getDelta();
+
+    // 地板贴图后移，产生模型向前走的效果
+    if (!PARAMS.paused) {
+      textureOffsetY -= getDelta * 2 * PARAMS.timeScale;
+    }
+    texture.offset.y = textureOffsetY;
 
     // 更新混合器相关的时间
     mixer.update(getDelta);
