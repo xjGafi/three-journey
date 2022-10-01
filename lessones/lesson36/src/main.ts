@@ -82,13 +82,13 @@ const meshConfig: modelConfig = {
 };
 
 interface AnimationConfig {
-  defaultAction: string; // 默认动作
+  action: string; // 默认动作
   paused: boolean; // 暂停
   timeScale: number; // 播放速度
   [key: string]: unknown;
 }
 const animationConfig: AnimationConfig = {
-  defaultAction: 'Walking',
+  action: 'Walking',
   paused: false,
   timeScale: 1
 };
@@ -178,6 +178,7 @@ function addModel() {
     model = gltf.scene;
     scene.add(model);
 
+    // 模型配置
     modelConfig();
 
     // gltf.scene 作为混合器的参数，可以播放 gltf.scene 包含的帧动画数据
@@ -200,7 +201,7 @@ function addModel() {
     });
 
     // 播放默认动作
-    currentAction = actions[animationConfig.defaultAction];
+    currentAction = actions[animationConfig.action];
     currentAction.play();
 
     // Pane
@@ -216,7 +217,7 @@ function initPane() {
   // 显示或隐藏影子
   folder
     .addInput(meshConfig, 'showShadow', {
-      label: '影子'
+      label: 'Show Shadow'
     })
     .on('change', () => {
       modelConfig();
@@ -224,7 +225,7 @@ function initPane() {
   // 显示或隐藏网格
   folder
     .addInput(meshConfig, 'showWireframe', {
-      label: '网格'
+      label: 'Show Wireframe'
     })
     .on('change', () => {
       modelConfig();
@@ -232,7 +233,7 @@ function initPane() {
   // 显示或隐藏骨骼
   folder
     .addInput(meshConfig, 'showSkeletonHelper', {
-      label: '骨骼'
+      label: 'Show Skeleton'
     })
     .on('change', () => {
       modelConfig();
@@ -242,8 +243,8 @@ function initPane() {
   folder = pane.addFolder({ title: 'Loop Repeat' });
   // 修改播放动作
   folder
-    .addInput(animationConfig, 'defaultAction', {
-      label: '动作',
+    .addInput(animationConfig, 'action', {
+      label: 'Action',
       options: LOOP_REPEAT_LIST
     })
     .on('change', ({ value }) => {
@@ -252,7 +253,7 @@ function initPane() {
   // 修改播放状态
   folder
     .addInput(animationConfig, 'paused', {
-      label: '暂停'
+      label: 'Paused'
     })
     .on('change', ({ value }) => {
       currentAction.paused = value;
@@ -260,7 +261,7 @@ function initPane() {
   // 修改播放速度
   folder
     .addInput(animationConfig, 'timeScale', {
-      label: '播放速度',
+      label: 'Time Scale',
       step: 0.1,
       min: 0,
       max: 3
@@ -270,7 +271,7 @@ function initPane() {
     });
   // 恢复初始状态
   folder.addButton({ title: '重置动作' }).on('click', () => {
-    animationConfig.defaultAction = 'Walking';
+    animationConfig.action = 'Walking';
     animationConfig.paused = false;
     animationConfig.timeScale = 1;
     pane.refresh();
@@ -287,24 +288,21 @@ function initPane() {
     });
   });
 
-  // // 面部表情动作配置（不生效）
-  // const face = model.getObjectByName('Head_4')!;
-  // const expressions = Object.keys((face as Mesh).morphTargetDictionary!);
-  // folder = pane.addFolder({ title: 'Face' });
-  // expressions.map((item) => {
-  //   folder
-  //     .addInput((face as Mesh).morphTargetDictionary!, item, {
-  //       step: 0.1,
-  //       min: 0,
-  //       max: 3
-  //     })
-  //     .on('change', ({ value }) => {
-  //       (face as Mesh).morphTargetDictionary![item] = value;
-  //       // console.log('🌈 face:', face.morphTargetDictionary);
-  //     });
-  // });
+  // 面部表情动作配置
+  folder = pane.addFolder({ title: 'Face Config' });
+  const face = model.getObjectByName('Head_4')!;
+  const expressions = Object.keys((face as Mesh).morphTargetDictionary!);
+  expressions.map((item, index) => {
+    folder.addInput((face as Mesh).morphTargetInfluences!, index, {
+      label: item,
+      step: 0.1,
+      min: 0,
+      max: 1
+    });
+  });
 }
 
+// 模型配置
 function modelConfig() {
   model.traverse((child) => {
     // console.log('🌈 child:', child);
@@ -354,7 +352,7 @@ function switchAction(name: string, duration: number) {
 function restoreActive() {
   animationConfig.paused = false;
   mixer.removeEventListener('finished', restoreActive);
-  switchAction(animationConfig.defaultAction, 0.2);
+  switchAction(animationConfig.action, 0.2);
 }
 
 function onWindowResize() {
