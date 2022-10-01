@@ -73,12 +73,13 @@ let textureOffsetY = 0;
 interface modelConfig {
   showShadow: boolean; // 显示影子
   showWireframe: boolean; // 显示模型网格
-  showSkeletonHelper: boolean; // 显示模型骨骼
+  showSkeleton: boolean; // 显示模型骨骼
+  [key: string]: unknown;
 }
 const meshConfig: modelConfig = {
   showShadow: true,
   showWireframe: false,
-  showSkeletonHelper: false
+  showSkeleton: false
 };
 
 interface AnimationConfig {
@@ -214,30 +215,16 @@ function initPane() {
 
   // 模型配置
   let folder = pane.addFolder({ title: 'Model Config' });
-  // 显示或隐藏影子
-  folder
-    .addInput(meshConfig, 'showShadow', {
-      label: 'Show Shadow'
-    })
-    .on('change', () => {
-      modelConfig();
-    });
-  // 显示或隐藏网格
-  folder
-    .addInput(meshConfig, 'showWireframe', {
-      label: 'Show Wireframe'
-    })
-    .on('change', () => {
-      modelConfig();
-    });
-  // 显示或隐藏骨骼
-  folder
-    .addInput(meshConfig, 'showSkeletonHelper', {
-      label: 'Show Skeleton'
-    })
-    .on('change', () => {
-      modelConfig();
-    });
+  // 显示或隐藏影子、网格、骨骼
+  for (const item in meshConfig) {
+    if (Object.prototype.hasOwnProperty.call(meshConfig, item)) {
+      folder
+        .addInput(meshConfig, item, { label: keyToLabel(item) })
+        .on('change', () => {
+          modelConfig();
+        });
+    }
+  }
 
   // 可循环播放动作配置
   folder = pane.addFolder({ title: 'Loop Repeat' });
@@ -270,7 +257,7 @@ function initPane() {
       currentAction.timeScale = value;
     });
   // 恢复初始状态
-  folder.addButton({ title: '重置动作' }).on('click', () => {
+  folder.addButton({ title: '重置' }).on('click', () => {
     animationConfig.action = 'Walking';
     animationConfig.paused = false;
     animationConfig.timeScale = 1;
@@ -316,7 +303,7 @@ function modelConfig() {
     }
 
     // 显示骨骼
-    if (meshConfig.showSkeletonHelper) {
+    if (meshConfig.showSkeleton) {
       const skeletonHelper = new SkeletonHelper(child);
       skeletonHelper.name = 'skeletonHelper';
       scene.add(skeletonHelper);
@@ -386,4 +373,11 @@ function animate() {
 
 function render() {
   renderer.render(scene, camera);
+}
+
+// 小驼峰转大写字母开头并且加空格
+function keyToLabel(str: string): string {
+  return str
+    .replace(/([A-Z])/g, ' $1') // 加空格
+    .replace(/^\S/, ($0) => $0.toUpperCase()); // 首字母大写
 }
