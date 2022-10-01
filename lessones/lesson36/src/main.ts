@@ -70,15 +70,25 @@ const LOOP_ONCE_LIST = [
 let texture: Texture;
 let textureOffsetY = 0;
 
-interface Params {
-  loopRepeat: string;
+interface modelConfig {
+  showShadow: boolean; // 显示影子
+  showWireframe: boolean; // 显示模型网格
+  showSkeletonHelper: boolean; // 显示模型骨骼
+}
+const meshConfig: modelConfig = {
+  showShadow: true,
+  showWireframe: false,
+  showSkeletonHelper: false
+};
+
+interface AnimationConfig {
+  defaultAction: string; // 默认动作
   paused: boolean; // 暂停
   timeScale: number; // 播放速度
   [key: string]: unknown;
 }
-// GUI 设置项
-const PARAMS: Params = {
-  loopRepeat: 'Walking',
+const animationConfig: AnimationConfig = {
+  defaultAction: 'Walking',
   paused: false,
   timeScale: 1
 };
@@ -168,20 +178,7 @@ function addModel() {
     model = gltf.scene;
     scene.add(model);
 
-    model.traverse((child) => {
-      // console.log('🌈 child:', child);
-      if (child.type === 'Mesh' || child.type === 'SkinnedMesh') {
-        // 开启阴影
-        child.castShadow = true;
-
-        // 显示模型网格
-        // ((child as Mesh).material as MeshStandardMaterial).wireframe = true;
-      }
-
-      // 显示骨骼
-      const skeletonHelper = new SkeletonHelper(child);
-      scene.add(skeletonHelper);
-    });
+    modelConfig();
 
     // gltf.scene 作为混合器的参数，可以播放 gltf.scene 包含的帧动画数据
     mixer = new AnimationMixer(model);
@@ -203,7 +200,7 @@ function addModel() {
     });
 
     // 播放默认动作
-    currentAction = actions[PARAMS.loopRepeat];
+    currentAction = actions[animationConfig.defaultAction];
     currentAction.play();
 
     // Pane
@@ -214,11 +211,38 @@ function addModel() {
 function initPane() {
   const pane = new Pane();
 
+  // 模型配置
+  let folder = pane.addFolder({ title: 'Model Config' });
+  // 显示或隐藏影子
+  folder
+    .addInput(meshConfig, 'showShadow', {
+      label: '影子'
+    })
+    .on('change', () => {
+      modelConfig();
+    });
+  // 显示或隐藏网格
+  folder
+    .addInput(meshConfig, 'showWireframe', {
+      label: '网格'
+    })
+    .on('change', () => {
+      modelConfig();
+    });
+  // 显示或隐藏骨骼
+  folder
+    .addInput(meshConfig, 'showSkeletonHelper', {
+      label: '骨骼'
+    })
+    .on('change', () => {
+      modelConfig();
+    });
+
   // 可循环播放动作配置
-  let folder = pane.addFolder({ title: 'Loop Repeat' });
+  folder = pane.addFolder({ title: 'Loop Repeat' });
   // 修改播放动作
   folder
-    .addInput(PARAMS, 'loopRepeat', {
+    .addInput(animationConfig, 'defaultAction', {
       label: '动作',
       options: LOOP_REPEAT_LIST
     })
@@ -227,7 +251,7 @@ function initPane() {
     });
   // 修改播放状态
   folder
-    .addInput(PARAMS, 'paused', {
+    .addInput(animationConfig, 'paused', {
       label: '暂停'
     })
     .on('change', ({ value }) => {
@@ -235,7 +259,7 @@ function initPane() {
     });
   // 修改播放速度
   folder
-    .addInput(PARAMS, 'timeScale', {
+    .addInput(animationConfig, 'timeScale', {
       label: '播放速度',
       step: 0.1,
       min: 0,
@@ -246,9 +270,9 @@ function initPane() {
     });
   // 恢复初始状态
   folder.addButton({ title: '重置动作' }).on('click', () => {
-    PARAMS.loopRepeat = 'Walking';
-    PARAMS.paused = false;
-    PARAMS.timeScale = 1;
+    animationConfig.defaultAction = 'Walking';
+    animationConfig.paused = false;
+    animationConfig.timeScale = 1;
     pane.refresh();
   });
 
@@ -256,7 +280,7 @@ function initPane() {
   folder = pane.addFolder({ title: 'Loop Once' });
   LOOP_ONCE_LIST.map((item) => {
     folder.addButton({ title: item.text }).on('click', () => {
-      PARAMS.paused = true;
+      animationConfig.paused = true;
       switchAction(item.value, 0.2);
       // 当前动作播放完成后恢复之前的可循环播放的动作
       mixer.addEventListener('finished', restoreActive);
@@ -281,6 +305,32 @@ function initPane() {
   // });
 }
 
+function modelConfig() {
+  model.traverse((child) => {
+    // console.log('🌈 child:', child);
+    if (child.type === 'Mesh' || child.type === 'SkinnedMesh') {
+      // 显示影子
+      child.castShadow = meshConfig.showShadow;
+
+      // 显示网格
+      ((child as Mesh).material as MeshStandardMaterial).wireframe =
+        meshConfig.showWireframe;
+    }
+
+    // 显示骨骼
+    if (meshConfig.showSkeletonHelper) {
+      const skeletonHelper = new SkeletonHelper(child);
+      skeletonHelper.name = 'skeletonHelper';
+      scene.add(skeletonHelper);
+    } else {
+      const skeletonHelper = scene.getObjectByName('skeletonHelper');
+      if (skeletonHelper) {
+        scene.remove(skeletonHelper);
+      }
+    }
+  });
+}
+
 // 切换动作
 function switchAction(name: string, duration: number) {
   previousAction = currentAction;
@@ -302,9 +352,9 @@ function switchAction(name: string, duration: number) {
 
 // 恢复动作
 function restoreActive() {
-  PARAMS.paused = false;
+  animationConfig.paused = false;
   mixer.removeEventListener('finished', restoreActive);
-  switchAction(PARAMS.loopRepeat, 0.2);
+  switchAction(animationConfig.defaultAction, 0.2);
 }
 
 function onWindowResize() {
@@ -323,8 +373,8 @@ function animate() {
     const getDelta = clock.getDelta();
 
     // 地板贴图后移，产生模型向前走的效果
-    if (!PARAMS.paused) {
-      textureOffsetY -= getDelta * 2 * PARAMS.timeScale;
+    if (!animationConfig.paused) {
+      textureOffsetY -= getDelta * 2 * animationConfig.timeScale;
     }
     texture.offset.y = textureOffsetY;
 
