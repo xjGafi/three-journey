@@ -49,13 +49,13 @@ let model: Group,
 // 用于 GUI 控制面板
 // 可循环播放动作列表
 const LOOP_REPEAT_LIST = [
-  { text: '晃动', value: 'Idle' },
   { text: '走路', value: 'Walking' },
-  { text: '跑步', value: 'Running' },
-  { text: '跳舞', value: 'Dance' }
+  { text: '跑步', value: 'Running' }
 ];
 // 不可循环播放动作列表
 const LOOP_ONCE_LIST = [
+  { text: '晃动', value: 'Idle' },
+  { text: '跳舞', value: 'Dance' },
   { text: '倒地', value: 'Death' },
   { text: '坐下', value: 'Sitting' },
   { text: '站立', value: 'Standing' },
@@ -175,7 +175,7 @@ function addModel() {
         child.castShadow = true;
 
         // 显示模型网格
-        ((child as Mesh).material as MeshStandardMaterial).wireframe = true;
+        // ((child as Mesh).material as MeshStandardMaterial).wireframe = true;
       }
 
       // 显示骨骼
@@ -256,6 +256,7 @@ function initPane() {
   folder = pane.addFolder({ title: 'Loop Once' });
   LOOP_ONCE_LIST.map((item) => {
     folder.addButton({ title: item.text }).on('click', () => {
+      PARAMS.paused = true;
       switchAction(item.value, 0.2);
       // 当前动作播放完成后恢复之前的可循环播放的动作
       mixer.addEventListener('finished', restoreActive);
@@ -301,6 +302,7 @@ function switchAction(name: string, duration: number) {
 
 // 恢复动作
 function restoreActive() {
+  PARAMS.paused = false;
   mixer.removeEventListener('finished', restoreActive);
   switchAction(PARAMS.loopRepeat, 0.2);
 }
