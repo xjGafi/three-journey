@@ -135,7 +135,7 @@ function init() {
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.target = new Vector3(0, 2, 0);
+  controls.target.set(0, 2, 0);
   controls.minDistance = 5;
   controls.maxDistance = 40;
   controls.update();
