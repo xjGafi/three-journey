@@ -15,7 +15,6 @@ import {
   MeshLambertMaterial,
   RepeatWrapping,
   TextureLoader,
-  Vector3,
   AnimationAction,
   LoopOnce,
   Group,

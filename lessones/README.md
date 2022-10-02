@@ -506,8 +506,19 @@ Sprite 用途：
 
 > 八棱柱几何体骨骼动画
 
+## [Lesson 36](./lesson36/src/main.ts)
+
 解析外部模型变形动画目标数据
 
 [示例](https://threejs.org/examples/#webgl_animation_skinning_morph)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_morph.html)
 
 > 机器人动画
+
+## [Lesson 37](./lesson37/src/main.ts)
+
+[光线投射 Raycaster](https://threejs.org/docs/index.html#api/zh/core/Raycaster)
+
+Raycasting to paint voxels
+[示例](https://threejs.org/examples/#webgl_interactive_voxelpainter)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_voxelpainter.html)
+
+> 简易体素地图编辑器
