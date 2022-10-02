@@ -151,7 +151,7 @@ function onPointerMove(event: PointerEvent) {
   if (intersects.length > 0) {
     const intersect = intersects[0];
 
-    // 更新位置
+    // 更新指示器位置
     rollOverMesh.position.copy(intersect.point).add(intersect!.face!.normal);
     rollOverMesh.position
       .divideScalar(50)
@@ -164,6 +164,7 @@ function onPointerMove(event: PointerEvent) {
 function onPointerDown(event: PointerEvent) {
   const intersects = getIntersect(event);
 
+  // 编辑地图
   if (intersects.length > 0) {
     const intersect = intersects[0];
 
@@ -186,6 +187,9 @@ function onPointerDown(event: PointerEvent) {
       objects.push(voxel);
     }
   }
+
+  // 更新指示器位置
+  onPointerMove(event);
 }
 
 function onKeyDown(event: KeyboardEvent) {
