@@ -6,6 +6,7 @@ body {
 .tp-dfwv {
   width: auto !important;
   bottom: 8px;
+  user-select: none;
 }
 
 .tp-rotv {

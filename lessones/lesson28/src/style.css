@@ -5,4 +5,5 @@ body {
 
 .tp-dfwv {
   width: auto !important;
+  user-select: none;
 }

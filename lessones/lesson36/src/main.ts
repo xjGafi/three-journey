@@ -148,7 +148,10 @@ function init() {
   document.body.appendChild(stats.dom);
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('resize', onResize);
+
+  // Fullscreen
+  window.addEventListener('dblclick', onDoubleClick);
 }
 
 function addGround() {
@@ -342,13 +345,33 @@ function restoreActive() {
   switchAction(animationConfig.action, 0.2);
 }
 
-function onWindowResize() {
+function onResize() {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
 
   renderer.setSize(innerWidth, innerHeight);
 
   render();
+}
+
+// https://www.icode9.com/content-1-259170.html
+function onDoubleClick() {
+  const isInFullScreen =
+    document?.fullscreenElement || (document as any)?.webkitFullscreenElement; // 兼容 Safari
+  if (!isInFullScreen) {
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if ((element as any).webkitRequestFullScreen) {
+      (element as any).webkitRequestFullScreen(); // 兼容 Safari
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if ((document as any).webkitExitFullscreen) {
+      (document as any).webkitExitFullscreen(); // 兼容 Safari
+    }
+  }
 }
 
 function animate() {
