@@ -34,7 +34,8 @@ let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   clock: Clock,
-  stats: Stats;
+  stats: Stats,
+  controls: OrbitControls;
 
 interface Actions {
   [key: string]: AnimationAction;
@@ -133,11 +134,11 @@ function init() {
   renderer.outputEncoding = sRGBEncoding;
 
   // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 2, 0);
+  controls.enableDamping = true;
   controls.minDistance = 5;
   controls.maxDistance = 40;
-  controls.update();
 
   // Clock
   clock = new Clock();
@@ -366,7 +367,9 @@ function animate() {
     mixer.update(getDelta);
   }
 
+  controls.update();
   stats.update();
+
   render();
 }
 

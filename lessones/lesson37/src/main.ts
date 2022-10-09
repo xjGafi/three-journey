@@ -24,10 +24,11 @@ import grass from '@/textures/grass.png?url';
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
-  stats: Stats;
+  stats: Stats,
+  controls: OrbitControls;
 
 let plane: Mesh,
-  rollOverMesh: Mesh,
+  rollOver: Mesh,
   voxelGeo: BoxGeometry,
   voxelMaterial: MeshLambertMaterial;
 
@@ -35,7 +36,7 @@ const objects: Array<Mesh> = [];
 
 let pointer: Vector2,
   raycaster: Raycaster,
-  isShiftDown = false;
+  isShiftLeftDown = false;
 
 init();
 animate();
@@ -73,10 +74,10 @@ function init() {
   renderer.setPixelRatio(devicePixelRatio);
 
   // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
   controls.minDistance = 5;
   controls.maxDistance = 2000;
-  controls.update();
 
   // Stats
   stats = Stats();
@@ -94,9 +95,9 @@ function addModel() {
     opacity: 0.5,
     transparent: true
   });
-  rollOverMesh = new Mesh(rollOverGeo, rollOverMaterial);
-  rollOverMesh.position.set(25, 25, 25);
-  scene.add(rollOverMesh);
+  rollOver = new Mesh(rollOverGeo, rollOverMaterial);
+  rollOver.position.set(25, 25, 25);
+  scene.add(rollOver);
 
   // cubes
   voxelGeo = new BoxGeometry(50, 50, 50);
@@ -152,12 +153,8 @@ function onPointerMove(event: PointerEvent) {
     const intersect = intersects[0];
 
     // 更新指示器位置
-    rollOverMesh.position.copy(intersect.point).add(intersect!.face!.normal);
-    rollOverMesh.position
-      .divideScalar(50)
-      .floor()
-      .multiplyScalar(50)
-      .addScalar(25);
+    rollOver.position.copy(intersect.point).add(intersect!.face!.normal);
+    rollOver.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
   }
 }
 
@@ -169,7 +166,7 @@ function onPointerDown(event: PointerEvent) {
     const intersect = intersects[0];
 
     // delete voxel
-    if (isShiftDown) {
+    if (isShiftLeftDown) {
       if (intersect.object !== plane) {
         scene.remove(intersect.object);
 
@@ -188,14 +185,14 @@ function onPointerDown(event: PointerEvent) {
     }
   }
 
-  // 更新指示器位置
+  // 处理在不挪动鼠标的情况下，连续新增 voxel 时，指示器位置不更新问题
   onPointerMove(event);
 }
 
 function onKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case 'ShiftLeft':
-      isShiftDown = true;
+      isShiftLeftDown = true;
       break;
   }
 }
@@ -203,7 +200,7 @@ function onKeyDown(event: KeyboardEvent) {
 function onKeyUp(event: KeyboardEvent) {
   switch (event.code) {
     case 'ShiftLeft':
-      isShiftDown = false;
+      isShiftLeftDown = false;
       break;
   }
 }
@@ -220,7 +217,9 @@ function onResize() {
 function animate() {
   requestAnimationFrame(animate);
 
+  controls.update();
   stats.update();
+
   render();
 }
 
