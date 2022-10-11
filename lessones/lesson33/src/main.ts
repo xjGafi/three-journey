@@ -18,7 +18,8 @@ import {
   Texture,
   TextureLoader,
   AnimationAction,
-  AnimationClip
+  AnimationClip,
+  NearestFilter
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Stats from 'three/examples/jsm/libs/stats.module';
@@ -122,7 +123,9 @@ function addGround() {
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
   // uv 两个方向纹理重复数量
-  texture.repeat.set(100, 100);
+  texture.repeat.set(50, 50);
+  // 防止纹理贴图模糊
+  texture.magFilter = NearestFilter;
 
   const material = new MeshLambertMaterial({
     map: texture // 设置纹理贴图
@@ -209,7 +212,7 @@ function animate() {
 
     // 地板贴图后移，产生模型向前走的效果
     if (!action.paused) {
-      textureOffsetY -= getDelta * 3 * PARAMS.timeScale;
+      textureOffsetY -= getDelta * 2 * PARAMS.timeScale;
     }
     texture.offset.y = textureOffsetY;
 

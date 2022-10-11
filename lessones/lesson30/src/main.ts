@@ -11,7 +11,8 @@ import {
   PlaneGeometry,
   MeshBasicMaterial,
   Mesh,
-  RepeatWrapping
+  RepeatWrapping,
+  NearestFilter
 } from 'three';
 
 import rain from '@/textures/rain.png?url';
@@ -40,7 +41,7 @@ function init() {
   group = new Group();
   scene.add(group);
   spriteGenerator(rain, 1000, 0.15);
-  groundGenerator(50, grass, 50);
+  groundGenerator(50, grass, 20);
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
@@ -87,6 +88,8 @@ function groundGenerator(size: number, url: string, repeat: number) {
   texture.wrapT = RepeatWrapping;
   // uv 两个方向纹理重复数量
   texture.repeat.set(repeat, repeat);
+  // 防止纹理贴图模糊
+  texture.magFilter = NearestFilter;
   const material = new MeshBasicMaterial({ map: texture });
 
   const ground = new Mesh(geometry, material);

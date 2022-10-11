@@ -20,7 +20,8 @@ import {
   Group,
   Texture,
   SkeletonHelper,
-  MeshStandardMaterial
+  MeshStandardMaterial,
+  NearestFilter
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -163,7 +164,9 @@ function addGround() {
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
   // uv 两个方向纹理重复数量
-  texture.repeat.set(200, 200);
+  texture.repeat.set(100, 100);
+  // 防止纹理贴图模糊
+  texture.magFilter = NearestFilter;
 
   const material = new MeshLambertMaterial({
     map: texture // 设置纹理贴图
@@ -382,7 +385,7 @@ function animate() {
 
     // 地板贴图后移，产生模型向前走的效果
     if (!animationConfig.paused) {
-      textureOffsetY -= getDelta * 2 * animationConfig.timeScale;
+      textureOffsetY -= getDelta * 1.5 * animationConfig.timeScale;
     }
     texture.offset.y = textureOffsetY;
 
