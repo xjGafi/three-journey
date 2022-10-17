@@ -522,3 +522,9 @@ Raycasting to paint voxels
 [示例](https://threejs.org/examples/#webgl_interactive_voxelpainter)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_voxelpainter.html)
 
 > 简易体素地图编辑器
+
+## [Lesson 38](./lesson38/src/main.ts)
+
+材质 Material
+
+> 调试各种材质 Material

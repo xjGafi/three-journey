@@ -89,6 +89,7 @@ function groundGenerator(size: number, url: string, repeat: number) {
   // uv 两个方向纹理重复数量
   texture.repeat.set(repeat, repeat);
   // 防止纹理贴图模糊
+  texture.minFilter = NearestFilter;
   texture.magFilter = NearestFilter;
   const material = new MeshBasicMaterial({ map: texture });
 

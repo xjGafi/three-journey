@@ -95,6 +95,7 @@ function addGround() {
   // uv 两个方向纹理重复数量
   texture.repeat.set(50, 50);
   // 防止纹理贴图模糊
+  texture.minFilter = NearestFilter;
   texture.magFilter = NearestFilter;
 
   const material = new MeshLambertMaterial({
