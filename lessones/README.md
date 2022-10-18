@@ -527,4 +527,17 @@ Raycasting to paint voxels
 
 材质 Material
 
-> 调试各种材质 Material
+1. MeshBasicMaterial: 一个以简单着色（平面或线框）方式来绘制几何体的材质
+2. MeshNormalMaterial: 一种把法向量映射到 RGB 颜色的材质
+3. MeshMatcapMaterial:由一个材质捕捉（MatCap，或光照球（Lit Sphere））纹理所定义
+   ，其编码了材质的颜色与明暗
+4. MeshDepthMaterial: 一种按深度绘制几何体的材质
+5. MeshLambertMaterial: 一种非光泽表面的材质，没有镜面高光
+6. MeshPhongMaterial: 一种用于具有镜面高光的光泽表面的材质
+7. MeshToonMaterial: 一种用于实现卡通着色的材质
+8. MeshStandardMaterial: 一种基于物理的标准材质 (PBR)，使用 Metallic-Roughness
+   工作流程
+9. MeshPhysicalMaterial: 物理网格材质，MeshStandardMaterial 的扩展，提供了更高级
+   的基于物理的渲染属性
+
+> 调试常用材质 Material
