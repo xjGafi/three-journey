@@ -9,14 +9,17 @@ import {
   TextureLoader,
   MeshMatcapMaterial,
   TorusGeometry,
-  Clock
+  Clock,
+  Texture
 } from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
-import matcapsUrl from '@/textures/matcaps/8.png?url';
+import { Pane } from 'tweakpane';
+
+import { textureMap } from './textures';
 import helvetikerRegularUrl from '@/fonts/helvetiker_regular.typeface.json?url';
 
 let camera: OrthographicCamera,
@@ -26,6 +29,10 @@ let camera: OrthographicCamera,
   controls: OrbitControls;
 
 let cameraZoom = 5; // 三维场景显示范围控制系数，系数越大，显示的范围越大
+
+const textureLoader = new TextureLoader();
+
+let material: MeshMatcapMaterial, matcapTexture: Texture;
 
 const clock = new Clock();
 
@@ -64,22 +71,19 @@ function init() {
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(devicePixelRatio);
 
-  // Textures
-  const textureLoader = new TextureLoader();
-  const matcapTexture = textureLoader.load(matcapsUrl);
-
   // Object
   const fontLoader = new FontLoader();
   fontLoader.load(helvetikerRegularUrl, (font) => {
     // 贴图
-    const material = new MeshMatcapMaterial();
+    material = new MeshMatcapMaterial();
+    matcapTexture = textureLoader.load(textureMap.matcaps1);
     material.matcap = matcapTexture;
 
     // 字体
     const textGeometry = new TextGeometry('Hello, three.js!', {
       font,
-      size: 0.8,
-      height: 0.3,
+      size: 0.5,
+      height: 0.2,
       curveSegments: 12,
       bevelEnabled: true,
       bevelThickness: 0.03,
@@ -113,12 +117,33 @@ function init() {
   controls.maxZoom = 2;
   controls.enableDamping = true;
 
+  // Pane
+  initPane();
+
   // Stats
   stats = Stats();
   document.body.appendChild(stats.dom);
 
   // Resize
   window.addEventListener('resize', onWindowResize);
+}
+
+function initPane() {
+  const pane = new Pane({ title: 'Material' });
+  // 修改材质贴图
+  for (const key in textureMap) {
+    if (Object.prototype.hasOwnProperty.call(textureMap, key)) {
+      const url = textureMap[key];
+      pane
+        .addButton({
+          title: key
+        })
+        .on('click', () => {
+          matcapTexture = textureLoader.load(url);
+          material.matcap = matcapTexture;
+        });
+    }
+  }
 }
 
 function onWindowResize() {

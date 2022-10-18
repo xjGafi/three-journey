@@ -108,9 +108,9 @@ function addObjects() {
 
   // 由一个材质捕捉（MatCap，或光照球（Lit Sphere））纹理所定义，其编码了材质的颜色与明暗。
   // 由于 mapcap 图像文件编码了烘焙过的光照，不对灯光作出反应。
-  // const matcapTextrue = textureLoader.load(matcapsUrl);
+  // const matcapTexture = textureLoader.load(matcapsUrl);
   // const material = new MeshMatcapMaterial();
-  // material.matcap = matcapTextrue;
+  // material.matcap = matcapTexture;
 
   // 一种按深度绘制几何体的材质。
   // 深度基于相机远近平面。白色最近，黑色最远。应用场景：雾
