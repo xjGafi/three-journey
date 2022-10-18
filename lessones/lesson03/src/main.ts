@@ -76,20 +76,19 @@ function init() {
   fontLoader.load(helvetikerRegularUrl, (font) => {
     // 贴图
     material = new MeshMatcapMaterial();
-    matcapTexture = textureLoader.load(textureMap.matcaps1);
-    material.matcap = matcapTexture;
+    setMaterialMatcap(textureMap.matcaps3);
 
     // 字体
     const textGeometry = new TextGeometry('Hello, three.js!', {
       font,
-      size: 0.5,
-      height: 0.2,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 0.03,
-      bevelSize: 0.02,
+      size: 1, // 大小
+      height: 0.3, // 厚度
+      curveSegments: 10, // 曲线的分段数
+      bevelEnabled: true, // 是否开启斜角
+      bevelThickness: 0.03, // 文本上斜角的深度
+      bevelSize: 0.02, // 斜角与原始文本轮廓之间的延伸距离
       bevelOffset: 0,
-      bevelSegments: 5
+      bevelSegments: 10 // 斜角的分段数
     });
     textGeometry.center();
     const text = new Mesh(textGeometry, material);
@@ -97,11 +96,11 @@ function init() {
 
     // 甜甜圈
     const donutGeometry = new TorusGeometry(0.3, 0.2, 32, 64);
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
       const donut = new Mesh(donutGeometry, material);
-      donut.position.x = (Math.random() - 0.5) * 10;
-      donut.position.y = (Math.random() - 0.5) * 10;
-      donut.position.z = (Math.random() - 0.5) * 10;
+      donut.position.x = (Math.random() - 0.5) * 15;
+      donut.position.y = (Math.random() - 0.5) * 15;
+      donut.position.z = (Math.random() - 0.5) * 15;
       donut.rotation.x = Math.random() * Math.PI;
       donut.rotation.y = Math.random() * Math.PI;
       const scale = Math.random();
@@ -114,7 +113,7 @@ function init() {
   // Controls
   controls = new OrbitControls(camera, renderer.domElement);
   controls.minZoom = 0.1;
-  controls.maxZoom = 2;
+  controls.maxZoom = 10;
   controls.enableDamping = true;
 
   // Pane
@@ -128,6 +127,11 @@ function init() {
   window.addEventListener('resize', onWindowResize);
 }
 
+function setMaterialMatcap(url: string) {
+  matcapTexture = textureLoader.load(url);
+  material.matcap = matcapTexture;
+}
+
 function initPane() {
   const pane = new Pane({ title: 'Material' });
   // 修改材质贴图
@@ -139,8 +143,7 @@ function initPane() {
           title: key
         })
         .on('click', () => {
-          matcapTexture = textureLoader.load(url);
-          material.matcap = matcapTexture;
+          setMaterialMatcap(url);
         });
     }
   }
