@@ -19,7 +19,7 @@
 WebGL / geometry /
 text：[示例](https://threejs.org/examples/#webgl_geometry_text)、[代码](https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text.html)
 
-> 提夫尼绿色 Hello, three.js! 立体字
+> 旋转的 Hello, three.js! 立体字和甜甜圈，支持动态修改贴图
 
 ## [Lesson 04](./lesson04/src/main.ts)
 
