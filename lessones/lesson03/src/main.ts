@@ -72,13 +72,13 @@ function init() {
   renderer.setPixelRatio(devicePixelRatio);
 
   // Object
+  // console.time('font');
+  // 贴图
+  material = new MeshMatcapMaterial();
+  setMaterialMatcap(textureMap.matcaps3);
+  // 字体
   const fontLoader = new FontLoader();
   fontLoader.load(helvetikerRegularUrl, (font) => {
-    // 贴图
-    material = new MeshMatcapMaterial();
-    setMaterialMatcap(textureMap.matcaps3);
-
-    // 字体
     const textGeometry = new TextGeometry('Hello, three.js!', {
       font,
       size: 1, // 大小
@@ -93,22 +93,22 @@ function init() {
     textGeometry.center();
     const text = new Mesh(textGeometry, material);
     scene.add(text);
-
-    // 甜甜圈
-    const donutGeometry = new TorusGeometry(0.3, 0.2, 32, 64);
-    for (let i = 0; i < 200; i++) {
-      const donut = new Mesh(donutGeometry, material);
-      donut.position.x = (Math.random() - 0.5) * 15;
-      donut.position.y = (Math.random() - 0.5) * 15;
-      donut.position.z = (Math.random() - 0.5) * 15;
-      donut.rotation.x = Math.random() * Math.PI;
-      donut.rotation.y = Math.random() * Math.PI;
-      const scale = Math.random();
-      donut.scale.set(scale, scale, scale);
-
-      scene.add(donut);
-    }
   });
+  // console.timeEnd('font');
+  // 甜甜圈
+  const donutGeometry = new TorusGeometry(0.3, 0.2, 32, 64);
+  for (let i = 0; i < 200; i++) {
+    const donut = new Mesh(donutGeometry, material);
+    donut.position.x = (Math.random() - 0.5) * 15;
+    donut.position.y = (Math.random() - 0.5) * 15;
+    donut.position.z = (Math.random() - 0.5) * 15;
+    donut.rotation.x = Math.random() * Math.PI;
+    donut.rotation.y = Math.random() * Math.PI;
+    const scale = Math.random();
+    donut.scale.set(scale, scale, scale);
+
+    scene.add(donut);
+  }
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement);
