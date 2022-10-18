@@ -24,7 +24,6 @@ import {
   NearestFilter,
   MeshStandardMaterial,
   BufferAttribute,
-  AxesHelper,
   CubeTextureLoader
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -62,14 +61,10 @@ function init() {
 
   // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 20);
-  // camera.position.z = 6;
+  camera.position.z = 6;
 
   // Scene
   scene = new Scene();
-
-  // Axes
-  const axesHelper = new AxesHelper(100);
-  scene.add(axesHelper);
 
   // Lights
   const ambientLight = new AmbientLight(0xffffff, 0.5);
@@ -90,10 +85,10 @@ function init() {
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 0, -1);
+  controls.target.set(0, 0, -2);
   controls.enableDamping = true;
-  controls.minDistance = 2;
-  controls.maxDistance = 10;
+  controls.minDistance = 5;
+  controls.maxDistance = 15;
 
   // Resize
   window.addEventListener('resize', onResize);
