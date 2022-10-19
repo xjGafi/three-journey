@@ -198,7 +198,7 @@ function animate() {
 
   const speed = elapsedTime / 5;
 
-  sphere.position.z = Math.sin(speed) / 2;
+  sphere.position.z = Math.sin(speed);
   cube.rotation.set(speed, speed, 0);
   torus.rotation.set(speed, speed, 0);
 
