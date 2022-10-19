@@ -158,6 +158,8 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 ## [Lesson 12](./lesson12/src/main.ts)
 
+<!-- TODO: 修改文档 -->
+
 常见光源类型
 
 1. 通过 `BoxGeometry` 创建一个立方体几何对象（颜色为： 0xffffff）
