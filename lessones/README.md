@@ -158,17 +158,21 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 ## [Lesson 12](./lesson12/src/main.ts)
 
-<!-- TODO: 修改文档 -->
-
 常见光源类型
 
-1. 通过 `BoxGeometry` 创建一个立方体几何对象（颜色为： 0xffffff）
-2. 通过 `AmbientLight` 创建 **环境光**（颜色为： 0x0000ff)
-3. 通过 `SpotLight` 创建 **聚光光源**（颜色为： 0xff0000)
-4. 通过 `PointLight` 创建 **点光源**（颜色为： 0xff0000)
-5. 通过 `DirectionalLight` 创建 **平行光光源**（颜色为： 0xff0000)
+1. 通过 `MeshStandardMaterial` 创建一种基于物理的标准材质，设置 0.4 的反射率
+2. 通过 `SphereGeometry` 创建一个球形几何对象，添加 z 轴的平移动画
+3. 通过 `BoxGeometry` 创建一个立方体几何对象，添加 x、y 轴的旋转动画
+4. 通过 `TorusGeometry` 创建一个甜甜圈几何对象，添加 x、y 轴的旋转动画
+5. 通过 `PlaneGeometry` 创建一个平面几何对象
+6. 通过 `AmbientLight` 创建 **环境光**
+7. 通过 `DirectionalLight` 创建 **平行光光源**，添加光源辅助对象
+8. 通过 `HemisphereLight` 创建 **半球光光源**，添加光源辅助对象
+9. 通过 `PointLight` 创建 **点光源**，添加光源辅助对象
+10. 通过 `RectAreaLight` 创建 **平面光光源**，添加光源辅助对象
+11. 通过 `SpotLight` 创建 **聚光光源**，添加光源辅助对象
 
-> 一个由四种光源照射的立方体几何对象
+> 一个由 6 种光源照射的球体、立方体、甜甜圈和平面几何对象
 
 ## [Lesson 13](./lesson13/src/main.ts)
 
@@ -529,17 +533,17 @@ Raycasting to paint voxels
 
 材质 Material
 
-1. MeshBasicMaterial: 一个以简单着色（平面或线框）方式来绘制几何体的材质
-2. MeshNormalMaterial: 一种把法向量映射到 RGB 颜色的材质
-3. MeshMatcapMaterial:由一个材质捕捉（MatCap，或光照球（Lit Sphere））纹理所定义
-   ，其编码了材质的颜色与明暗
-4. MeshDepthMaterial: 一种按深度绘制几何体的材质
-5. MeshLambertMaterial: 一种非光泽表面的材质，没有镜面高光
-6. MeshPhongMaterial: 一种用于具有镜面高光的光泽表面的材质
-7. MeshToonMaterial: 一种用于实现卡通着色的材质
-8. MeshStandardMaterial: 一种基于物理的标准材质 (PBR)，使用 Metallic-Roughness
+1. `MeshBasicMaterial`: 一个以简单着色（平面或线框）方式来绘制几何体的材质
+2. `MeshNormalMaterial`: 一种把法向量映射到 RGB 颜色的材质
+3. `MeshMatcapMaterial`:由一个材质捕捉（MatCap，或光照球（Lit Sphere））纹理所定
+   义，其编码了材质的颜色与明暗
+4. `MeshDepthMaterial`: 一种按深度绘制几何体的材质
+5. `MeshLambertMaterial`: 一种非光泽表面的材质，没有镜面高光
+6. `MeshPhongMaterial`: 一种用于具有镜面高光的光泽表面的材质
+7. `MeshToonMaterial`: 一种用于实现卡通着色的材质
+8. `MeshStandardMaterial`: 一种基于物理的标准材质 (PBR)，使用 Metallic-Roughness
    工作流程
-9. MeshPhysicalMaterial: 物理网格材质，MeshStandardMaterial 的扩展，提供了更高级
-   的基于物理的渲染属性
+9. `MeshPhysicalMaterial`: 物理网格材质，`MeshStandardMaterial` 的扩展，提供了更
+   高级的基于物理的渲染属性
 
 > 调试常用材质 Material

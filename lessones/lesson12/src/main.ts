@@ -91,7 +91,7 @@ function addObjects() {
 
   // Material
   const material = new MeshStandardMaterial();
-  material.roughness = 0.4;
+  material.roughness = 0.4;  // 反射率
 
   // Objects
   sphere = new Mesh(new SphereGeometry(0.5, 32, 32), material);
