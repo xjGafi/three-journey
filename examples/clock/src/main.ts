@@ -71,8 +71,12 @@ function updateView() {
     const text = document.querySelector('h1#clock')!;
     text.innerHTML = currentTime;
 
-    const color = `#${h + m + s}`;
-    (mesh.material as MeshBasicMaterial).color = new Color(color);
+    const timePercentage = (current: string, total: number) =>
+      (Number(current) + 1) / total;
+    const r = timePercentage(h, 24);
+    const g = timePercentage(m, 60);
+    const b = timePercentage(s, 60);
+    (mesh.material as MeshBasicMaterial).color = new Color(r, g, b);
   }
   time = currentTime;
 }

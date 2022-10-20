@@ -18,4 +18,4 @@
 ## 目录说明
 
 - [lessones：教程示例](./lessones/README.md)
-- [examples：小应用](./examples/README.md)
+- [examples：应用](./examples/README.md)
