@@ -14,19 +14,28 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import point from '@/textures/particles/1.png?url';
+import { Pane } from 'tweakpane';
+
+import { textureMap } from './textures';
 
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   controls: OrbitControls;
 
-let geometry: BufferGeometry, material: PointsMaterial, points: Points;
+let textureLoader = new TextureLoader(),
+  geometry = new BufferGeometry(),
+  material = new PointsMaterial(),
+  points: Points;
+
+const PARAMS = {
+  COUNT: 5000,
+  RANGE: 10,
+  SIZE: 0.1,
+  URL: textureMap.particles1
+};
 
 const clock = new Clock();
-
-const COUNT = 5000;
-const RANGE = 10;
 
 init();
 animate();
@@ -42,8 +51,8 @@ function init() {
   scene = new Scene();
 
   // Object
-  geometry = geometryGenerator(COUNT);
-  material = materialGenerator(point, 0.1);
+  geometryGenerator();
+  materialGenerator();
   points = new Points(geometry, material);
   scene.add(points);
 
@@ -58,42 +67,83 @@ function init() {
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
+  // Pane
+  initPane();
+
   // Resize
   window.addEventListener('resize', onWindowResize);
 }
 
-function geometryGenerator(count: number) {
-  const geometry = new BufferGeometry();
+function geometryGenerator() {
+  const positions = new Float32Array(PARAMS.COUNT * 3);
+  const colors = new Float32Array(PARAMS.COUNT * 3);
 
-  const positions = new Float32Array(count * 3);
-  const colors = new Float32Array(count * 3);
-
-  for (let i = 0; i < count * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * RANGE;
+  for (let i = 0; i < PARAMS.COUNT * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * PARAMS.RANGE;
     colors[i] = Math.random();
   }
 
   geometry.setAttribute('position', new BufferAttribute(positions, 3));
   geometry.setAttribute('color', new BufferAttribute(colors, 3));
-
-  return geometry;
 }
 
-function materialGenerator(url: string, size: number) {
-  const material = new PointsMaterial();
-
-  material.size = size;
+function materialGenerator() {
+  material.size = PARAMS.SIZE;
   material.transparent = true;
-  const textureLoader = new TextureLoader();
-  const texture = textureLoader.load(url);
+  const texture = textureLoader.load(PARAMS.URL);
   material.alphaMap = texture; // alpha 贴图是一张灰度纹理，用于控制整个表面的不透明度。
   // material.alphaTest = 0.01;
   // material.depthTest = false;
   material.depthWrite = false; // 防止 z-index 叠加时导致闪烁
   material.blending = AdditiveBlending; // 设置混合模式
   material.vertexColors = true; // 使用顶点着色器
+}
 
-  return material;
+function initPane() {
+  const pane = new Pane();
+
+  // 修改尺寸
+  let folder = pane.addFolder({ title: 'Number' });
+  folder
+    .addInput(PARAMS, 'COUNT', {
+      label: 'Count',
+      max: 50000,
+      min: 5000,
+      step: 100
+    })
+    .on('change', geometryGenerator);
+  folder
+    .addInput(PARAMS, 'RANGE', {
+      label: 'Range',
+      max: 20,
+      min: 10,
+      step: 1
+    })
+    .on('change', geometryGenerator);
+  folder
+    .addInput(PARAMS, 'SIZE', {
+      label: 'Size',
+      max: 0.5,
+      min: 0.1,
+      step: 0.01
+    })
+    .on('change', materialGenerator);
+
+  // 修改材质贴图
+  folder = pane.addFolder({ title: 'Texture' });
+  for (const key in textureMap) {
+    if (Object.prototype.hasOwnProperty.call(textureMap, key)) {
+      const url = textureMap[key];
+      folder
+        .addButton({
+          title: key
+        })
+        .on('click', () => {
+          PARAMS.URL = url;
+          materialGenerator();
+        });
+    }
+  }
 }
 
 function onWindowResize() {
@@ -113,7 +163,7 @@ function animate() {
   const elapsedTime = clock.getElapsedTime();
 
   // 正弦波动画
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < PARAMS.COUNT; i++) {
     const postionX = geometry.attributes.position.getX(i);
     geometry.attributes.position.setY(i, Math.sin(elapsedTime + postionX));
   }
