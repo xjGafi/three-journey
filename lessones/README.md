@@ -550,7 +550,7 @@ Raycasting to paint voxels
 
 ## [Lesson 39](./lesson39/src/main.ts)
 
-粒子效果
+正弦波粒子动画
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有 5000 个随机顶点数
    据的几何体
@@ -561,4 +561,17 @@ Raycasting to paint voxels
 3. 通过 `Points` 创建点模型对象
 4. 在 `animate()` 中创建正弦波动画
 
-> 正弦波粒子动画
+## [Lesson 40](./lesson40/src/main.ts)
+
+银河粒子效果
+
+1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有 100000 个顶点数据
+   的几何体
+   - 使用类型数组 `Float32Array` 创建顶点位置 position 数据（坐标生成算法与
+     Lesson 39 不同）
+   - 使用类型数组 `Float32Array` 创建顶点位置 color 数据（颜色生成算法与 Lesson
+     39 不同）
+2. 通过 `PointsMaterial` 创建点材质对象
+   - 设置材质的尺寸、透明度、混合模式、顶点着色器等属性
+3. 通过 `Points` 创建点模型对象
+4. 在 `animate()` 中创建旋转动画
