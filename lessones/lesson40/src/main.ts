@@ -13,12 +13,14 @@ import {
   Color
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 import { Pane } from 'tweakpane';
 
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
+  stats: Stats,
   controls: OrbitControls;
 
 let geometry = new BufferGeometry(),
@@ -71,6 +73,10 @@ function init() {
 
   // Pane
   initPane();
+
+  // Stats
+  stats = Stats();
+  document.body.appendChild(stats.dom);
 
   // Resize
   window.addEventListener('resize', onWindowResize);
@@ -193,6 +199,8 @@ function animate() {
   points.rotation.y = elapsedTime / 10;
 
   controls.update();
+  stats.update();
+
   render();
 }
 
