@@ -44,8 +44,7 @@
     "dev:38": "pnpm run -C lessones/lesson38 dev",
     "dev:39": "pnpm run -C lessones/lesson39 dev",
     "dev:40": "pnpm run -C lessones/lesson40 dev",
-    "dev:clock": "pnpm run -C examples/clock dev",
-    "dev:shadow": "pnpm run -C examples/shadow dev"
+    "dev:clock": "pnpm run -C examples/clock dev"
   },
   "devDependencies": {
     "@tweakpane/core": "^1.1.0",

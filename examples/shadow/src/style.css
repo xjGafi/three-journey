@@ -1,9 +1,0 @@
-/* shadow box 可以隔离样式覆盖，但是无法阻止样式继承 */
-
-body {
-  color: blue;
-}
-
-div {
-  color: red;
-}
