@@ -36,7 +36,8 @@ const PARAMS = {
   randomness: 0.2,
   randomnessPower: 3,
   insideColor: '#ff6030',
-  outsideColor: '#1b3984'
+  outsideColor: '#1b3984',
+  shape: 'heart',
 };
 
 const clock = new Clock();
@@ -100,9 +101,7 @@ function geometryGenerator() {
     const angle = branchAngle + spinAngle;
 
     // 一个点的坐标 (x, y, z)
-    positions[i3] = Math.cos(angle) * radius + getRandom(radius); // x
-    positions[i3 + 1] = getRandom(radius); // y
-    positions[i3 + 2] = Math.sin(angle) * radius + getRandom(radius); // z
+    [positions[i3], positions[i3 + 1], positions[i3 + 2]] = getPositions(angle, radius); // x
 
     // Color
     const mixedColor = colorInside.clone();
@@ -179,6 +178,12 @@ function initPane() {
     .on('change', geometryGenerator);
   pane.addInput(PARAMS, 'insideColor').on('change', geometryGenerator);
   pane.addInput(PARAMS, 'outsideColor').on('change', geometryGenerator);
+  pane.addInput(PARAMS, 'shape', {
+    options: {
+      galaxy: 'galaxy',
+      heart: 'heart',
+    }
+  }).on('change', geometryGenerator);
 }
 
 function onWindowResize() {
@@ -206,6 +211,22 @@ function animate() {
 
 function render() {
   renderer.render(scene, camera);
+}
+
+function getPositions(angle: number, radius: number) {
+  let positions = [getRandom(radius), getRandom(radius), getRandom(radius)]
+  switch (PARAMS.shape) {
+    case 'heart':
+      positions[0] += Math.pow(Math.sin(angle), 3) * 4;
+      positions[1] += (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) / 4;
+      break;
+
+    default:
+      positions[0] += Math.cos(angle) * radius;
+      positions[2] += Math.sin(angle) * radius;
+      break;
+  }
+  return positions;
 }
 
 function getRandom(radius: number) {
