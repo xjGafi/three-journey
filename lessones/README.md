@@ -575,3 +575,18 @@ Raycasting to paint voxels
    - 设置材质的尺寸、透明度、混合模式、顶点着色器等属性
 3. 通过 `Points` 创建点模型对象
 4. 在 `animate()` 中创建旋转动画
+5. 支持修改行政
+
+## [Lesson 41](./lesson41/src/main.ts)
+
+滚动动画
+
+1. 通过 ` ConeGeometry`、`TorusGeometry`和`TorusKnotGeometry` 创建几何对象
+   - 通过 `Mesh` 网格模型对象
+2. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有 2000 个顶点数据
+   的几何体
+   - 使用类型数组 `Float32Array` 创建顶点位置 position 数据（随机分布）
+   - 通过 `Points` 创建点模型对象
+3. 通过 `gsap.to()` 创建时间轴动画，配合 `onScroll()` 监听滚动触发动画缩放和旋转
+4. 通过 `onMouseMove()` 监听鼠标位移，实现模型和鼠标的位置交互效果
+5. 在 `animate()` 中改变相机、模型位移和颜色
