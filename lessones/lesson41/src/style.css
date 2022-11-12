@@ -19,7 +19,7 @@ body {
   align-items: center;
   height: 100vh;
   position: relative;
-  color: #fff;
+  color: var(--font-color, #fff);
   text-transform: uppercase;
   font-size: 7vmin;
   margin-inline: 10%;

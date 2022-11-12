@@ -14,7 +14,11 @@ import {
   TextureLoader,
   DirectionalLight,
   Group,
-  Color
+  Color,
+  BufferAttribute,
+  BufferGeometry,
+  Points,
+  PointsMaterial
 } from 'three';
 
 import gsap from 'gsap';
@@ -27,8 +31,12 @@ let camera: PerspectiveCamera,
 
 const cameraBox = new Group();
 
-let material: MeshToonMaterial;
-const objectsDistance = 4
+const textureLoader = new TextureLoader();
+const gradientTexture = textureLoader.load(gradientUrl);
+gradientTexture.magFilter = NearestFilter;
+const meshMaterial = new MeshToonMaterial();
+const particlesMaterial = new PointsMaterial();
+const objectsDistance = 4;
 let meshes: Array<Mesh> = [];
 
 let scrollY = window.scrollY;
@@ -62,7 +70,8 @@ function init() {
   scene.add(directionalLight);
 
   // Object
-  addObjects();
+  addMeshes();
+  addParticles();
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!;
@@ -81,29 +90,22 @@ function init() {
   window.addEventListener('resize', onResize);
 }
 
-function addObjects() {
-  // texture
-  const textureLoader = new TextureLoader()
-  const gradientTexture = textureLoader.load(gradientUrl)
-  gradientTexture.magFilter = NearestFilter
+function addMeshes() {
+  // Material
+  meshMaterial.gradientMap = gradientTexture;
 
-  // material
-  material = new MeshToonMaterial({
-    gradientMap: gradientTexture
-  })
-
-  // mesh
+  // Mesh
   const mesh1 = new Mesh(
     new TorusGeometry(1, 0.4, 16, 60),
-    material
+    meshMaterial
   );
   const mesh2 = new Mesh(
     new ConeGeometry(1, 2, 32),
-    material
+    meshMaterial
   );
   const mesh3 = new Mesh(
     new TorusKnotGeometry(0.8, 0.35, 100, 16),
-    material
+    meshMaterial
   );
 
   mesh1.position.x = 2;
@@ -117,6 +119,31 @@ function addObjects() {
   meshes = [mesh1, mesh2, mesh3];
 
   scene.add(...meshes);
+}
+
+function addParticles() {
+  // Geometry
+  const particlesCount = 1000;
+  const positions = new Float32Array(particlesCount * 3);
+
+  for (let i = 0; i < particlesCount; i++) {
+    const i3 = i * 3;
+    positions[i3 + 0] = (Math.random() - 0.5) * 10;
+    positions[i3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * meshes.length;
+    positions[i3 + 2] = (Math.random() - 0.5) * 10;
+  }
+
+  const particlesGeometry = new BufferGeometry();
+  particlesGeometry.setAttribute('position', new BufferAttribute(positions, 3));
+
+  // Material
+  particlesMaterial.sizeAttenuation = true;
+  particlesMaterial.size = 0.03;
+
+  // Points
+  const particles = new Points(particlesGeometry, particlesMaterial);
+  scene.add(particles);
+
 }
 
 function onScroll() {
@@ -163,13 +190,20 @@ function animate() {
    */
   const body = document.body;
   const progress = scrollY / (body.offsetHeight - window.innerHeight);
-  const color = new Color(progress, 1, (1 - progress));
+  const getColor = (offset: number, scale = 1) => new Color(Math.abs(progress - offset) * scale, Math.abs(1 - offset) * scale, Math.abs(1 - progress - offset) * scale);
 
-  // material
-  material.color = color;
+  // font
+  const color = getColor(0, 255);
+  body.style.setProperty('--font-color', `rgb(${color.r},${color.g},${color.b})`);
+
+  // meshes
+  meshMaterial.color = getColor(0.1);
+
+  // particles
+  particlesMaterial.color = getColor(0.1);
 
   // sence
-  scene.background = color;
+  scene.background = getColor(0.2);
 
   /**
    * Animate
