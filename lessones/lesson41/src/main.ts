@@ -34,13 +34,14 @@ const cameraBox = new Group();
 const textureLoader = new TextureLoader();
 const gradientTexture = textureLoader.load(gradientUrl);
 gradientTexture.magFilter = NearestFilter;
+
 const meshMaterial = new MeshToonMaterial();
 const particlesMaterial = new PointsMaterial();
 const objectsDistance = 4;
 let meshes: Array<Mesh> = [];
 
 let scrollY = window.scrollY;
-let currentSection = 0;
+let currentPage = 0;
 const cursor = {
   x: 0,
   y: 0
@@ -123,10 +124,10 @@ function addMeshes() {
 
 function addParticles() {
   // Geometry
-  const particlesCount = 1000;
-  const positions = new Float32Array(particlesCount * 3);
+  const count = 2000;
+  const positions = new Float32Array(count * 3);
 
-  for (let i = 0; i < particlesCount; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3;
     positions[i3 + 0] = (Math.random() - 0.5) * 10;
     positions[i3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * meshes.length;
@@ -148,21 +149,42 @@ function addParticles() {
 
 function onScroll() {
   scrollY = window.scrollY;
-  const newSection = Math.round(scrollY / window.innerHeight);
+  const newPage = Math.round(scrollY / window.innerHeight);
 
-  if (newSection != currentSection) {
-    currentSection = newSection;
+  if (newPage != currentPage) {
+    currentPage = newPage;
+    const mesh = meshes[currentPage];
+    const timeline = gsap.timeline();
+    timeline
+      .to(
+        mesh.scale,
+        {
+          ease: 'power2.inOut',
+          x: '+=0.2',
+          y: '+=0.2',
+          z: '+=0.2'
+        }
+      )
+      .to(
+        mesh.rotation,
+        {
+          duration: 2,
+          ease: 'power2.inOut',
+          x: '+=6',
+          y: '+=3',
+          z: '+=1.5'
+        }
+      )
+      .to(
+        mesh.scale,
+        {
+          ease: 'power2.inOut',
+          x: '-=0.2',
+          y: '-=0.2',
+          z: '-=0.2'
+        }
+      )
 
-    gsap.to(
-      meshes[currentSection].rotation,
-      {
-        duration: 1.5,
-        ease: 'power2.inOut',
-        x: '+=6',
-        y: '+=3',
-        z: '+=1.5'
-      }
-    );
   }
 }
 
