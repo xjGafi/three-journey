@@ -590,3 +590,9 @@ Raycasting to paint voxels
 3. 通过 `gsap.to()` 创建时间轴动画，配合 `onScroll()` 监听滚动触发动画缩放和旋转
 4. 通过 `onMouseMove()` 监听鼠标位移，实现模型和鼠标的位置交互效果
 5. 在 `animate()` 中改变相机、模型位移和颜色
+
+## [Lesson 42](./lesson42/src/main.ts)
+
+VTK 模型
+
+测试 ` VTKLoader` 加载 vtk 模型文件，目前仅支持 dataset POLYDATA 的模型
