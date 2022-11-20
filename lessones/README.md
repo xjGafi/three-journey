@@ -599,6 +599,6 @@ VTK 模型
 
 ## [Lesson 43](./lesson43/src/main.ts)
 
-物理碰撞监测
+物理碰撞检测
 
-使用 `Cannon.js` 创建物理碰撞监测
+使用 `Cannon.js` 创建物理碰撞检测
