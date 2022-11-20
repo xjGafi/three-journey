@@ -54,7 +54,7 @@ function cubeGenerator(width: number, height: number, depth: number, x: number, 
   mesh.position.copy(new THREE.Vector3(x, y, z));
   scene.add(mesh);
 
-  // Pychsic
+  // Physic
   const halfSize = new CANNON.Vec3(width / 2, height / 2, depth / 2)
   const shape = new CANNON.Box(halfSize);
   const body = new CANNON.Body({
@@ -82,7 +82,7 @@ function floorGenerator() {
 
   floorMesh.receiveShadow = true;
 
-  // Pychsic
+  // Physic
   const shape = new CANNON.Plane();
   const body = new CANNON.Body({
     mass: 0,
@@ -204,9 +204,9 @@ animate();
  * Pane
  */
 function initPane() {
-  const pane = new Pane({ title: '' });
+  const pane = new Pane({ title: 'Physic' });
   pane.addButton({
-    title: "add cube"
+    title: "Add cube"
   }).on("click", () => cubeGenerator(
     Math.random() * 2,
     Math.random() * 2,
@@ -214,7 +214,21 @@ function initPane() {
     (Math.random() - 0.5) * 10,
     10,
     (Math.random() - 0.5) * 10
-  ))
+  ));
+
+  pane.addButton({
+    title: "Clear"
+  }).on("click", () => {
+    for (const object of objects) {
+      // Remove body
+      world.removeBody(object.body)
+
+      // Remove mesh
+      scene.remove(object.mesh)
+    }
+
+    objects.splice(0, objects.length)
+  });
 }
 initPane();
 
