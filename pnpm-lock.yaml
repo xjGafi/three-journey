@@ -150,6 +150,12 @@ importers:
     dependencies:
       gsap: 3.11.3
 
+  lessones/lesson43:
+    specifiers:
+      cannon-es: ^0.20.0
+    devDependencies:
+      cannon-es: 0.20.0
+
 packages:
 
   /@esbuild/android-arm/0.15.13:
@@ -186,6 +192,10 @@ packages:
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
+    dev: true
+
+  /cannon-es/0.20.0:
+    resolution: {integrity: sha512-eZhWTZIkFOnMAJOgfXJa9+b3kVlvG+FX4mdkpePev/w/rP5V8NRquGyEozcjPfEoXUlb+p7d9SUcmDSn14prOA==}
     dev: true
 
   /esbuild-android-64/0.15.13:
