@@ -1,118 +1,118 @@
-import './style.css';
+import './style.css'
+import type { Texture } from 'three'
 import {
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
+  AmbientLight,
   AxesHelper,
-  sRGBEncoding,
   DoubleSide,
   Mesh,
   MeshLambertMaterial,
+  PerspectiveCamera,
   PlaneGeometry,
-  TextureLoader,
-  AmbientLight,
   RepeatWrapping,
-  Texture
-} from 'three';
-import Stats from 'three/examples/jsm/libs/stats.module';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+  Scene,
+  TextureLoader,
+  WebGLRenderer,
+  sRGBEncoding,
+} from 'three'
+import Stats from 'three/examples/jsm/libs/stats.module'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-import url from '@/textures/avatar.jpeg?url';
+import url from '@/textures/avatar.jpeg?url'
 
 let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
-  stats: Stats;
+  stats: Stats
 
-let texture: Texture;
+let texture: Texture
 
-let time = 0;
+let time = 0
 
-init();
-animate();
+init()
+animate()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 10000);
-  camera.position.set(0, 0, 500);
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 10000)
+  camera.position.set(0, 0, 500)
 
   // Scene
-  scene = new Scene();
+  scene = new Scene()
 
   // Axes
-  const axesHelper = new AxesHelper(300);
-  scene.add(axesHelper);
+  const axesHelper = new AxesHelper(300)
+  scene.add(axesHelper)
 
   // Light
-  const ambient = new AmbientLight(0xffffff);
-  scene.add(ambient);
+  const ambient = new AmbientLight(0xFFFFFF)
+  scene.add(ambient)
 
   // Object
   // 创建一个平面
-  const geometry = new PlaneGeometry(1000, 1000);
+  const geometry = new PlaneGeometry(1000, 1000)
 
   // 加载纹理贴图
-  texture = new TextureLoader().load(url);
+  texture = new TextureLoader().load(url)
   // 设置阵列
-  texture.wrapS = RepeatWrapping;
-  texture.wrapT = RepeatWrapping;
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
   // uv 两个方向纹理重复数量
   // 等价 texture.repeat = new Vector2(10, 10)
-  texture.repeat.set(10, 10);
+  texture.repeat.set(10, 10)
 
   const material = new MeshLambertMaterial({
     map: texture, // 设置纹理贴图
-    side: DoubleSide
-  });
+    side: DoubleSide,
+  })
 
-  const mesh = new Mesh(geometry, material);
-  scene.add(mesh);
+  const mesh = new Mesh(geometry, material)
+  scene.add(mesh)
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
-  renderer.outputEncoding = sRGBEncoding;
+  const canvas = document.querySelector('canvas#webgl')!
+  renderer = new WebGLRenderer({ canvas })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(devicePixelRatio)
+  renderer.outputEncoding = sRGBEncoding
 
   // Stats
-  stats = Stats();
-  document.body.appendChild(stats.dom);
+  stats = Stats()
+  document.body.appendChild(stats.dom)
 
   // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.minDistance = 1500;
-  controls.maxDistance = 5000;
-  controls.update();
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.minDistance = 1500
+  controls.maxDistance = 5000
+  controls.update()
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('resize', onWindowResize)
 }
 
 function onWindowResize() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight } = window
 
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth, innerHeight)
 
-  render();
+  render()
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate)
 
   // 设置纹理偏移和旋转
-  texture.offset.x -= 0.05;
-  texture.rotation = Math.sin((time += 0.016));
+  texture.offset.x -= 0.05
+  texture.rotation = Math.sin((time += 0.016))
 
-  render();
-  stats.update();
+  render()
+  stats.update()
 }
 
 function render() {
-  renderer.render(scene, camera);
+  renderer.render(scene, camera)
 }

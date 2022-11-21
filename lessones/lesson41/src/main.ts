@@ -1,160 +1,159 @@
-import './style.css';
+import './style.css'
 import {
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  sRGBEncoding,
-  Clock,
-  ConeGeometry,
-  Mesh,
-  TorusGeometry,
-  TorusKnotGeometry,
-  MeshToonMaterial,
-  NearestFilter,
-  TextureLoader,
-  DirectionalLight,
-  Group,
-  Color,
   BufferAttribute,
   BufferGeometry,
+  Clock,
+  Color,
+  ConeGeometry,
+  DirectionalLight,
+  Group,
+  Mesh,
+  MeshToonMaterial,
+  NearestFilter,
+  PerspectiveCamera,
   Points,
-  PointsMaterial
-} from 'three';
+  PointsMaterial,
+  Scene,
+  TextureLoader,
+  TorusGeometry,
+  TorusKnotGeometry,
+  WebGLRenderer,
+  sRGBEncoding,
+} from 'three'
 
-import gsap from 'gsap';
+import gsap from 'gsap'
 
-import gradientUrl from '@/textures/gradients/5.jpg?url';
+import gradientUrl from '@/textures/gradients/5.jpg?url'
 
 let camera: PerspectiveCamera,
   scene: Scene,
-  renderer: WebGLRenderer;
+  renderer: WebGLRenderer
 
-const cameraBox = new Group();
+const cameraBox = new Group()
 
-const textureLoader = new TextureLoader();
-const gradientTexture = textureLoader.load(gradientUrl);
-gradientTexture.magFilter = NearestFilter;
+const textureLoader = new TextureLoader()
+const gradientTexture = textureLoader.load(gradientUrl)
+gradientTexture.magFilter = NearestFilter
 
-const meshMaterial = new MeshToonMaterial();
-const particlesMaterial = new PointsMaterial();
-const objectsDistance = 4;
-let meshes: Array<Mesh> = [];
+const meshMaterial = new MeshToonMaterial()
+const particlesMaterial = new PointsMaterial()
+const objectsDistance = 4
+let meshes: Array<Mesh> = []
 
-let scrollY = window.scrollY;
-let currentPage = 0;
+let scrollY = window.scrollY
+let currentPage = 0
 const cursor = {
   x: 0,
-  y: 0
+  y: 0,
 }
 
-const clock = new Clock();
-let previousTime = 0;
+const clock = new Clock()
+let previousTime = 0
 
-init();
-animate();
+init()
+animate()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Scene
-  scene = new Scene();
+  scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 100);
-  camera.position.z = 6;
-  cameraBox.add(camera);
-  scene.add(cameraBox);
+  camera = new PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 100)
+  camera.position.z = 6
+  cameraBox.add(camera)
+  scene.add(cameraBox)
 
   // Lights
-  const directionalLight = new DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(1, 1, 0);
-  scene.add(directionalLight);
+  const directionalLight = new DirectionalLight(0xFFFFFF, 1)
+  directionalLight.position.set(1, 1, 0)
+  scene.add(directionalLight)
 
   // Object
-  addMeshes();
-  addParticles();
+  addMeshes()
+  addParticles()
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
-  renderer.outputEncoding = sRGBEncoding;
+  const canvas = document.querySelector('canvas#webgl')!
+  renderer = new WebGLRenderer({ canvas })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(devicePixelRatio)
+  renderer.outputEncoding = sRGBEncoding
 
   // Scroll
-  window.addEventListener('scroll', onScroll);
+  window.addEventListener('scroll', onScroll)
 
   // Mouse
   window.addEventListener('mousemove', onMouseMove)
 
   // Resize
-  window.addEventListener('resize', onResize);
+  window.addEventListener('resize', onResize)
 }
 
 function addMeshes() {
   // Material
-  meshMaterial.gradientMap = gradientTexture;
+  meshMaterial.gradientMap = gradientTexture
 
   // Mesh
   const mesh1 = new Mesh(
     new TorusGeometry(1, 0.4, 16, 60),
-    meshMaterial
-  );
+    meshMaterial,
+  )
   const mesh2 = new Mesh(
     new ConeGeometry(1, 2, 32),
-    meshMaterial
-  );
+    meshMaterial,
+  )
   const mesh3 = new Mesh(
     new TorusKnotGeometry(0.8, 0.35, 100, 16),
-    meshMaterial
-  );
+    meshMaterial,
+  )
 
-  mesh1.position.x = 2;
-  mesh2.position.x = - 2;
-  mesh3.position.x = 2;
+  mesh1.position.x = 2
+  mesh2.position.x = -2
+  mesh3.position.x = 2
 
-  mesh1.position.y = - objectsDistance * 0;
-  mesh2.position.y = - objectsDistance * 1;
-  mesh3.position.y = - objectsDistance * 2;
+  mesh1.position.y = -objectsDistance * 0
+  mesh2.position.y = -objectsDistance * 1
+  mesh3.position.y = -objectsDistance * 2
 
-  meshes = [mesh1, mesh2, mesh3];
+  meshes = [mesh1, mesh2, mesh3]
 
-  scene.add(...meshes);
+  scene.add(...meshes)
 }
 
 function addParticles() {
   // Geometry
-  const count = 2000;
-  const positions = new Float32Array(count * 3);
+  const count = 2000
+  const positions = new Float32Array(count * 3)
 
   for (let i = 0; i < count; i++) {
-    const i3 = i * 3;
-    positions[i3 + 0] = (Math.random() - 0.5) * 10;
-    positions[i3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * meshes.length;
-    positions[i3 + 2] = (Math.random() - 0.5) * 10;
+    const i3 = i * 3
+    positions[i3 + 0] = (Math.random() - 0.5) * 10
+    positions[i3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * meshes.length
+    positions[i3 + 2] = (Math.random() - 0.5) * 10
   }
 
-  const particlesGeometry = new BufferGeometry();
-  particlesGeometry.setAttribute('position', new BufferAttribute(positions, 3));
+  const particlesGeometry = new BufferGeometry()
+  particlesGeometry.setAttribute('position', new BufferAttribute(positions, 3))
 
   // Material
-  particlesMaterial.sizeAttenuation = true;
-  particlesMaterial.size = 0.03;
+  particlesMaterial.sizeAttenuation = true
+  particlesMaterial.size = 0.03
 
   // Points
-  const particles = new Points(particlesGeometry, particlesMaterial);
-  scene.add(particles);
-
+  const particles = new Points(particlesGeometry, particlesMaterial)
+  scene.add(particles)
 }
 
 function onScroll() {
-  scrollY = window.scrollY;
-  const newPage = Math.round(scrollY / window.innerHeight);
+  scrollY = window.scrollY
+  const newPage = Math.round(scrollY / window.innerHeight)
 
-  if (newPage != currentPage) {
-    currentPage = newPage;
-    const mesh = meshes[currentPage];
-    const timeline = gsap.timeline();
+  if (newPage !== currentPage) {
+    currentPage = newPage
+    const mesh = meshes[currentPage]
+    const timeline = gsap.timeline()
     timeline
       .to(
         mesh.scale,
@@ -162,8 +161,8 @@ function onScroll() {
           ease: 'power2.inOut',
           x: '+=0.2',
           y: '+=0.2',
-          z: '+=0.2'
-        }
+          z: '+=0.2',
+        },
       )
       .to(
         mesh.rotation,
@@ -172,8 +171,8 @@ function onScroll() {
           ease: 'power2.inOut',
           x: '+=6',
           y: '+=3',
-          z: '+=1.5'
-        }
+          z: '+=1.5',
+        },
       )
       .to(
         mesh.scale,
@@ -181,76 +180,75 @@ function onScroll() {
           ease: 'power2.inOut',
           x: '-=0.2',
           y: '-=0.2',
-          z: '-=0.2'
-        }
+          z: '-=0.2',
+        },
       )
-
   }
 }
 
 function onMouseMove(event: MouseEvent) {
-  cursor.x = event.clientX / innerWidth - 0.5;
-  cursor.y = event.clientY / innerHeight - 0.5;
+  cursor.x = event.clientX / innerWidth - 0.5
+  cursor.y = event.clientY / innerHeight - 0.5
 }
 
 function onResize() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight } = window
 
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth, innerHeight)
 
-  render();
+  render()
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate)
 
   /**
    * Color
    */
-  const body = document.body;
-  const progress = scrollY / (body.offsetHeight - window.innerHeight);
-  const getColor = (offset: number, scale = 1) => new Color(Math.abs(progress - offset) * scale, Math.abs(1 - offset) * scale, Math.abs(1 - progress - offset) * scale);
+  const body = document.body
+  const progress = scrollY / (body.offsetHeight - window.innerHeight)
+  const getColor = (offset: number, scale = 1) => new Color(Math.abs(progress - offset) * scale, Math.abs(1 - offset) * scale, Math.abs(1 - progress - offset) * scale)
 
   // font
-  const color = getColor(0, 255);
-  body.style.setProperty('--font-color', `rgb(${color.r},${color.g},${color.b})`);
+  const color = getColor(0, 255)
+  body.style.setProperty('--font-color', `rgb(${color.r},${color.g},${color.b})`)
 
   // meshes
-  meshMaterial.color = getColor(0.1);
+  meshMaterial.color = getColor(0.1)
 
   // particles
-  particlesMaterial.color = getColor(0.1);
+  particlesMaterial.color = getColor(0.1)
 
   // sence
-  scene.background = getColor(0.2);
+  scene.background = getColor(0.2)
 
   /**
    * Animate
    */
-  const elapsedTime = clock.getElapsedTime();
-  const deltaTime = elapsedTime - previousTime;
-  previousTime = elapsedTime;
+  const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
 
   // camera
-  camera.position.y = - scrollY / window.innerHeight * objectsDistance;
-  const parallaxX = cursor.x * 0.5;
-  const parallaxY = - cursor.y * 0.5;
-  cameraBox.position.x += (parallaxX - cameraBox.position.x) * 5 * deltaTime;
-  cameraBox.position.y += (parallaxY - cameraBox.position.y) * 5 * deltaTime;
+  camera.position.y = -scrollY / window.innerHeight * objectsDistance
+  const parallaxX = cursor.x * 0.5
+  const parallaxY = -cursor.y * 0.5
+  cameraBox.position.x += (parallaxX - cameraBox.position.x) * 5 * deltaTime
+  cameraBox.position.y += (parallaxY - cameraBox.position.y) * 5 * deltaTime
 
   // meshes
   for (const mesh of meshes) {
-    mesh.rotation.x += deltaTime * 0.1;
-    mesh.rotation.y += deltaTime * 0.12;
+    mesh.rotation.x += deltaTime * 0.1
+    mesh.rotation.y += deltaTime * 0.12
   }
 
-  render();
+  render()
 }
 
 function render() {
-  renderer.render(scene, camera);
+  renderer.render(scene, camera)
 }
 

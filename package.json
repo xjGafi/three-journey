@@ -1,8 +1,8 @@
 {
   "name": "three-journey",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev:01": "pnpm run -C lessones/lesson01 dev",
     "dev:02": "pnpm run -C lessones/lesson02 dev",
@@ -47,17 +47,21 @@
     "dev:41": "pnpm run -C lessones/lesson41 dev",
     "dev:42": "pnpm run -C lessones/lesson42 dev",
     "dev:43": "pnpm run -C lessones/lesson43 dev",
-    "dev:clock": "pnpm run -C examples/clock dev"
-  },
-  "devDependencies": {
-    "@tweakpane/core": "^1.1.0",
-    "@types/node": "^18.6.1",
-    "@types/three": "^0.143.0",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.0"
+    "dev:clock": "pnpm run -C examples/clock dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "three": "^0.143.0",
     "tweakpane": "^3.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.31.0",
+    "@tweakpane/core": "^1.1.0",
+    "@types/node": "^18.6.1",
+    "@types/three": "^0.143.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.0"
   }
 }

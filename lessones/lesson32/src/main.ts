@@ -1,161 +1,164 @@
-import './style.css';
+import './style.css'
+import type {
+  SkinnedMesh,
+  Texture,
+} from 'three'
 import {
+  AnimationMixer,
+  Clock,
+  Color,
+  DirectionalLight,
+  Fog,
+  HemisphereLight,
+  Mesh,
+  MeshLambertMaterial,
+  NearestFilter,
   PerspectiveCamera,
+  PlaneGeometry,
+  RepeatWrapping,
   Scene,
+  TextureLoader,
   WebGLRenderer,
   sRGBEncoding,
-  Clock,
-  AnimationMixer,
-  Mesh,
-  PlaneGeometry,
-  Color,
-  Fog,
-  DirectionalLight,
-  HemisphereLight,
-  SkinnedMesh,
-  MeshLambertMaterial,
-  RepeatWrapping,
-  Texture,
-  TextureLoader,
-  NearestFilter
-} from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+} from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-import SimpleSkinning from '@/models/SimpleSkinning.gltf?url';
-import grass from '@/textures/grass.png?url';
+import SimpleSkinning from '@/models/SimpleSkinning.gltf?url'
+import grass from '@/textures/grass.png?url'
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer;
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
-let texture: Texture;
+let texture: Texture
 
-let mixer: AnimationMixer;
+let mixer: AnimationMixer
 
-const clock = new Clock();
+const clock = new Clock()
 
-init();
-animate();
+init()
+animate()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000);
-  camera.position.set(18, 6, 18);
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
+  camera.position.set(18, 6, 18)
 
   // Scene
-  scene = new Scene();
-  scene.background = new Color(0xffffff);
-  scene.fog = new Fog(0xffffff, 70, 100);
+  scene = new Scene()
+  scene.background = new Color(0xFFFFFF)
+  scene.fog = new Fog(0xFFFFFF, 70, 100)
 
   // Light
-  const hemiLight = new HemisphereLight(0xffffff, 0x444444, 0.6);
-  hemiLight.position.set(0, 200, 0);
-  scene.add(hemiLight);
+  const hemiLight = new HemisphereLight(0xFFFFFF, 0x444444, 0.6)
+  hemiLight.position.set(0, 200, 0)
+  scene.add(hemiLight)
 
-  const dirLight = new DirectionalLight(0xffffff, 0.8);
-  dirLight.position.set(0, 20, 10);
-  dirLight.castShadow = true;
-  dirLight.shadow.camera.top = 18;
-  dirLight.shadow.camera.bottom = -10;
-  dirLight.shadow.camera.left = -12;
-  dirLight.shadow.camera.right = 12;
-  scene.add(dirLight);
+  const dirLight = new DirectionalLight(0xFFFFFF, 0.8)
+  dirLight.position.set(0, 20, 10)
+  dirLight.castShadow = true
+  dirLight.shadow.camera.top = 18
+  dirLight.shadow.camera.bottom = -10
+  dirLight.shadow.camera.left = -12
+  dirLight.shadow.camera.right = 12
+  scene.add(dirLight)
 
   // Object
-  addGround();
-  addKeyframeAnimation();
+  addGround()
+  addKeyframeAnimation()
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
-  renderer.shadowMap.enabled = true;
-  renderer.outputEncoding = sRGBEncoding;
+  const canvas = document.querySelector('canvas#webgl')!
+  renderer = new WebGLRenderer({ canvas })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(devicePixelRatio)
+  renderer.shadowMap.enabled = true
+  renderer.outputEncoding = sRGBEncoding
 
   // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.minDistance = 5;
-  controls.maxDistance = 50;
-  controls.update();
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.minDistance = 5
+  controls.maxDistance = 50
+  controls.update()
 
   // Resize
-  window.addEventListener('resize', onWindowResize);
+  window.addEventListener('resize', onWindowResize)
 }
 
 function addGround() {
-  const geometry = new PlaneGeometry(500, 500);
+  const geometry = new PlaneGeometry(500, 500)
 
   // 加载纹理贴图
-  texture = new TextureLoader().load(grass);
+  texture = new TextureLoader().load(grass)
   // 设置阵列
-  texture.wrapS = RepeatWrapping;
-  texture.wrapT = RepeatWrapping;
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
   // uv 两个方向纹理重复数量
-  texture.repeat.set(50, 50);
+  texture.repeat.set(50, 50)
   // 防止纹理贴图模糊
-  texture.minFilter = NearestFilter;
-  texture.magFilter = NearestFilter;
+  texture.minFilter = NearestFilter
+  texture.magFilter = NearestFilter
 
   const material = new MeshLambertMaterial({
-    map: texture // 设置纹理贴图
-  });
+    map: texture, // 设置纹理贴图
+  })
 
-  const ground = new Mesh(geometry, material);
-  ground.position.set(0, -5, 0);
-  ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
-  scene.add(ground);
+  const ground = new Mesh(geometry, material)
+  ground.position.set(0, -5, 0)
+  ground.rotation.x = -Math.PI / 2
+  ground.receiveShadow = true
+  scene.add(ground)
 }
 
 function addKeyframeAnimation() {
   // 3D Model
-  const loader = new GLTFLoader();
+  const loader = new GLTFLoader()
   loader.load(SimpleSkinning, (gltf) => {
     // console.log('🌈 gltf:', gltf);
-    scene.add(gltf.scene);
+    scene.add(gltf.scene)
 
     gltf.scene.traverse((child) => {
-      if ((child as SkinnedMesh).isSkinnedMesh) child.castShadow = true;
-    });
+      if ((child as SkinnedMesh).isSkinnedMesh)
+        child.castShadow = true
+    })
 
     // gltf.scene 作为混合器的参数，可以播放 gltf.scene 包含的帧动画数据
-    mixer = new AnimationMixer(gltf.scene);
+    mixer = new AnimationMixer(gltf.scene)
     // gltf.animations[0]：获得剪辑 clip 对象
     // 剪辑 clip 作为参数，通过混合器 clipAction 方法返回一个操作对象 AnimationAction
-    const controller = mixer.clipAction(gltf.animations[0]);
-    controller.timeScale = 0.5;
-    controller.play();
-  });
+    const controller = mixer.clipAction(gltf.animations[0])
+    controller.timeScale = 0.5
+    controller.play()
+  })
 }
 
 function onWindowResize() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight } = window
 
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth, innerHeight)
 
-  render();
+  render()
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate)
   if (typeof mixer !== 'undefined') {
     // 获得两帧的时间间隔
-    const getDelta = clock.getDelta();
+    const getDelta = clock.getDelta()
 
     // 地板后移，产生模型向前走的效果
-    texture.offset.y -= getDelta;
+    texture.offset.y -= getDelta
     // 更新混合器相关的时间
-    mixer.update(getDelta);
+    mixer.update(getDelta)
   }
 
-  render();
+  render()
 }
 
 function render() {
-  renderer.render(scene, camera);
+  renderer.render(scene, camera)
 }

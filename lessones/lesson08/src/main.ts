@@ -1,4 +1,4 @@
-import "./style.css";
+import './style.css'
 import {
   AmbientLight,
   AxesHelper,
@@ -16,65 +16,65 @@ import {
   PointsMaterial,
   Scene,
   WebGLRenderer,
-} from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import Stats from "three/examples/jsm/libs/stats.module";
+} from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import Stats from 'three/examples/jsm/libs/stats.module'
 
 let camera: PerspectiveCamera,
   scene: Scene,
   pointLight: PointLight,
   renderer: WebGLRenderer,
-  stats: Stats;
+  stats: Stats
 
-init();
-animate();
+init()
+animate()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Camera
-  camera = new PerspectiveCamera(60, innerWidth / innerHeight, 1, 500);
-  camera.position.set(200, 100, 300);
+  camera = new PerspectiveCamera(60, innerWidth / innerHeight, 1, 500)
+  camera.position.set(200, 100, 300)
 
   // Scene
-  scene = new Scene();
+  scene = new Scene()
 
   // PointLight
-  pointLight = new PointLight(0xffffff, 1.5);
-  pointLight.position.set(400, 200, 300);
-  scene.add(pointLight);
+  pointLight = new PointLight(0xFFFFFF, 1.5)
+  pointLight.position.set(400, 200, 300)
+  scene.add(pointLight)
   // AmbientLight
-  const ambient = new AmbientLight(0x444444);
-  scene.add(ambient);
+  const ambient = new AmbientLight(0x444444)
+  scene.add(ambient)
 
   // Axes
-  const axesHelper = new AxesHelper(500);
-  scene.add(axesHelper);
+  const axesHelper = new AxesHelper(500)
+  scene.add(axesHelper)
 
   // Object
-  addPointsMaterial();
-  addLineDashedMaterial();
-  addLineBasicMaterial();
-  addMeshBasicMaterial();
+  addPointsMaterial()
+  addLineDashedMaterial()
+  addLineBasicMaterial()
+  addMeshBasicMaterial()
 
   // Renderer
-  const canvas = document.querySelector("canvas#webgl")!;
-  renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
+  const canvas = document.querySelector('canvas#webgl')!
+  renderer = new WebGLRenderer({ canvas })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(devicePixelRatio)
 
   // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.minDistance = 50;
-  controls.maxDistance = 300;
-  controls.update();
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.minDistance = 50
+  controls.maxDistance = 300
+  controls.update()
 
   // Stats
-  stats = Stats();
-  document.body.appendChild(stats.dom);
+  stats = Stats()
+  document.body.appendChild(stats.dom)
 
   // Resize
-  window.addEventListener("resize", onWindowResize);
+  window.addEventListener('resize', onWindowResize)
 }
 
 // 一个具有六个顶点数据的几何体
@@ -99,9 +99,9 @@ function boxGeometry(): BufferGeometry {
     50,
     0,
     10, // 顶点 6 坐标
-  ]);
+  ])
   // 创建顶点位置 position 属性缓冲区对象，3 个为一组，表示一个顶点的 xyz 坐标
-  const attribueVertices = new BufferAttribute(vertices, 3);
+  const attribueVertices = new BufferAttribute(vertices, 3)
 
   // 类型数组创建顶点颜色 color 数据
   const colors = new Float32Array([
@@ -123,9 +123,9 @@ function boxGeometry(): BufferGeometry {
     1,
     0,
     1, // 顶点 6 颜色 0xff00ff
-  ]);
+  ])
   // 创建顶点颜色 color 属性缓冲区对象，3 个为一组，表示一个顶点的颜色
-  const attribueColor = new BufferAttribute(colors, 3);
+  const attribueColor = new BufferAttribute(colors, 3)
 
   // 类型数组创建顶点法向量 normal 数据
   const normals = new Float32Array([
@@ -147,102 +147,102 @@ function boxGeometry(): BufferGeometry {
     0,
     1,
     0, // 顶点 6 法向量
-  ]);
+  ])
   // 创建顶点法向量 normal 属性缓冲区对象，3 个为一组，表示一个顶点的法向量
-  const attribueNormals = new BufferAttribute(normals, 3);
+  const attribueNormals = new BufferAttribute(normals, 3)
 
   // 创建一个 Buffer 类型几何体对象
-  const geometry = new BufferGeometry();
+  const geometry = new BufferGeometry()
   // 设置几何体 attributes 属性的位置、颜色和法向量属性
-  geometry.setAttribute("position", attribueVertices);
-  geometry.setAttribute("color", attribueColor);
-  geometry.setAttribute("normals", attribueNormals);
+  geometry.setAttribute('position', attribueVertices)
+  geometry.setAttribute('color', attribueColor)
+  geometry.setAttribute('normals', attribueNormals)
 
-  return geometry;
+  return geometry
 }
 
 // 点渲染模式
 function addPointsMaterial() {
   // 几何体对象
-  const geometry = boxGeometry();
+  const geometry = boxGeometry()
   // 点材质对象
   const material = new PointsMaterial({
     vertexColors: true,
-    size: 5.0, //点对象像素尺寸
-  });
+    size: 5.0, // 点对象像素尺寸
+  })
   // 点模型对象
-  const points = new Points(geometry, material);
-  points.position.set(-150, 0, 0);
-  scene.add(points);
+  const points = new Points(geometry, material)
+  points.position.set(-150, 0, 0)
+  scene.add(points)
 }
 
 // 虚线渲染模式
 function addLineDashedMaterial() {
   // 几何体对象
-  const geometry = boxGeometry();
+  const geometry = boxGeometry()
   // 虚线材质对象
   const material = new LineDashedMaterial({
     vertexColors: true,
     dashSize: 10, // 显示线段的大小，默认为 3
     gapSize: 5, // 间隙的大小，默认为 1
-  });
+  })
   // 虚线模型对象
-  const line = new Line(geometry, material);
-  line.computeLineDistances();
-  line.position.set(-50, 0, 0);
-  scene.add(line);
+  const line = new Line(geometry, material)
+  line.computeLineDistances()
+  line.position.set(-50, 0, 0)
+  scene.add(line)
 }
 
 // 实线渲染模式
 function addLineBasicMaterial() {
   // 几何体对象
-  const geometry = boxGeometry();
+  const geometry = boxGeometry()
   // 实线材质对象
   const material = new LineBasicMaterial({
     vertexColors: true,
-  });
+  })
   // 实线模型对象
-  const line = new Line(geometry, material);
-  line.position.set(50, 0, 0);
-  scene.add(line);
+  const line = new Line(geometry, material)
+  line.position.set(50, 0, 0)
+  scene.add(line)
 }
 
 // 三角面(网格)渲染模式
 function addMeshBasicMaterial() {
   // 几何体对象
-  const geometry = boxGeometry();
+  const geometry = boxGeometry()
   // 三角面(网格)材质对象
   const material = new MeshBasicMaterial({
     vertexColors: true,
     side: DoubleSide, // 两面可见
-  });
+  })
   // 三角面(网格)模型对象
-  const mesh = new Mesh(geometry, material);
-  mesh.position.set(150, 0, 0);
-  scene.add(mesh);
+  const mesh = new Mesh(geometry, material)
+  mesh.position.set(150, 0, 0)
+  scene.add(mesh)
 }
 
 function onWindowResize() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight } = window
 
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth, innerHeight)
 
-  render();
+  render()
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate)
 
   // const time = Date.now() * 0.001;
   // scene.rotation.y = 0.25 * time;
 
-  render();
-  stats.update();
+  render()
+  stats.update()
 }
 
 function render() {
-  renderer.render(scene, camera);
+  renderer.render(scene, camera)
 }

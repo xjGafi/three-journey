@@ -1,104 +1,104 @@
-import './style.css';
+import './style.css'
 import {
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  PointLight,
   AmbientLight,
+  BoxGeometry,
+  BufferAttribute,
+  // Color,
+  CubeTextureLoader,
   Group,
   Mesh,
-  PlaneGeometry,
-  BoxGeometry,
-  SphereGeometry,
-  TorusGeometry,
-  MeshNormalMaterial,
-  MeshBasicMaterial,
-  MeshMatcapMaterial,
-  TextureLoader,
-  MeshDepthMaterial,
-  MeshLambertMaterial,
-  MeshPhongMaterial,
-  MeshPhysicalMaterial,
-  Color,
-  MeshToonMaterial,
-  NearestFilter,
+  // MeshBasicMaterial,
+  // MeshDepthMaterial,
+  // MeshLambertMaterial,
+  // MeshMatcapMaterial,
+  // MeshNormalMaterial,
+  // MeshPhongMaterial,
+  // MeshPhysicalMaterial,
   MeshStandardMaterial,
-  BufferAttribute,
-  CubeTextureLoader
-} from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import matcapsUrl from '@/textures/matcaps/1.png?url';
-import gradientUrl from '@/textures/gradients/5.jpg?url';
+  // MeshToonMaterial,
+  // NearestFilter,
+  PerspectiveCamera,
+  PlaneGeometry,
+  PointLight,
+  Scene,
+  SphereGeometry,
+  // TextureLoader,
+  TorusGeometry,
+  WebGLRenderer,
+} from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+// import matcapsUrl from '@/textures/matcaps/1.png?url'
+// import gradientUrl from '@/textures/gradients/5.jpg?url'
 // door
-import doorColorUrl from '@/textures/door/color.jpg?url';
-import doorAmbientOcclusionUrl from '@/textures/door/ambientOcclusion.jpg?url';
-import doorHeightUrl from '@/textures/door/height.jpg?url';
-import doorMetalnessUrl from '@/textures/door/metalness.jpg?url';
-import doorRoughnessUrl from '@/textures/door/roughness.jpg?url';
-import doorNormalUrl from '@/textures/door/normal.jpg?url';
-import doorAlphaUrl from '@/textures/door/alpha.jpg?url';
+// import doorColorUrl from '@/textures/door/color.jpg?url'
+// import doorAmbientOcclusionUrl from '@/textures/door/ambientOcclusion.jpg?url'
+// import doorHeightUrl from '@/textures/door/height.jpg?url'
+// import doorMetalnessUrl from '@/textures/door/metalness.jpg?url'
+// import doorRoughnessUrl from '@/textures/door/roughness.jpg?url'
+// import doorNormalUrl from '@/textures/door/normal.jpg?url'
+// import doorAlphaUrl from '@/textures/door/alpha.jpg?url'
 // env
-import envUrl1 from '@/textures/environmentMaps/0/px.jpg';
-import envUrl2 from '@/textures/environmentMaps/0/nx.jpg';
-import envUrl3 from '@/textures/environmentMaps/0/py.jpg';
-import envUrl4 from '@/textures/environmentMaps/0/ny.jpg';
-import envUrl5 from '@/textures/environmentMaps/0/pz.jpg';
-import envUrl6 from '@/textures/environmentMaps/0/nz.jpg';
+import envUrl1 from '@/textures/environmentMaps/0/px.jpg'
+import envUrl2 from '@/textures/environmentMaps/0/nx.jpg'
+import envUrl3 from '@/textures/environmentMaps/0/py.jpg'
+import envUrl4 from '@/textures/environmentMaps/0/ny.jpg'
+import envUrl5 from '@/textures/environmentMaps/0/pz.jpg'
+import envUrl6 from '@/textures/environmentMaps/0/nz.jpg'
 
 let camera: PerspectiveCamera,
   scene: Scene,
   pointLight: PointLight,
   renderer: WebGLRenderer,
-  controls: OrbitControls;
+  controls: OrbitControls
 
-let group: Group, plane: Mesh, cube: Mesh, sphere: Mesh, torus: Mesh;
+let group: Group, plane: Mesh, cube: Mesh, sphere: Mesh, torus: Mesh
 
-init();
-animate();
+init()
+animate()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window;
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Camera
-  camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 20);
-  camera.position.z = 6;
+  camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 20)
+  camera.position.z = 6
 
   // Scene
-  scene = new Scene();
+  scene = new Scene()
 
   // Lights
-  const ambientLight = new AmbientLight(0xffffff, 0.5);
-  scene.add(ambientLight);
+  const ambientLight = new AmbientLight(0xFFFFFF, 0.5)
+  scene.add(ambientLight)
 
-  pointLight = new PointLight(0xffffff, 0.5);
-  pointLight.position.z = 5;
-  scene.add(pointLight);
+  pointLight = new PointLight(0xFFFFFF, 0.5)
+  pointLight.position.z = 5
+  scene.add(pointLight)
 
   // Object
-  addObjects();
+  addObjects()
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl')!;
-  renderer = new WebGLRenderer({ canvas });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
+  const canvas = document.querySelector('canvas#webgl')!
+  renderer = new WebGLRenderer({ canvas })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(devicePixelRatio)
 
   // Controls
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 0, -2);
-  controls.enableDamping = true;
-  controls.minDistance = 5;
-  controls.maxDistance = 15;
+  controls = new OrbitControls(camera, renderer.domElement)
+  controls.target.set(0, 0, -2)
+  controls.enableDamping = true
+  controls.minDistance = 5
+  controls.maxDistance = 15
 
   // Resize
-  window.addEventListener('resize', onResize);
+  window.addEventListener('resize', onResize)
 }
 
 function addObjects() {
-  group = new Group();
-  scene.add(group);
+  group = new Group()
+  scene.add(group)
 
-  const textureLoader = new TextureLoader();
+  // const textureLoader = new TextureLoader()
 
   // const material = new MeshBasicMaterial({ color: 0x00ff00 });
 
@@ -199,71 +199,71 @@ function addObjects() {
     envUrl3,
     envUrl4,
     envUrl5,
-    envUrl6
-  ]);
-  const material = new MeshStandardMaterial();
-  material.metalness = 0.7;
-  material.roughness = 0.2;
+    envUrl6,
+  ])
+  const material = new MeshStandardMaterial()
+  material.metalness = 0.7
+  material.roughness = 0.2
   // 环境贴图
-  material.envMap = environmentMapTexture;
+  material.envMap = environmentMapTexture
 
-  plane = new Mesh(new PlaneGeometry(2, 2), material);
-  plane.position.x = -6;
+  plane = new Mesh(new PlaneGeometry(2, 2), material)
+  plane.position.x = -6
   plane.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(plane.geometry.attributes.uv.array, 2)
-  );
-  group.add(plane);
+    new BufferAttribute(plane.geometry.attributes.uv.array, 2),
+  )
+  group.add(plane)
 
-  cube = new Mesh(new BoxGeometry(2, 2, 2), material);
-  cube.position.x = -2;
+  cube = new Mesh(new BoxGeometry(2, 2, 2), material)
+  cube.position.x = -2
   cube.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(cube.geometry.attributes.uv.array, 2)
-  );
-  group.add(cube);
+    new BufferAttribute(cube.geometry.attributes.uv.array, 2),
+  )
+  group.add(cube)
 
-  sphere = new Mesh(new SphereGeometry(1, 20, 20), material);
-  sphere.position.x = 2;
+  sphere = new Mesh(new SphereGeometry(1, 20, 20), material)
+  sphere.position.x = 2
   sphere.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(sphere.geometry.attributes.uv.array, 2)
-  );
-  group.add(sphere);
+    new BufferAttribute(sphere.geometry.attributes.uv.array, 2),
+  )
+  group.add(sphere)
 
-  torus = new Mesh(new TorusGeometry(1, 0.5, 20, 30), material);
-  torus.position.x = 6;
+  torus = new Mesh(new TorusGeometry(1, 0.5, 20, 30), material)
+  torus.position.x = 6
   torus.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(torus.geometry.attributes.uv.array, 2)
-  );
-  group.add(torus);
+    new BufferAttribute(torus.geometry.attributes.uv.array, 2),
+  )
+  group.add(torus)
 }
 
 function onResize() {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth, innerHeight } = window
 
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth, innerHeight)
 
-  render();
+  render()
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate)
 
-  const timer = Date.now() * 0.0003;
+  const timer = Date.now() * 0.0003
 
-  pointLight.position.x = Math.sin(timer) * 3;
-  pointLight.position.y = Math.cos(timer) * 4;
+  pointLight.position.x = Math.sin(timer) * 3
+  pointLight.position.y = Math.cos(timer) * 4
 
-  controls.update();
+  controls.update()
 
-  render();
+  render()
 }
 
 function render() {
-  renderer.render(scene, camera);
+  renderer.render(scene, camera)
 }
