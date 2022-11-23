@@ -4,8 +4,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
 import * as CANNON from 'cannon-es'
-
 import { Pane } from 'tweakpane'
+
+import hitURL from '@/sounds/hit.mp3?url'
 
 interface Model {
   mesh: THREE.Mesh
@@ -29,6 +30,21 @@ const scene = new THREE.Scene()
  */
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, near, 2 * far)
 camera.position.set(0, 10, 10)
+
+/**
+ * Sounds
+ */
+const hitSound = new Audio(hitURL)
+
+function playHitSound(collision: any) {
+  const impactStrength = collision.contact.getImpactVelocityAlongNormal()
+
+  if (impactStrength > 1.5) {
+    hitSound.volume = Math.random()
+    hitSound.currentTime = 0
+    hitSound.play()
+  }
+}
 
 /**
  * Physics
@@ -77,6 +93,7 @@ function cubeGenerator(width: number, height: number, depth: number, x: number, 
     shape,
     material: defaultMaterial,
   })
+  body.addEventListener('collide', playHitSound)
   world.addBody(body)
 
   objects.push({ mesh, body })
@@ -99,6 +116,7 @@ function shpereGenerator(radius: number, x: number, y: number, z: number) {
     shape,
     material: defaultMaterial,
   })
+  body.addEventListener('collide', playHitSound)
   world.addBody(body)
 
   objects.push({ mesh, body })
@@ -233,6 +251,7 @@ function initPane() {
   }).on('click', () => {
     for (const object of objects) {
       // Remove body
+      object.body.removeEventListener('collide', playHitSound)
       world.removeBody(object.body)
 
       // Remove mesh
