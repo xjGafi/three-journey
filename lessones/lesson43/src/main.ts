@@ -33,26 +33,39 @@ camera.position.set(0, 10, 10)
 /**
  * Physics
  */
-const world = new CANNON.World({
-  gravity: new CANNON.Vec3(0, -9.82, 0),
-})
+const world = new CANNON.World()
+world.broadphase = new CANNON.SAPBroadphase(world)
+world.allowSleep = true
+world.gravity.set(0, -9.82, 0)
+// Default material
+const defaultMaterial = new CANNON.Material('default')
+const defaultContactMaterial = new CANNON.ContactMaterial(
+  defaultMaterial,
+  defaultMaterial,
+  {
+    friction: 0.1,
+    restitution: 0.7,
+  },
+)
+world.defaultContactMaterial = defaultContactMaterial
 
 /**
  * Objects
  */
 const objects: Array<Model> = []
+const material = new THREE.MeshStandardMaterial({
+  color: 0xFFFFFF,
+  metalness: 0.3,
+  roughness: 0.4,
+})
 
 // Create Cube
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1)
-const cubeMaterial = new THREE.MeshLambertMaterial({
-  color: 0xFFFFFF,
-})
 function cubeGenerator(width: number, height: number, depth: number, x: number, y: number, z: number) {
   // Model
-  const mesh = new THREE.Mesh(cubeGeometry, cubeMaterial)
-  mesh.scale.set(width, height, depth)
+  const geometry = new THREE.BoxGeometry(width, height, depth)
+  const mesh = new THREE.Mesh(geometry, material)
   mesh.castShadow = true
-  mesh.position.copy(new THREE.Vector3(x, y, z))
+  mesh.position.set(x, y, z)
   scene.add(mesh)
 
   // Physic
@@ -62,88 +75,78 @@ function cubeGenerator(width: number, height: number, depth: number, x: number, 
     mass: 1,
     position: new CANNON.Vec3(x, y, z),
     shape,
+    material: defaultMaterial,
   })
   world.addBody(body)
 
   objects.push({ mesh, body })
 }
-cubeGenerator(1, 1, 1, 0, 5, 0)
 
-// Create floor
-function floorGenerator() {
-  // Mesh
-  const floorGeometry = new THREE.PlaneGeometry(far, far)
-  const floorMaterial = new THREE.MeshLambertMaterial({
-    color: 0xFFFFFF,
-  })
-  const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial)
-  floorMesh.rotateX(-Math.PI / 2)
-  scene.add(floorMesh)
-
-  floorMesh.receiveShadow = true
+// Create Shpere
+function shpereGenerator(radius: number, x: number, y: number, z: number) {
+  // Model
+  const gemetry = new THREE.SphereGeometry(radius, 50, 50)
+  const mesh = new THREE.Mesh(gemetry, material)
+  mesh.castShadow = true
+  mesh.position.set(x, y, z)
+  scene.add(mesh)
 
   // Physic
-  const shape = new CANNON.Plane()
+  const shape = new CANNON.Sphere(radius)
   const body = new CANNON.Body({
-    mass: 0,
+    mass: 1,
+    position: new CANNON.Vec3(x, y, z),
     shape,
+    material: defaultMaterial,
   })
-  body.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5)
   world.addBody(body)
+
+  objects.push({ mesh, body })
 }
-floorGenerator()
+
+// Create floor
+// Mesh
+const geometry = new THREE.PlaneGeometry(far, far)
+const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
+  color: 0x777777,
+  metalness: 0.3,
+  roughness: 0.4,
+}))
+mesh.rotateX(-Math.PI / 2)
+mesh.receiveShadow = true
+scene.add(mesh)
+
+// Physic
+const shape = new CANNON.Plane()
+const body = new CANNON.Body({
+  mass: 0,
+  shape,
+})
+body.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2)
+world.addBody(body)
 
 /**
  * Lights
  */
-function addDirectionalLightHelper() {
-  // 平行光光源对象
-  const directionalLight = new THREE.DirectionalLight(0xFFFF00, 1)
-  // 设置平行光光源位置（同聚光光源）
-  directionalLight.position.set(-10, 10, -10)
-  scene.add(directionalLight)
+const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.7)
+scene.add(ambientLight)
 
-  // 设置用于计算阴影的光源对象
-  directionalLight.castShadow = true
-  // 设置计算阴影的区域，最好刚好紧密包围在对象周围
-  // 计算阴影的区域过大：模糊  过小：看不到或显示不完整
-  directionalLight.shadow.camera.near = 0.5
-  directionalLight.shadow.camera.far = 30
-  directionalLight.shadow.camera.left = -20
-  directionalLight.shadow.camera.right = 20
-  directionalLight.shadow.camera.top = 20
-  directionalLight.shadow.camera.bottom = -20
-  // 设置 mapSize 属性可以使阴影更清晰，不那么模糊
-  directionalLight.shadow.mapSize.set(1024, 1024)
+const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.2)
+directionalLight.position.set(-10, 20, 10)
+scene.add(directionalLight)
 
-  // // 摄像机辅助对象
-  // const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
-  // scene.add(cameraHelper);
-}
-addDirectionalLightHelper()
+directionalLight.castShadow = true
+directionalLight.shadow.camera.near = 0.5
+directionalLight.shadow.camera.far = 30
+directionalLight.shadow.camera.left = -20
+directionalLight.shadow.camera.right = 20
+directionalLight.shadow.camera.top = 20
+directionalLight.shadow.camera.bottom = -20
+directionalLight.shadow.mapSize.set(1024, 1024)
 
-function addSpotLight() {
-  // 聚光光源对象
-  const spotLight = new THREE.SpotLight(0xFF00FF)
-  // 设置聚光光源位置
-  spotLight.position.set(10, 10, 10)
-  scene.add(spotLight)
-
-  // 设置聚光光源发散角度
-  spotLight.angle = Math.PI / 6
-  // 设置用于计算阴影的光源对象
-  spotLight.castShadow = true
-  // 设置计算阴影的区域，注意包裹对象的周围
-  spotLight.shadow.camera.near = 1
-  spotLight.shadow.camera.far = 20
-  spotLight.shadow.camera.fov = 2
-  spotLight.shadow.mapSize.set(1024, 1024)
-
-  // // 摄像机辅助对象
-  // const cameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
-  // scene.add(cameraHelper);
-}
-addSpotLight()
+// // 摄像机辅助对象
+// const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+// scene.add(cameraHelper)
 
 /**
  * Renderer
@@ -208,12 +211,21 @@ function initPane() {
   pane.addButton({
     title: 'Add cube',
   }).on('click', () => cubeGenerator(
-    Math.random() * 2,
-    Math.random() * 2,
-    Math.random() * 2,
-    (Math.random() - 0.5) * 10,
-    10,
-    (Math.random() - 0.5) * 10,
+    Math.random() + 0.5,
+    Math.random() + 0.5,
+    Math.random() + 0.5,
+    (Math.random() - 0.5) * 5,
+    5,
+    (Math.random() - 0.5) * 5,
+  ))
+
+  pane.addButton({
+    title: 'Add shpere',
+  }).on('click', () => shpereGenerator(
+    Math.random(),
+    (Math.random() - 0.5) * 5,
+    5,
+    (Math.random() - 0.5) * 5,
   ))
 
   pane.addButton({
@@ -245,4 +257,3 @@ function onResize() {
   renderer.setPixelRatio(devicePixelRatio)
 }
 window.addEventListener('resize', onResize)
-
