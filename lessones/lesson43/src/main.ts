@@ -91,8 +91,13 @@ function cubeGenerator(width: number, height: number, depth: number, x: number, 
     mass: 1,
     position: new CANNON.Vec3(x, y, z),
     shape,
-    material: defaultMaterial,
+    // material: defaultMaterial,
   })
+  // 给模型添加一个初速度
+  body.applyLocalForce(
+    new CANNON.Vec3(500, 0, 0),
+    new CANNON.Vec3(0, 0, 0),
+  )
   body.addEventListener('collide', playHitSound)
   world.addBody(body)
 
@@ -114,8 +119,13 @@ function shpereGenerator(radius: number, x: number, y: number, z: number) {
     mass: 1,
     position: new CANNON.Vec3(x, y, z),
     shape,
-    material: defaultMaterial,
+    // material: defaultMaterial,
   })
+  // 给模型添加一个初速度
+  body.applyLocalForce(
+    new CANNON.Vec3(500, 0, 0),
+    new CANNON.Vec3(0, 0, 0),
+  )
   body.addEventListener('collide', playHitSound)
   world.addBody(body)
 

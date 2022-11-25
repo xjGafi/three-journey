@@ -16,6 +16,11 @@
 > 补充知识：
 > [使用 pnpm 构建 Monorepo 项目](https://zhuanlan.zhihu.com/p/373935751)
 
+## 第三方依赖
+
+- [tweakpane](https://cocopon.github.io/tweakpane/)：参数调试面板
+- [cannon-es](https://pmndrs.github.io/cannon-es/docs/index.html)：物理引擎插件
+
 ## 目录说明
 
 - [lessones：教程示例](./lessones/README.md)
