@@ -18,8 +18,9 @@
 
 ## 第三方依赖
 
-- [tweakpane](https://cocopon.github.io/tweakpane/)：参数调试面板
-- [cannon-es](https://pmndrs.github.io/cannon-es/docs/index.html)：物理引擎插件
+- [tweakpane](https://cocopon.github.io/tweakpane/)：参数调试面板插件
+- [gsap](https://greensock.com/)：动画平台插件
+- [cannon-es](https://pmndrs.github.io/cannon-es/)：物理引擎插件
 
 ## 目录说明
 
