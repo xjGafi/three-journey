@@ -13,15 +13,15 @@ let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let mesh: Mesh
 
-let time = '00:00:00'
+let currentTime = '00:00:00'
 
 init()
 animate()
 
 function init() {
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
-  camera.position.set(0, 0, 300)
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 10)
+  camera.position.set(0, 0, 3)
 
   // Scene
   scene = new Scene()
@@ -54,31 +54,28 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate)
 
-  updateView()
+  updateTime()
 
   render()
 }
 
-function updateView() {
-  const date = new Date()
-  const zeroPadding = (num: number) => (num >= 10 ? `${num}` : `0${num}`)
-  const h = zeroPadding(date.getHours())
-  const m = zeroPadding(date.getMinutes())
-  const s = zeroPadding(date.getSeconds())
+function updateTime() {
+  const time = new Date().toString().split(' ')[4]
 
-  const currentTime = `${h}:${m}:${s}`
-  if (time !== currentTime) {
+  if (currentTime !== time) {
     const text = document.querySelector('h1#clock')!
-    text.innerHTML = currentTime
+    text.innerHTML = time
 
-    const timePercentage = (current: string, total: number) =>
-      (Number(current) + 1) / total
-    const r = timePercentage(h, 24)
-    const g = timePercentage(m, 60)
-    const b = timePercentage(s, 60);
+    const [r, g, b] = time.split(':')
+      .map((value: string, index: number) => {
+        const total = index === 0 ? 24 : 60
+        return Number(value) / total
+      });
+
     (mesh.material as MeshBasicMaterial).color = new Color(r, g, b)
   }
-  time = currentTime
+
+  currentTime = time
 }
 
 function render() {
