@@ -90,13 +90,13 @@ function boxGeometry(): BufferGeometry {
     10, // 顶点 6 坐标
   ])
   // 创建顶点位置 position 属性缓冲区对象，3 个为一组，表示一个顶点的 xyz 坐标
-  const attribue = new BufferAttribute(vertices, 3)
+  const attribute = new BufferAttribute(vertices, 3)
 
   // 创建一个 Buffer 类型几何体对象
   const geometry = new BufferGeometry()
   // 设置几何体 attributes 属性的位置属性
-  geometry.setAttribute('position', attribue)
-  // geometry.attributes.position = attribue;
+  geometry.setAttribute('position', attribute)
+  // geometry.attributes.position = attribute;
 
   return geometry
 }

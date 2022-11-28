@@ -575,7 +575,7 @@ Raycasting to paint voxels
    - 设置材质的尺寸、透明度、混合模式、顶点着色器等属性
 3. 通过 `Points` 创建点模型对象
 4. 在 `animate()` 中创建旋转动画
-5. 支持修改行政
+5. 支持修改形状
 
 ## [Lesson 41](./lesson41/src/main.ts)
 
