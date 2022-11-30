@@ -21,7 +21,7 @@ animate()
 function init() {
   // Canera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, near, far)
-  camera.position.set(0, 0, 0)
+  camera.position.set(0, 0, far)
   // camera.lookAt(0, 0, 0)
 
   // Scene
