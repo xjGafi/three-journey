@@ -15,9 +15,7 @@ import SimplexNoise from 'simplex-noise'
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let ball: Mesh
-
-let geometry: SphereGeometry
-let material: MeshLambertMaterial
+const radius = 50
 
 const noise = new SimplexNoise()
 
@@ -33,7 +31,7 @@ function init() {
   scene = new Scene()
 
   // Lights
-  createLight()
+  createLights()
 
   // Object
   createBall()
@@ -45,19 +43,18 @@ function init() {
   renderer.setPixelRatio(devicePixelRatio)
 
   // Resize
-  window.addEventListener('resize', onWindowResize)
+  window.addEventListener('resize', onResize)
 }
 
-function onWindowResize() {
-  camera.aspect = innerWidth / innerHeight
-  camera.updateProjectionMatrix()
+function animate() {
+  requestAnimationFrame(animate)
 
-  renderer.setSize(innerWidth, innerHeight)
+  makeRoughBall()
 
   render()
 }
 
-function createLight() {
+function createLights() {
   const ambientLight = new AmbientLight(0x4040FF)
   scene.add(ambientLight)
 
@@ -74,10 +71,9 @@ function createLight() {
   lights.map(light => light.castShadow = true)
 }
 
-// https://codepen.io/tksiiii/pen/jwdvGG
 function createBall() {
-  geometry = new SphereGeometry(50, 100, 100)
-  material = new MeshLambertMaterial({
+  const geometry = new SphereGeometry(radius, 100, 100)
+  const material = new MeshLambertMaterial({
     color: 0x87F9D9,
     // wireframe: true,
   })
@@ -90,14 +86,13 @@ function createBall() {
 }
 
 function makeRoughBall() {
-  const positions = geometry.attributes.position.array as Array<number>
-  const offset = geometry.parameters.radius
+  const positions = ball.geometry.attributes.position.array as Array<number>
   for (let i = 0; i < positions.length; i += 3) {
     const vertex = new Vector3(positions[i], positions[i + 1], positions[i + 2])
     vertex.normalize()
     const time = Date.now()
     const amp = 5
-    const distance = offset + noise.noise3D(
+    const distance = radius + noise.noise3D(
       vertex.x + time * 0.0007,
       vertex.y + time * 0.0008,
       vertex.z + time * 0.0009,
@@ -107,15 +102,15 @@ function makeRoughBall() {
     positions[i + 1] = vertex.y
     positions[i + 2] = vertex.z
   }
-  geometry.attributes.position.needsUpdate = true
-  geometry.computeVertexNormals()
+  ball.geometry.attributes.position.needsUpdate = true
+  ball.geometry.computeVertexNormals()
 }
 
-function animate() {
-  requestAnimationFrame(animate)
+function onResize() {
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
 
-  makeRoughBall()
-  ball.rotation.y += 0.02
+  renderer.setSize(innerWidth, innerHeight)
 
   render()
 }
@@ -123,3 +118,4 @@ function animate() {
 function render() {
   renderer.render(scene, camera)
 }
+
