@@ -49,6 +49,7 @@
     "dev:43": "pnpm run -C lessones/lesson43 dev",
     "dev:clock": "pnpm run -C examples/clock dev",
     "dev:cube": "pnpm run -C examples/cube dev",
+    "dev:day001": "pnpm run -C examples/day001 dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

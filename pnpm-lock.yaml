@@ -28,6 +28,12 @@ importers:
   examples/clock:
     specifiers: {}
 
+  examples/day001:
+    specifiers:
+      simplex-noise: 3.0.1
+    dependencies:
+      simplex-noise: 3.0.1
+
   lessones/lesson01:
     specifiers: {}
 
@@ -2327,6 +2333,10 @@ packages:
       get-intrinsic: 1.1.3
       object-inspect: 1.12.2
     dev: true
+
+  /simplex-noise/3.0.1:
+    resolution: {integrity: sha512-eww0SFiWLyOaUKQMJ7gbdvQJvULeJdM/Y4BiC3rrOQnYHo+MSPh465/qeXSZkpTdB9/HthumpnYD3DobZweBBQ==}
+    dev: false
 
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
