@@ -16,4 +16,10 @@
 
 参考：[Basic practice of three.js](https://codepen.io/tksiiii/pen/jwdvGG)
 
-> 蠕动的球体
+> 蠕动球体
+
+## [Day002](./day002/src/main.ts)
+
+参考：[Daily CSS Design - Day 224](https://dailycssdesign.com/224/)
+
+> 彩色黑洞

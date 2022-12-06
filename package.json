@@ -50,6 +50,7 @@
     "dev:clock": "pnpm run -C examples/clock dev",
     "dev:cube": "pnpm run -C examples/cube dev",
     "dev:day001": "pnpm run -C examples/day001 dev",
+    "dev:day002": "pnpm run -C examples/day002 dev",
     "dev:template": "pnpm run -C examples/template dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

@@ -1,0 +1,17 @@
+export default [
+  { color1: 'rgb(102, 255, 213)', color2: 'rgb(250, 85, 228)', timeOffset: 6.9, positionZ: 50 },
+  { color1: 'rgb(108, 188, 243)', color2: 'rgb(102, 255, 213)', timeOffset: 8.7, positionZ: 15 },
+  { color1: 'rgb(108, 188, 243)', color2: 'rgb(102, 255, 213)', timeOffset: 1.8, positionZ: -20 },
+  { color1: 'rgb(241, 47, 128)', color2: 'rgb(250, 85, 228)', timeOffset: 3.6, positionZ: -55 },
+  { color1: 'rgb(102, 255, 213)', color2: 'rgb(108, 188, 243)', timeOffset: 4.1, positionZ: -90 },
+  { color1: 'rgb(250, 85, 228)', color2: 'rgb(250, 85, 228)', timeOffset: 3.3, positionZ: -125 },
+  { color1: 'rgb(250, 85, 228)', color2: 'rgb(241, 47, 128)', timeOffset: 7.2, positionZ: -160 },
+  { color1: 'rgb(108, 188, 243)', color2: 'rgb(102, 255, 213)', timeOffset: 2.4, positionZ: -195 },
+  { color1: 'rgb(250, 85, 228)', color2: 'rgb(108, 188, 243)', timeOffset: 9.8, positionZ: -230 },
+  { color1: 'rgb(241, 47, 128)', color2: 'rgb(241, 47, 128)', timeOffset: 8.9, positionZ: -265 },
+  { color1: 'rgb(241, 47, 128)', color2: 'rgb(102, 255, 213)', timeOffset: 4.8, positionZ: -300 },
+  { color1: 'rgb(250, 85, 228)', color2: 'rgb(108, 188, 243)', timeOffset: 7.1, positionZ: -335 },
+  { color1: 'rgb(250, 85, 228)', color2: 'rgb(241, 47, 128)', timeOffset: 0.2, positionZ: -370 },
+  { color1: 'rgb(241, 47, 128)', color2: 'rgb(250, 85, 228)', timeOffset: 1.6, positionZ: -405 },
+  { color1: 'rgb(108, 188, 243)', color2: 'rgb(102, 255, 213)', timeOffset: 4.4, positionZ: -440 },
+]
