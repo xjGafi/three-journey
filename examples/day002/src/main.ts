@@ -12,7 +12,7 @@ import {
 
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
-import meshConfigs from './meshConfigs'
+import uniforms from './uniforms'
 
 let scene: Scene
 let camera: PerspectiveCamera
@@ -59,17 +59,17 @@ function animate() {
 function meshGenerator() {
   const geometry = new PlaneGeometry(75, 75)
 
-  meshConfigs.forEach((config) => {
+  uniforms.forEach((uniform, index) => {
     const material = new ShaderMaterial({
       uniforms: {
         u_color1: {
-          value: new Color(config.color1),
+          value: new Color(uniform.color1),
         },
         u_color2: {
-          value: new Color(config.color2),
+          value: new Color(uniform.color2),
         },
         u_time: { value: 0 },
-        u_timeOffset: { value: config.timeOffset },
+        u_timeOffset: { value: uniform.timeOffset },
       },
       fragmentShader,
       vertexShader,
@@ -77,7 +77,7 @@ function meshGenerator() {
     })
 
     const mesh = new Mesh(geometry, material)
-    mesh.position.z = config.positionZ
+    mesh.position.z = 50 - 35 * index
     meshes.push(mesh)
   })
 
