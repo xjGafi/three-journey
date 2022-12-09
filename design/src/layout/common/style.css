@@ -1,0 +1,181 @@
+.header {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%
+}
+
+a, button {
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.12s
+}
+
+a:hover,
+button:hover {
+  color: #d40047
+}
+
+.menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50
+}
+
+.menu-items {
+  padding: 0;
+  margin: 0;
+  list-style: none
+}
+
+.menu-item {
+  position: absolute;
+  bottom: 0;
+}
+
+.menu-item--previous {
+  left: 0
+}
+
+.menu-item--next {
+  right: 0
+}
+
+.menu-item__link {
+  padding: 30px 40px;
+  display: block
+}
+
+.menu-item__text,.menu-item__arrow {
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: middle
+}
+
+.menu-item__arrow {
+  height: 1px;
+  width: 80px;
+  background-color: #fff;
+  background-color: currentColor;
+  position: relative
+}
+
+.menu-item__arrow:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  border: 5px solid transparent;
+  margin-top: -5px
+}
+
+.menu-item__arrow--left {
+  margin-right: 5px
+}
+
+.menu-item__arrow--left:after {
+  border-right: 7px solid;
+  left: -7px
+}
+
+.menu-item__arrow--right {
+  margin-left: 5px
+}
+
+.menu-item__arrow--right:after {
+  border-left: 7px solid;
+  right: -7px
+}
+
+.intro {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 50
+}
+
+.title {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0
+}
+
+.description {
+  position: absolute;
+  top: 50%;
+  opacity: 0.2;
+  z-index: 50;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin:0;
+  user-select: none
+}
+
+.description:hover {
+  opacity: 0.4;
+}
+
+.description--left {
+  left: 40px;
+  transform-origin: left;
+  transform: rotate(-90deg) translate(-50%, 10px);
+}
+
+.description--right {
+  right: 40px;
+  transform-origin: right;
+  transform: rotate(90deg) translate(50%, 10px);
+}
+
+.number__github {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  z-index: 50;
+  text-align: right
+}
+
+.number__github__label {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0
+}
+
+.number__github__stripe {
+  width: 50px;
+  height: 3px;
+  background-color: #fff;
+  background-color: currentColor;
+  display: inline-block;
+  margin: 3px 0
+}
+
+.number__github__user {
+  font-size: 20px
+}
+
+.number__github__user span {
+  vertical-align: middle
+}
+
+.number__github__user svg {
+  margin-left: 5px;
+  vertical-align: middle;
+  transition: fill 0.12s
+}
+
+.number__github__user:hover svg {
+  fill: #d40047
+}

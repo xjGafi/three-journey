@@ -29,3 +29,4 @@
 - https://dailycssdesign.com/190/
 - https://dailycssdesign.com/194/
 - https://dailycssdesign.com/334/
+- https://dailycssdesign.com/347/

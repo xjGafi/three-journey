@@ -52,6 +52,7 @@
     "dev:day001": "pnpm run -C examples/day001 dev",
     "dev:day002": "pnpm run -C examples/day002 dev",
     "dev:template": "pnpm run -C examples/template dev",
+    "dev:art": "pnpm run -C design dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
