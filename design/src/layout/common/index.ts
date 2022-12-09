@@ -78,7 +78,7 @@ class CommonComponent extends HTMLElement {
         numberEL.innerHTML = currentPage
 
       // 修改 Github URL
-      const user = 'https://github.com/xjGafi'
+      const user = 'https://github.com/xjGafi/three-journey'
       const githubEl = this.shadowRoot?.querySelector<HTMLLinkElement>('#github')
       if (githubEl)
         githubEl.href = `${user}/blob/master/design/src/views/no${currentPage}/index.ts`
