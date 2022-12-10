@@ -1,7 +1,7 @@
 import style from './style.css?url'
 import html from './template.html?raw'
 
-class GalleryComponent extends HTMLElement {
+class GalleryLayout extends HTMLElement {
   private previousPath: string
   private nextPath: string
 
@@ -49,7 +49,6 @@ class GalleryComponent extends HTMLElement {
     this.routeChange()
 
     // 添加事件
-    this.addClickEvent('title', '/')
     this.addClickEvent('previous', this.previousPath)
     this.addClickEvent('next', this.nextPath)
   }
@@ -70,18 +69,10 @@ class GalleryComponent extends HTMLElement {
       // 修改底部切换按钮路由
       this.updateNavBtn()
 
+      // 传给父组件：修改 No.xx, Github URL
       const currentPage = location.pathname.slice(1)
-
-      // 修改 No.xx
-      const numberEL = this.shadowRoot?.querySelector('#path')
-      if (numberEL)
-        numberEL.innerHTML = currentPage
-
-      // 修改 Github URL
-      const user = 'https://github.com/xjGafi/three-journey'
-      const githubEl = this.shadowRoot?.querySelector<HTMLLinkElement>('#github')
-      if (githubEl)
-        githubEl.href = `${user}/blob/master/design/src/views/no${currentPage}/index.ts`
+      const parent = this.shadowRoot?.querySelector('#parent')
+      parent?.setAttribute('path', currentPage)
     })
   }
 
@@ -126,4 +117,4 @@ class GalleryComponent extends HTMLElement {
 }
 
 // 注册 Shadow DOM 组件
-customElements.define('gallery-component', GalleryComponent)
+customElements.define('gallery-layout', GalleryLayout)

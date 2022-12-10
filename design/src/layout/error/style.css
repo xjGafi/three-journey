@@ -1,9 +1,3 @@
-@import url(../style.css);
-
-.main {
-  background: #333
-}
-
 .error {
   z-index: 50;
   font-size: 28px;

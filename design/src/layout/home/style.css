@@ -1,34 +1,27 @@
-@import url(../style.css);
-
-.main {
-  background: #333
-}
-
 .views {
+  height: 100%;
+  overflow: scroll;
   list-style: none;
   font-size: 0;
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 30px 0 40px
+  display: flex;
+  flex-wrap:wrap;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 200px 40px 40px
 }
 
 .views__item {
-  width: 33.33%;
+  width: 30%;
   display: inline-block;
-  vertical-align: top;
-  padding: 20px
 }
 
 .views__item__link {
   display: block;
-  position: relative;
-  backface-visibility: hidden;
   transition: transform 0.12s;
-  transform-style: preserve-3d
 }
 
 .views__item__link:hover {
-  transform: translate3d(0, -14px, 0);
+  transform: translateY(-14px);
 }
 
 .views__item__title {
@@ -46,20 +39,23 @@
 
 .views__item__link:hover .views__item__title {
   opacity: 1;
-  transform: translate3d(0, 34px, 0);
+  transform: translateY(34px);
   color: #fff;
 }
 
 .views__item__image {
-  position: relative;
-  z-index: 1;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  background-position: center;
+  width: 100%;
+  border-radius: 20px
 }
 
-.views__item__image:after {
-  content: '';
-  display: block;
-  padding-bottom: 56.2%
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #444 ;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
 }

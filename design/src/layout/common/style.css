@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-a, button {
+a {
   color: #fff;
   text-decoration: none;
   background: transparent;
@@ -18,8 +18,7 @@ a, button {
   transition: color 0.12s
 }
 
-a:hover,
-button:hover {
+a:hover {
   color: #d40047
 }
 
@@ -44,6 +43,7 @@ button:hover {
 }
 
 .github__label {
+  display: none;
   position: relative;
   font-weight: 700;
   font-size: 32px;

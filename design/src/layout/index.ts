@@ -1,22 +1,23 @@
+import './common'
 import './home'
 import './error'
 import './gallery'
 
 window.$router.beforeEach(() => {
   const currentPage = location.pathname.slice(1)
-  let layout = `<canvas id="webgl_${currentPage}"></canvas>`
+  let layout
 
   switch (currentPage) {
     case '':
-      layout += '<home-component/>'
+      layout = '<home-layout></home-layout>'
       break
 
     case 'error':
-      layout += '<error-component/>'
+      layout = '<error-layout></error-layout>'
       break
 
     default:
-      layout += '<gallery-component/>'
+      layout = `<canvas id="webgl_${currentPage}"></canvas><gallery-layout></gallery-layout>`
       break
   }
 
