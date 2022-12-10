@@ -1,4 +1,6 @@
 .error {
+  width: 100%;
+  text-align: center;
   z-index: 50;
   font-size: 28px;
   position: absolute;
