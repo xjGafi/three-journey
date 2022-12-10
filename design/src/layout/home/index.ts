@@ -48,7 +48,7 @@ class HomeLayout extends HTMLElement {
     for (const path in importImages) {
       const image = await importImages[path]() as any
       const url = image.default
-      const number = url.slice(-7, -4)
+      const number = url.match(/no(.*)\./)[1].slice(0, 3)
       list += `
         <li class="views__item">
           <a href="/${number}" class="views__item__link" target="_blank">
