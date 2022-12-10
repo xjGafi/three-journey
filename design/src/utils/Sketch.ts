@@ -24,6 +24,7 @@ class Sketch {
   private stopAnimation: boolean
 
   constructor(opts?: SketchOptions) {
+    const currentPage = location.pathname.slice(1)
     const { innerWidth, innerHeight, devicePixelRatio } = window
 
     this.scene = opts?.scene ?? new Scene()
@@ -32,7 +33,7 @@ class Sketch {
     ?? new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000)
     this.camera.position.set(0, 0, 3)
 
-    this.canvas = opts?.canvas ?? document.querySelector('canvas#webgl')!
+    this.canvas = opts?.canvas ?? document.querySelector(`canvas#webgl_${currentPage}`)!
     this.renderer = opts?.renderer ?? new WebGLRenderer({ canvas: this.canvas })
     this.renderer.physicallyCorrectLights = true
     this.renderer.outputEncoding = sRGBEncoding

@@ -1,0 +1,65 @@
+@import url(../style.css);
+
+.main {
+  background: #333
+}
+
+.views {
+  list-style: none;
+  font-size: 0;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 30px 0 40px
+}
+
+.views__item {
+  width: 33.33%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 20px
+}
+
+.views__item__link {
+  display: block;
+  position: relative;
+  backface-visibility: hidden;
+  transition: transform 0.12s;
+  transform-style: preserve-3d
+}
+
+.views__item__link:hover {
+  transform: translate3d(0, -14px, 0);
+}
+
+.views__item__title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  text-align: center;
+  margin: 0;
+  font-weight: bold;
+  opacity: 0;
+  padding: 10px 0
+}
+
+.views__item__link:hover .views__item__title {
+  opacity: 1;
+  transform: translate3d(0, 34px, 0);
+  color: #fff;
+}
+
+.views__item__image {
+  position: relative;
+  z-index: 1;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  background-position: center;
+}
+
+.views__item__image:after {
+  content: '';
+  display: block;
+  padding-bottom: 56.2%
+}

@@ -1,11 +1,24 @@
-import './common'
+import './home'
+import './error'
+import './gallery'
 
-const initLayout = (appId: string) => {
-  const layout = `
-  <common-component/>
-  `
-  const app = document.querySelector<HTMLElement>(appId)!
-  app.innerHTML = layout
-}
+window.$router.beforeEach(() => {
+  const currentPage = location.pathname.slice(1)
+  let layout = `<canvas id="webgl_${currentPage}"></canvas>`
 
-export default initLayout
+  switch (currentPage) {
+    case '':
+      layout += '<home-component/>'
+      break
+
+    case 'error':
+      layout += '<error-component/>'
+      break
+
+    default:
+      layout += '<gallery-component/>'
+      break
+  }
+
+  document.body.innerHTML = layout
+})

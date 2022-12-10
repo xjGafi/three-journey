@@ -1,7 +1,7 @@
 import style from './style.css?url'
 import html from './template.html?raw'
 
-class CommonComponent extends HTMLElement {
+class GalleryComponent extends HTMLElement {
   private previousPath: string
   private nextPath: string
 
@@ -126,4 +126,4 @@ class CommonComponent extends HTMLElement {
 }
 
 // 注册 Shadow DOM 组件
-customElements.define('common-component', CommonComponent)
+customElements.define('gallery-component', GalleryComponent)

@@ -107,7 +107,7 @@ class Router {
     }
     catch (error) {
       console.error('🤯 refresh():', error)
-      this.routes['/error'].call(this)
+      this.assign('/error')
     }
   }
 
