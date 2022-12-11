@@ -5,7 +5,7 @@ body {
 }
 
 body.home {
-  overflow: scroll;
+  overflow-y: scroll;
   background-color: #333;
 }
 

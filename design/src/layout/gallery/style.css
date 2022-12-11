@@ -93,7 +93,7 @@ button:hover {
 
 .description {
   position: absolute;
-  top: 50%;
+  top: 55%;
   opacity: 0.2;
   z-index: 50;
   font-size: 14px;

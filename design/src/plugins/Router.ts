@@ -22,7 +22,7 @@ class Router {
 
   constructor(options: Options) {
     this.routeConfigs = options.routeConfigs
-    this.currentPath = ''
+    this.currentPath = location.pathname
     this.routes = {} // 保存注册的所有路由
 
     this.beforeHandler = () => {} // 切换前
@@ -49,7 +49,7 @@ class Router {
     // 首次加载
     window.addEventListener(
       'load',
-      this.assign.bind(this, location.pathname),
+      this.assign.bind(this, this.currentPath),
       false,
     )
 
@@ -60,7 +60,7 @@ class Router {
     )
   }
 
-  // 注册每个视图
+  // 注册路由
   register(path: string, callback: Function) {
     if (typeof callback === 'function')
       this.routes[path] = callback
@@ -83,28 +83,27 @@ class Router {
 
   // 通用处理 path 调用回调函数
   async refresh(path: string) {
-    if (this.currentPath === path)
-      return
+    // if (this.currentPath === path)
+    //   return
 
     try {
+      const route = this.routes[path]
       // 判断路由是否被注册
-      // eslint-disable-next-line no-prototype-builtins
-      const hasOwnProperty = this.routes.hasOwnProperty(path)
-      if (hasOwnProperty) {
+      if (typeof route !== 'undefined') {
         // 路由的回调函数执行前触发
         this.beforeHandler()
 
         this.currentPath = path
 
         // 执行路由的回调函数
-        const callback = await this.routes[path].call(this)
+        const callback = await route.call(this)
         callback.default.call(this)
 
         // 路由的回调函数执行后触发
         this.afterHandler()
       }
       else {
-        throw new Error(`${path} is not registered.`)
+        throw new TypeError(`${path} is not registered.`)
       }
     }
     catch (error) {
