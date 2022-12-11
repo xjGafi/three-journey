@@ -82,7 +82,7 @@ class Router {
   }
 
   // 通用处理 path 调用回调函数
-  refresh(path: string) {
+  async refresh(path: string) {
     if (this.currentPath === path)
       return
 
@@ -94,9 +94,11 @@ class Router {
         // 路由的回调函数执行前触发
         this.beforeHandler()
 
-        // 执行路由的回调函数
-        this.routes[path].call(this)
         this.currentPath = path
+
+        // 执行路由的回调函数
+        const callback = await this.routes[path].call(this)
+        callback.default.call(this)
 
         // 路由的回调函数执行后触发
         this.afterHandler()

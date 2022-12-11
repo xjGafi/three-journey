@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import type Router from "./router/Router";
+import type Router from "./plugins/Router";
 
 declare global {
   interface Window {

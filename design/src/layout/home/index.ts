@@ -1,4 +1,4 @@
-import style from './style.css?url'
+import style from './style.css?raw'
 import html from './template.html?raw'
 
 const importImages = import.meta.glob('../../../assets/images/*.jpg')
@@ -25,9 +25,8 @@ class HomeLayout extends HTMLElement {
   // 渲染逻辑
   render() {
     // 创建 style
-    const stylesheet = document.createElement('link')
-    stylesheet.setAttribute('rel', 'stylesheet')
-    stylesheet.setAttribute('href', style)
+    const styles = document.createElement('style')
+    styles.textContent = style
 
     // 创建 html
     const template = document.createElement('template')
@@ -35,7 +34,7 @@ class HomeLayout extends HTMLElement {
     const content = template.content.cloneNode(true)
 
     // 将所创建的元素添加到 Shadow DOM 上
-    this.shadowRoot?.appendChild(stylesheet)
+    this.shadowRoot?.appendChild(styles)
     this.shadowRoot?.appendChild(content)
 
     // 添加项目列表
@@ -51,7 +50,7 @@ class HomeLayout extends HTMLElement {
       const number = url.match(/no(.*)\./)[1].slice(0, 3)
       list += `
         <li class="views__item">
-          <a href="/${number}" class="views__item__link" target="_blank">
+          <a href="/${number}" class="views__item__link">
             <img class="views__item__image" src="${url}" />
             <p class="views__item__title">Open No.${number}</p>
           </a>

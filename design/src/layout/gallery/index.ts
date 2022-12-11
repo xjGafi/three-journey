@@ -1,4 +1,4 @@
-import style from './style.css?url'
+import style from './style.css?raw'
 import html from './template.html?raw'
 
 class GalleryLayout extends HTMLElement {
@@ -32,9 +32,8 @@ class GalleryLayout extends HTMLElement {
   // 渲染逻辑
   render() {
     // 创建 style
-    const stylesheet = document.createElement('link')
-    stylesheet.setAttribute('rel', 'stylesheet')
-    stylesheet.setAttribute('href', style)
+    const styles = document.createElement('style')
+    styles.textContent = style
 
     // 创建 html
     const template = document.createElement('template')
@@ -42,7 +41,7 @@ class GalleryLayout extends HTMLElement {
     const content = template.content.cloneNode(true)
 
     // 将所创建的元素添加到 Shadow DOM 上
-    this.shadowRoot?.appendChild(stylesheet)
+    this.shadowRoot?.appendChild(styles)
     this.shadowRoot?.appendChild(content)
 
     this.updateNavBtn()

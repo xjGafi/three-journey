@@ -1,7 +1,4 @@
 import './common'
-import './home'
-import './error'
-import './gallery'
 
 window.$router.beforeEach(() => {
   const currentPage = location.pathname.slice(1)
@@ -9,17 +6,32 @@ window.$router.beforeEach(() => {
 
   switch (currentPage) {
     case '':
-      layout = '<home-layout></home-layout>'
+      layout = getHomeLayout()
       break
 
     case 'error':
-      layout = '<error-layout></error-layout>'
+      layout = getErrorLayout()
       break
 
     default:
-      layout = `<canvas id="webgl_${currentPage}"></canvas><gallery-layout></gallery-layout>`
+      layout = getGalleryLayout(currentPage)
       break
   }
 
   document.body.innerHTML = layout
 })
+
+function getHomeLayout() {
+  import('./home')
+  return '<home-layout></home-layout>'
+}
+
+function getErrorLayout() {
+  import('./error')
+  return '<error-layout></error-layout>'
+}
+
+function getGalleryLayout(currentPage: string) {
+  import('./gallery')
+  return `<canvas id="webgl_${currentPage}"></canvas><gallery-layout></gallery-layout>`
+}
