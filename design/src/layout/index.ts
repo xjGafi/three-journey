@@ -3,21 +3,26 @@ import './common'
 window.$router.beforeEach(() => {
   const currentPage = location.pathname.slice(1)
   let layout
+  let className
 
   switch (currentPage) {
     case '':
+      className = 'home'
       layout = getHomeLayout()
       break
 
     case 'error':
+      className = 'error'
       layout = getErrorLayout()
       break
 
     default:
+      className = 'gallery'
       layout = getGalleryLayout(currentPage)
       break
   }
 
+  document.body.setAttribute('class', className)
   document.body.innerHTML = layout
 })
 

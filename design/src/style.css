@@ -1,8 +1,28 @@
-html,
 body {
   margin: 0;
-  overflow: hidden;
   user-select: none;
   color: #fff;
+}
+
+body.home {
+  overflow: scroll;
   background-color: #333;
+}
+
+body.error,
+body.gallery {
+  overflow: hidden;
+  background-color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #444 ;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
 }

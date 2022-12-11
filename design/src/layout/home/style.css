@@ -1,17 +1,15 @@
 .views {
-  height: 100%;
-  overflow: scroll;
   list-style: none;
   font-size: 0;
   display: flex;
   flex-wrap:wrap;
-  justify-content: space-between;
   gap: 40px;
-  padding: 200px 40px 40px
+  margin-top: 150px;
+  padding: 40px
 }
 
 .views__item {
-  width: 30%;
+  flex: 0 1 calc(calc(100% - 80px) / 3);
   display: inline-block;
 }
 
@@ -46,16 +44,4 @@
 .views__item__image {
   width: 100%;
   border-radius: 20px
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  position: absolute;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #444 ;
-}
-::-webkit-scrollbar-track {
-  background-color: transparent;
 }
