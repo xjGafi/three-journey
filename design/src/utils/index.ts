@@ -1,3 +1,3 @@
 export function lazyLoader(path: string) {
-  return () => import(`../views/${path}`)
+  return async () => await import(`../views/${path}/index.ts`)
 }
