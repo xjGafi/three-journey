@@ -6,7 +6,7 @@ body {
 
 body.home {
   overflow-y: scroll;
-  background-color: #333;
+  background-color: #1a1a1a;
 }
 
 body.error,
@@ -21,7 +21,7 @@ body.gallery {
   position: absolute;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #444 ;
+  background-color: #000 ;
 }
 ::-webkit-scrollbar-track {
   background-color: transparent;
