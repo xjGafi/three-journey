@@ -27,6 +27,7 @@ class GalleryLayout extends HTMLElement {
 
   // 销毁 Shadow DOM
   disconnectedCallback() {
+    this.addDestoryListener()
   }
 
   // 渲染逻辑
@@ -112,6 +113,11 @@ class GalleryLayout extends HTMLElement {
   showNavBtn(id: string, show: boolean) {
     const button = this.shadowRoot?.querySelector(`#${id}`)
     button?.setAttribute('style', `display: ${show ? 'block' : 'none'}`)
+  }
+
+  addDestoryListener(): void {
+    const event = new Event('destroy')
+    window.dispatchEvent(event)
   }
 }
 

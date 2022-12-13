@@ -13,18 +13,22 @@ import SimplexNoise from 'simplex-noise'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
+let animateId: number
+
 let ball: Mesh
 const radius = 50
 
 const noise = new SimplexNoise()
 
 function init() {
-  // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
-  camera.position.set(0, 0, 200)
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
   // Scene
   scene = new Scene()
+
+  // Canera
+  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
+  camera.position.set(0, 0, 200)
 
   // Lights
   createLights()
@@ -38,12 +42,13 @@ function init() {
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
 
-  // Resize
-  window.addEventListener('resize', onResize)
+  // Listener
+  window.addEventListener('resize', onResize, false)
+  window.addEventListener('destroy', onDestroy, false)
 }
 
 function animate() {
-  requestAnimationFrame(animate)
+  animateId = window.requestAnimationFrame(animate)
 
   makeRoughBall()
 
@@ -103,12 +108,32 @@ function makeRoughBall() {
 }
 
 function onResize() {
-  camera.aspect = innerWidth / innerHeight
-  camera.updateProjectionMatrix()
+  const { width, height } = renderer.domElement
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  renderer.setSize(innerWidth, innerHeight)
+  if (width !== innerWidth || height !== innerHeight) {
+    camera.aspect = innerWidth / innerHeight
+    camera.updateProjectionMatrix()
 
-  render()
+    renderer.setSize(innerWidth, innerHeight)
+    renderer.setPixelRatio(devicePixelRatio)
+  }
+}
+
+function onDestroy() {
+  try {
+    window.cancelAnimationFrame(animateId)
+    window.removeEventListener('destroy', onDestroy, false)
+    window.removeEventListener('resize', onResize, false)
+    renderer.dispose()
+    renderer.forceContextLoss()
+    const gl = renderer.domElement.getContext('webgl')
+    gl?.getExtension('WEBGL_lose_context')?.loseContext()
+    scene.clear()
+  }
+  catch (error) {
+    console.error('Failed to destroy Three.js: ', error)
+  }
 }
 
 function render() {

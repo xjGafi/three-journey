@@ -1,16 +1,12 @@
 a {
   color: #fff;
   text-decoration: none;
-  background: transparent;
-  border: none;
-  outline: none;
-  text-align: left;
   cursor: pointer;
   transition: color 0.12s
 }
 
 a:hover {
-  color: #d40047
+  color: #00ff00
 }
 
 .title {
@@ -22,7 +18,12 @@ a:hover {
   font-size: 32px;
   line-height: 1.1;
   cursor: pointer;
+  transition: color 0.12s;
   margin: 0
+}
+
+.title:hover {
+  color: #00ff00
 }
 
 .github {
@@ -68,5 +69,5 @@ a:hover {
 }
 
 .github__link:hover svg {
-  fill: #d40047
+  fill: #00ff00
 }

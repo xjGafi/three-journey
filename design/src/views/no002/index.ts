@@ -13,11 +13,11 @@ import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
 import uniforms from './uniforms'
 
-let scene: Scene
-let camera: PerspectiveCamera
-let renderer: WebGLRenderer
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
-const meshes: Array<Mesh> = []
+let animateId: number
+
+let meshes: Array<Mesh>
 
 const cursor = {
   x: 0.5,
@@ -27,28 +27,33 @@ const cursor = {
 const clock = new Clock()
 let timeOffset = 0
 
-init()
-animate()
-
 function init() {
+  const { innerWidth, innerHeight, devicePixelRatio } = window
+
+  // Scene
   scene = new Scene()
 
+  // Canera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 800)
   camera.position.z = 130
 
+  // Object
   meshGenerator()
 
+  // Renderer
   const canvas = document.querySelector('canvas#webgl_002')!
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
 
-  window.addEventListener('resize', onResize)
-  window.addEventListener('mousemove', onMouseMove)
+  // Listener
+  window.addEventListener('resize', onResize, false)
+  window.addEventListener('mousemove', onMouseMove, false)
+  window.addEventListener('destroy', onDestroy, false)
 }
 
 function animate() {
-  requestAnimationFrame(animate)
+  animateId = window.requestAnimationFrame(animate)
 
   updateView()
 
@@ -56,6 +61,8 @@ function animate() {
 }
 
 function meshGenerator() {
+  meshes = []
+
   const geometry = new PlaneGeometry(75, 75)
 
   uniforms.forEach((uniform, index) => {
@@ -84,17 +91,38 @@ function meshGenerator() {
 }
 
 function onResize() {
-  camera.aspect = innerWidth / innerHeight
-  camera.updateProjectionMatrix()
+  const { width, height } = renderer.domElement
+  const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  renderer.setSize(innerWidth, innerHeight)
+  if (width !== innerWidth || height !== innerHeight) {
+    camera.aspect = innerWidth / innerHeight
+    camera.updateProjectionMatrix()
 
-  render()
+    renderer.setSize(innerWidth, innerHeight)
+    renderer.setPixelRatio(devicePixelRatio)
+  }
 }
 
 function onMouseMove(event: MouseEvent) {
   cursor.x = event.clientX / innerWidth - 0.5
   cursor.y = event.clientY / innerHeight - 0.5
+}
+
+function onDestroy() {
+  try {
+    window.cancelAnimationFrame(animateId)
+    window.removeEventListener('destroy', onDestroy, false)
+    window.removeEventListener('resize', onResize, false)
+    window.removeEventListener('mousemove', onMouseMove, false)
+    renderer.dispose()
+    renderer.forceContextLoss()
+    const gl = renderer.domElement.getContext('webgl')
+    gl?.getExtension('WEBGL_lose_context')?.loseContext()
+    scene.clear()
+  }
+  catch (error) {
+    console.error('Failed to destroy Three.js: ', error)
+  }
 }
 
 function updateView() {

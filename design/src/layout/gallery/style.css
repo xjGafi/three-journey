@@ -4,7 +4,6 @@
 
 button {
   color: #fff;
-  text-decoration: none;
   background: transparent;
   border: none;
   outline: none;
@@ -14,7 +13,7 @@ button {
 }
 
 button:hover {
-  color: #d40047
+  color: #00ff00
 }
 
 .menu {
