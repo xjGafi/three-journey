@@ -602,3 +602,7 @@ VTK 模型
 物理碰撞检测
 
 使用 `Cannon.js` 创建物理碰撞检测
+
+## [Lesson 44](./lesson44/src/main.ts)
+
+故障特效

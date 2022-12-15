@@ -2,41 +2,29 @@ import './common'
 
 window.$router.beforeEach(() => {
   const currentPage = location.pathname.slice(1)
-  let layout
-  let className
+  let layout = '<canvas id="webgl"></canvas>'
+  let className = ''
 
   switch (currentPage) {
     case '':
+      import('./home')
       className = 'home'
-      layout = getHomeLayout()
+      layout += '<home-layout></home-layout>'
       break
 
     case 'error':
+      import('./error')
       className = 'error'
-      layout = getErrorLayout()
+      layout += '<error-layout></error-layout>'
       break
 
     default:
+      import('./gallery')
       className = 'gallery'
-      layout = getGalleryLayout(currentPage)
+      layout += '<gallery-layout></gallery-layout>'
       break
   }
 
   document.body.setAttribute('class', className)
   document.body.innerHTML = layout
 })
-
-function getHomeLayout() {
-  import('./home')
-  return '<home-layout></home-layout>'
-}
-
-function getErrorLayout() {
-  import('./error')
-  return '<error-layout></error-layout>'
-}
-
-function getGalleryLayout(currentPage: string) {
-  import('./gallery')
-  return `<canvas id="webgl_${currentPage}"></canvas><gallery-layout></gallery-layout>`
-}

@@ -37,7 +37,7 @@ function init() {
   createBall()
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl_001')!
+  const canvas = document.querySelector('canvas#webgl')!
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)

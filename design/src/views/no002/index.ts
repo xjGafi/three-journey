@@ -25,6 +25,7 @@ const cursor = {
 }
 
 const clock = new Clock()
+let deltaTime = 0
 let timeOffset = 0
 
 function init() {
@@ -41,7 +42,7 @@ function init() {
   meshGenerator()
 
   // Renderer
-  const canvas = document.querySelector('canvas#webgl_002')!
+  const canvas = document.querySelector('canvas#webgl')!
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
@@ -104,8 +105,8 @@ function onResize() {
 }
 
 function onMouseMove(event: MouseEvent) {
-  cursor.x = event.clientX / innerWidth - 0.5
-  cursor.y = event.clientY / innerHeight - 0.5
+  cursor.x = event.clientX / innerWidth
+  cursor.y = event.clientY / innerHeight
 }
 
 function onDestroy() {
@@ -126,10 +127,10 @@ function onDestroy() {
 }
 
 function updateView() {
-  const x = (cursor.x * 50 - camera.position.x) / 20
-  const y = (cursor.y * 40 - camera.position.y) / 20
+  const x = ((cursor.x - 0.5) * 50 - camera.position.x) / 20
+  const y = ((cursor.y - 0.5) * 40 - camera.position.y) / 20
 
-  const deltaTime = clock.getDelta()
+  deltaTime += clock.getDelta() / 2
   timeOffset += (Math.abs(x) + Math.abs(y)) / 20
   const time = deltaTime + timeOffset
 
