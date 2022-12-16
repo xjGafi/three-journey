@@ -37,15 +37,6 @@ importers:
   examples/cube:
     specifiers: {}
 
-  examples/day001:
-    specifiers:
-      simplex-noise: 3.0.1
-    dependencies:
-      simplex-noise: 3.0.1
-
-  examples/day002:
-    specifiers: {}
-
   examples/template:
     specifiers: {}
 
@@ -179,6 +170,18 @@ importers:
     specifiers: {}
 
   lessones/lesson43:
+    specifiers:
+      cannon-es: ^0.20.0
+    devDependencies:
+      cannon-es: 0.20.0
+
+  lessones/lesson44:
+    specifiers:
+      cannon-es: ^0.20.0
+    devDependencies:
+      cannon-es: 0.20.0
+
+  lessones/lesson45:
     specifiers:
       cannon-es: ^0.20.0
     devDependencies:

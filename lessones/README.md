@@ -606,3 +606,10 @@ VTK 模型
 ## [Lesson 44](./lesson44/src/main.ts)
 
 故障特效
+
+## [Lesson 45](./lesson45/src/main.ts)
+
+Shader 学习
+
+[RawShaderMaterial 和 ShaderMaterial 区别](http://www.yanhuangxueyuan.com/Three.js_course/advanced/shader1.html)
+[Shader 着色器入门](https://juejin.cn/post/7158032481302609950)
