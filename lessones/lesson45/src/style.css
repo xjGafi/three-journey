@@ -2,3 +2,19 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
+.tp-dfwv {
+  width: auto !important;
+  min-width: 256px;
+  bottom: 8px;
+  user-select: none;
+}
+
+.tp-rotv {
+  max-height: 100%;
+  overflow: scroll;
+}
+
+.tp-rotv::-webkit-scrollbar {
+  display: none;
+}

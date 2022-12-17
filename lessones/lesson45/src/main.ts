@@ -1,6 +1,8 @@
 import './style.css'
 import {
   BufferAttribute,
+  Clock,
+  Color,
   DoubleSide,
   Group,
   Mesh,
@@ -8,15 +10,24 @@ import {
   PlaneBufferGeometry,
   Scene,
   ShaderMaterial,
+  TextureLoader,
+  Vector2,
   WebGLRenderer,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
+import { Pane } from 'tweakpane'
+
 import shaders from './shaders'
+import image from '@/textures/avatar.jpeg?url'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, controls: OrbitControls
 
 let group: Group
+
+const textureLoader = new TextureLoader()
+
+const clock = new Clock()
 
 init()
 animate()
@@ -40,21 +51,25 @@ function init() {
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
 
+  // Controls
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
+
+  // Pane
+  initPane()
 
   // Listener
   window.addEventListener('resize', onResize, false)
 }
 
 function meshGenerator() {
-  group = new Group()
-
   const SIZE = 1
   const SEGMENTS = 16
   const OFFSET = 2
-  const MAX = 4
+  const MAX = 6
   let offsetY = 0
+
+  group = new Group()
 
   const geometry = new PlaneBufferGeometry(SIZE, SIZE, SEGMENTS, SEGMENTS)
 
@@ -71,27 +86,92 @@ function meshGenerator() {
       transparent: true,
       // wireframe: true,
     })
-    const mesh = new Mesh(geometry, material)
+    switch (index + 1) {
+      case 5:
+        material.uniforms = {
+          uFrequency: { value: new Vector2(10, 5) },
+          uTime: { value: 0 },
+          uColor: { value: new Color(0x00FF00) },
+        }
+        break
 
+      case 6:
+        material.uniforms = {
+          uFrequency: { value: new Vector2(10, 5) },
+          uTime: { value: 0 },
+          uTexture: { value: textureLoader.load(image) },
+        }
+        break
+
+      default:
+        break
+    }
+
+    const mesh = new Mesh(geometry, material)
     if (index % MAX === 0)
       offsetY -= OFFSET
-
     mesh.position.x = OFFSET * (index % MAX)
     mesh.position.y = offsetY
 
-    // switch (index + 1) {
-    //   case 3:
-
-    //     break
-
-    //   default:
-    //     break
-    // }
     group.add(mesh)
   })
 
   group.position.set(-7, 5, 0)
   scene.add(group)
+}
+
+function initPane() {
+  const pane = new Pane({ title: 'Shader' })
+
+  // No.05
+  let folder = pane.addFolder({ title: 'No.05' })
+  const obj5UniformFrequency = ((group.children[4] as Mesh).material as ShaderMaterial)
+    .uniforms.uFrequency.value
+  folder.addInput(
+    obj5UniformFrequency,
+    'x',
+    {
+      label: 'Frequency X',
+      step: 0.01,
+      min: 0,
+      max: 20,
+    },
+  )
+  folder.addInput(
+    obj5UniformFrequency,
+    'y',
+    {
+      label: 'Frequency Y',
+      step: 0.01,
+      min: 0,
+      max: 10,
+    },
+  )
+
+  // No.06
+  folder = pane.addFolder({ title: 'No.06' })
+  const obj6UniformFrequency = ((group.children[5] as Mesh).material as ShaderMaterial)
+    .uniforms.uFrequency.value
+  folder.addInput(
+    obj6UniformFrequency,
+    'x',
+    {
+      label: 'Frequency X',
+      step: 0.01,
+      min: 0,
+      max: 20,
+    },
+  )
+  folder.addInput(
+    obj6UniformFrequency,
+    'y',
+    {
+      label: 'Frequency Y',
+      step: 0.01,
+      min: 0,
+      max: 10,
+    },
+  )
 }
 
 function onResize() {
@@ -109,6 +189,14 @@ function onResize() {
 
 function animate() {
   requestAnimationFrame(animate)
+
+  const elapsedTime = clock.getElapsedTime();
+
+  // No.05
+  ((group.children[4] as Mesh).material as ShaderMaterial).uniforms.uTime.value = elapsedTime;
+
+  // No.06
+  ((group.children[5] as Mesh).material as ShaderMaterial).uniforms.uTime.value = elapsedTime
 
   controls.update()
 
