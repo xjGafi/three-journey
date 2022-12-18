@@ -17,7 +17,7 @@ let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let composer: EffectComposer, renderPass: RenderPass, glitchPass: GlitchPass
 
-let circle: Mesh
+let ball: Mesh
 
 let animateId: number
 
@@ -55,27 +55,25 @@ function init() {
 function animate() {
   animateId = window.requestAnimationFrame(animate)
 
-  circle.rotation.y += 0.005
-  circle.rotation.z += 0.005
+  ball.rotation.y += 0.005
+  ball.rotation.z += 0.005
 
   render()
 }
 
 function createBall() {
-  const SEGMENTS = 100
-
-  const geometry = new SphereBufferGeometry(50, SEGMENTS)
+  const geometry = new SphereBufferGeometry(50, 100, 100)
   const material = new ShaderMaterial({
     fragmentShader,
     vertexShader,
     uniforms: {
-      uSegments: { value: SEGMENTS / 2 },
+      uSegments: { value: 50 },
     },
   })
 
-  circle = new Mesh(geometry, material)
+  ball = new Mesh(geometry, material)
 
-  scene.add(circle)
+  scene.add(ball)
 }
 
 function onResize() {
