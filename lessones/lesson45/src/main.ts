@@ -37,6 +37,7 @@ function init() {
 
   // Scene
   scene = new Scene()
+  scene.background = new Color(0x28292E)
 
   // Canera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.01, 100)
@@ -65,8 +66,8 @@ function init() {
 function meshGenerator() {
   const SIZE = 1
   const SEGMENTS = 16
-  const OFFSET = 2
-  const MAX = 6
+  const OFFSET = 1.5
+  const MAX = 8
   let offsetY = 0
 
   group = new Group()
@@ -116,7 +117,7 @@ function meshGenerator() {
     group.add(mesh)
   })
 
-  group.position.set(-7, 5, 0)
+  group.position.set(-7, 4, 0)
   scene.add(group)
 }
 
