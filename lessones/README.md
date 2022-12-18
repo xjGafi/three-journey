@@ -611,5 +611,5 @@ VTK 模型
 
 Shader 学习
 
-[RawShaderMaterial 和 ShaderMaterial 区别](http://www.yanhuangxueyuan.com/Three.js_course/advanced/shader1.html)
-[Shader 着色器入门](https://juejin.cn/post/7158032481302609950)
+- [RawShaderMaterial 和 ShaderMaterial 区别](http://www.yanhuangxueyuan.com/Three.js_course/advanced/shader1.html)
+- [Shader 着色器入门](https://juejin.cn/post/7158032481302609950)
