@@ -3,7 +3,7 @@ import {
   BufferAttribute,
   Clock,
   Color,
-  DoubleSide,
+  // DoubleSide,
   Group,
   Mesh,
   PerspectiveCamera,
@@ -21,7 +21,10 @@ import { Pane } from 'tweakpane'
 import shaders from './shaders'
 import image from '@/textures/avatar.jpeg?url'
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, controls: OrbitControls
+let camera: PerspectiveCamera,
+  scene: Scene,
+  renderer: WebGLRenderer,
+  controls: OrbitControls
 
 let group: Group
 
@@ -66,8 +69,8 @@ function init() {
 function meshGenerator() {
   const SIZE = 1
   const SEGMENTS = 16
-  const OFFSET = 1.5
-  const MAX = 8
+  const OFFSET = 1.3
+  const MAX = 12
   let offsetY = 0
 
   group = new Group()
@@ -83,8 +86,8 @@ function meshGenerator() {
   shaders.forEach((shader, index) => {
     const material = new ShaderMaterial({
       ...shader,
-      side: DoubleSide,
       transparent: true,
+      // side: DoubleSide,
       // wireframe: true,
     })
     switch (index + 1) {
@@ -104,6 +107,12 @@ function meshGenerator() {
         }
         break
 
+      case 35:
+        material.uniforms = {
+          uScale: { value: 30 },
+        }
+        break
+
       default:
         break
     }
@@ -117,12 +126,12 @@ function meshGenerator() {
     group.add(mesh)
   })
 
-  group.position.set(-7, 4, 0)
+  group.position.set(-7.15, 4, 0)
   scene.add(group)
 }
 
 function initPane() {
-  const pane = new Pane({ title: 'Shader' })
+  const pane = new Pane({ title: 'Shader', expanded: false })
 
   // No.05
   let folder = pane.addFolder({ title: 'No.05' })
@@ -171,6 +180,20 @@ function initPane() {
       step: 0.01,
       min: 0,
       max: 10,
+    },
+  )
+
+  // No.35
+  folder = pane.addFolder({ title: 'No.35' })
+  const obj35UniformScale = ((group.children[34] as Mesh).material as ShaderMaterial).uniforms.uScale
+  folder.addInput(
+    obj35UniformScale,
+    'value',
+    {
+      label: 'Size',
+      step: 0.01,
+      min: 0,
+      max: 100,
     },
   )
 }
