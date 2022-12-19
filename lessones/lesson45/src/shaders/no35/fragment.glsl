@@ -3,7 +3,7 @@ uniform float uScale;
 varying vec2 vUv;
 
 void main() {
-  // 白色异形环
+  // 白色异形环 plus
   vec2 waveUv = vec2(
     vUv.x + sin(vUv.y * uScale) * .1,
     vUv.y + sin(vUv.x * uScale) * .1
