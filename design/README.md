@@ -6,15 +6,19 @@
 
 参考：[Basic practice of three.js](https://codepen.io/tksiiii/pen/jwdvGG)
 
-> 蠕动球体
-
 ## [No.002](./src/views/no002/index.ts)
 
 ![poster no.002](./assets/images/no002.jpg)
 
 参考：[Daily CSS Design - Day 224](https://dailycssdesign.com/224/)
 
-> 彩色黑洞
+## [No.003](./src/views/no003/index.ts)
+
+![poster no.003](./assets/images/no003.jpg)
+
+参考：[Daily CSS Design - Day 371](https://dailycssdesign.com/371/)
+
+> [GLSL-Noise](https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83)
 
 ## TODO:
 - https://dailycssdesign.com/144/
