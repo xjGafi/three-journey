@@ -69,8 +69,8 @@ function init() {
 function meshGenerator() {
   const SIZE = 1
   const SEGMENTS = 16
-  const OFFSET = 1.3
-  const MAX = 12
+  const OFFSET = 1.25
+  const MAX = 10
   let offsetY = 0
 
   group = new Group()
@@ -131,7 +131,7 @@ function meshGenerator() {
 }
 
 function initPane() {
-  const pane = new Pane({ title: 'Shader', expanded: false })
+  const pane = new Pane({ title: 'Shader' })
 
   // No.05
   let folder = pane.addFolder({ title: 'No.05' })

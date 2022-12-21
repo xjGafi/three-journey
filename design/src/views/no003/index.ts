@@ -3,23 +3,24 @@ import {
   Color,
   Mesh,
   PerspectiveCamera,
-  PlaneGeometry,
+  PlaneBufferGeometry,
   Scene,
   ShaderChunk,
   ShaderMaterial,
+  Vector2,
   WebGLRenderer,
 } from 'three'
 
-import snoiseShader from '../../../assets/shaders/snoise.glsl?raw'
+import pnoiseShader from '../../../assets/shaders/pnoise.glsl?raw'
+import circleShader from '../../../assets/shaders/circle.glsl?raw'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
-import uniforms from './uniforms'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
-let animateId: number
+let mesh: Mesh
 
-let meshes: Array<Mesh>
+let animateId: number
 
 const cursor = {
   x: 0.5,
@@ -28,7 +29,6 @@ const cursor = {
 
 const clock = new Clock()
 let deltaTime = 0
-let timeOffset = 0
 
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
@@ -41,7 +41,7 @@ function init() {
   camera.position.z = 130
 
   // Object
-  meshGenerator()
+  createMesh()
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
@@ -63,36 +63,33 @@ function animate() {
   render()
 }
 
-function meshGenerator() {
-  ShaderChunk.g_snoise = snoiseShader
+function createMesh() {
+  ShaderChunk.g_circle = circleShader
+  ShaderChunk.g_pnoise = pnoiseShader
 
-  meshes = []
+  const colors = ['#ffb961', '#ca5fa6', 'rgb(0, 255, 243)', 'rgb(255, 121, 180)']
 
-  const geometry = new PlaneGeometry(75, 75)
-
-  uniforms.forEach((uniform, index) => {
-    const material = new ShaderMaterial({
-      uniforms: {
-        uColor1: {
-          value: new Color(uniform.color1),
-        },
-        uColor2: {
-          value: new Color(uniform.color2),
-        },
-        uTime: { value: 0 },
-        uTimeOffset: { value: uniform.timeOffset },
-      },
-      fragmentShader,
-      vertexShader,
-      transparent: true,
-    })
-
-    const mesh = new Mesh(geometry, material)
-    mesh.position.z = 50 - 35 * index
-    meshes.push(mesh)
+  const uColors: any = {}
+  colors.forEach((color, index) => {
+    uColors[`uColor${index + 1}`] = { value: new Color(color) }
   })
 
-  scene.add(...meshes)
+  const geometry = new PlaneBufferGeometry(60, 60, 250, 250)
+  const material = new ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uTimeOffset: { value: 0 },
+      uMouseInertia: { value: new Vector2(0.5, 0.5) },
+      ...uColors,
+    },
+    fragmentShader,
+    vertexShader,
+    transparent: true,
+  })
+
+  mesh = new Mesh(geometry, material)
+
+  scene.add(mesh)
 }
 
 function onResize() {
@@ -131,20 +128,20 @@ function onDestroy() {
 }
 
 function updateView() {
-  const x = ((cursor.x - 0.5) * 50 - camera.position.x) / 20
-  const y = ((cursor.y - 0.5) * 40 - camera.position.y) / 20
+  const x = ((cursor.x - 0.5) * 120 - camera.position.x) / 20
+  const y = ((cursor.y - 0.5) * 120 - camera.position.y) / 20
 
-  deltaTime += clock.getDelta() / 2
-  timeOffset += (Math.abs(x) + Math.abs(y)) / 20
-  const time = deltaTime + timeOffset
+  const timeOffset = clock.getDelta() / 5
+  deltaTime += timeOffset
 
-  meshes.forEach((mesh) => {
-    (mesh.material as ShaderMaterial).uniforms.uTime.value = time
-  })
+  const { uniforms } = mesh.material as ShaderMaterial
+  uniforms.uTime.value = deltaTime
+  uniforms.uTimeOffset.value = timeOffset
+  uniforms.uMouseInertia.value = new Vector2(cursor.x, cursor.y)
 
   camera.position.x += x
   camera.position.y += y
-  camera.position.z += x + y
+  camera.position.z += (x + y) / 10
   camera.lookAt(scene.position)
 }
 
