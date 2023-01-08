@@ -1,7 +1,7 @@
 import style from './style.css?raw'
 import html from './template.html?raw'
 
-const importImages = import.meta.glob('@/images/*.jpg')
+const importImages = import.meta.glob('~/images/*.jpg')
 
 class HomeLayout extends HTMLElement {
   constructor() {
