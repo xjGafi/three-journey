@@ -21,6 +21,8 @@
 > [GLSL-Noise](https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83)
 
 ## TODO:
+- https://dailycssdesign.com/51/
+- https://dailycssdesign.com/161/
 - https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/
 - https://dailycssdesign.com/194/

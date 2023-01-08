@@ -10,10 +10,10 @@ import {
   WebGLRenderer,
 } from 'three'
 
-import snoiseShader from '../../../assets/shaders/snoise.glsl?raw'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
 import uniforms from './uniforms'
+import snoiseShader from '@/shaders/snoise.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 

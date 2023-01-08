@@ -16,7 +16,8 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["../assets/*"],
+      "~/*": ["./assets/*"],
     }
   },
   "include": ["src"]

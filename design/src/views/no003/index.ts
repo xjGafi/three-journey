@@ -11,10 +11,10 @@ import {
   WebGLRenderer,
 } from 'three'
 
-import pnoiseShader from '../../../assets/shaders/pnoise.glsl?raw'
-import circleShader from '../../../assets/shaders/circle.glsl?raw'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
+import pnoiseShader from '@/shaders/pnoise.glsl?raw'
+import circleShader from '@/shaders/circle.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
