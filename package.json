@@ -51,6 +51,7 @@
     "dev:45": "pnpm run -C lessones/lesson45 dev",
     "dev:clock": "pnpm run -C examples/clock dev",
     "dev:cube": "pnpm run -C examples/cube dev",
+    "dev:earth": "pnpm run -C examples/earth dev",
     "dev:template": "pnpm run -C examples/template dev",
     "dev:art": "pnpm run -C design dev",
     "lint": "eslint .",

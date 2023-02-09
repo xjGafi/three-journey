@@ -14,7 +14,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
 import RoyalEsplanade from '@/textures/royal_esplanade_1k.hdr?url'
-import DamagedHelmet from '@/models/DamagedHelmet.gltf?url'
+import DamagedHelmet from '@/models/DamagedHelmet/DamagedHelmet.gltf?url'
 
 let camera: PerspectiveCamera,
   scene: Scene,
