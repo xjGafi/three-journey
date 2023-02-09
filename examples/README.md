@@ -11,3 +11,7 @@
 ## [Cube](./cube/src/main.ts)
 
 > 一天的颜色可视化
+
+## [Earth](./earth/src/main.ts)
+
+> 一颗围绕地球公转的卫星，鼠标选中卫星后暂停动画并显示说明文字
