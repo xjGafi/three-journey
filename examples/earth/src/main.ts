@@ -41,8 +41,8 @@ let pasueStartTime = 0
 let pasueEndTime = 0
 let pauseTime = 0
 
-let pointer: Vector2
-let raycaster: Raycaster
+const raycaster = new Raycaster()
+const pointer = new Vector2()
 
 const pane = new Pane()
 const PARAMS = {
@@ -66,9 +66,6 @@ function init() {
   // Objects
   initSkyBox()
   initModels()
-
-  raycaster = new Raycaster()
-  pointer = new Vector2()
 
   // Lights
   initLights()
@@ -105,7 +102,78 @@ function init() {
   window.addEventListener('resize', onWindowResize)
 }
 
+function animate() {
+  requestAnimationFrame(animate)
+
+  if (!PARAMS.pause) {
+    const elapsedTime = clock.getElapsedTime()
+
+    // 移除暂停时间，保证动画无缝衔接
+    const time = elapsedTime - pauseTime
+
+    if (earth)
+      earth.rotation.y = time / 5
+
+    if (satellite) {
+      satellite.position.x = Math.sin(time * PARAMS.speed) * 2
+      satellite.position.z = Math.cos(time * PARAMS.speed) * 3
+    }
+  }
+
+  controls.update()
+  stats.update()
+
+  render()
+}
+
+function initSkyBox() {
+  const cubeTextureLoader = new CubeTextureLoader()
+
+  // 加载全景图
+  const environmentMap = cubeTextureLoader.load(starTextures)
+  environmentMap.encoding = sRGBEncoding
+
+  scene.background = environmentMap
+  scene.environment = environmentMap
+}
+
+function initModels() {
+  const loader = new GLTFLoader()
+
+  // earth
+  loader.load(earthModel, (gltf) => {
+    earth = gltf.scene
+    scene.add(earth)
+
+    updateAllMaterials()
+  })
+
+  // satellite
+  loader.load(satelliteModel, (gltf) => {
+    satellite = gltf.scene
+    satellite.scale.set(0.5, 0.5, 0.5)
+    scene.add(satellite)
+
+    updateAllMaterials()
+
+    window.addEventListener('pointermove', onPointerMove)
+  })
+}
+
+function updateAllMaterials() {
+  scene.traverse((child) => {
+    if (child instanceof Mesh && child.material instanceof MeshStandardMaterial) {
+      child.material.envMapIntensity = 2.5
+      child.material.needsUpdate = true
+      child.castShadow = true
+      child.receiveShadow = true
+    }
+  })
+}
+
 function getIntersect(event: PointerEvent) {
+  const { innerWidth, innerHeight } = window
+
   // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
   pointer.set(
     (event?.clientX / innerWidth) * 2 - 1,
@@ -141,73 +209,8 @@ function onPointerMove(event: PointerEvent) {
   pane.refresh()
 }
 
-function animate() {
-  requestAnimationFrame(animate)
-
-  if (!PARAMS.pause) {
-    const elapsedTime = clock.getElapsedTime()
-    const time = elapsedTime - pauseTime
-
-    if (earth)
-      earth.rotation.y = time / 5
-
-    if (satellite) {
-      satellite.position.x = Math.sin(time * PARAMS.speed) * 2
-      satellite.position.z = Math.cos(time * PARAMS.speed) * 3
-    }
-  }
-
-  controls.update()
-  stats.update()
-
-  render()
-}
-
-function initSkyBox() {
-  const cubeTextureLoader = new CubeTextureLoader()
-
-  const environmentMap = cubeTextureLoader.load(starTextures)
-  environmentMap.encoding = sRGBEncoding
-
-  scene.background = environmentMap
-  scene.environment = environmentMap
-}
-
-function updateAllMaterials() {
-  scene.traverse((child) => {
-    if (child instanceof Mesh && child.material instanceof MeshStandardMaterial) {
-      child.material.envMapIntensity = 2.5
-      child.material.needsUpdate = true
-      child.castShadow = true
-      child.receiveShadow = true
-    }
-  })
-}
-
-function initModels() {
-  // 3D Models
-  const loader = new GLTFLoader()
-  // earth
-  loader.load(earthModel, (gltf) => {
-    earth = gltf.scene
-    scene.add(earth)
-
-    updateAllMaterials()
-  })
-  // satellite
-  loader.load(satelliteModel, (gltf) => {
-    satellite = gltf.scene
-    satellite.scale.set(0.5, 0.5, 0.5)
-    scene.add(satellite)
-
-    window.addEventListener('pointermove', onPointerMove)
-
-    updateAllMaterials()
-  })
-}
-
 function initLights() {
-  const directionalLight = new DirectionalLight('#ffffff', 2)
+  const directionalLight = new DirectionalLight(0xFFFFFF, 2)
   directionalLight.castShadow = true
   directionalLight.shadow.camera.far = 15
   directionalLight.shadow.mapSize.set(1024, 1024)
