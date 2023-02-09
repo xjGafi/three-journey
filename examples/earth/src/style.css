@@ -2,3 +2,24 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
+.info {
+  position: absolute;
+  top: 30px;
+  left: -120px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 4px;
+  background: #00000077;
+  border: 1px solid #ffffff77;
+  color: #ffffff;
+  line-height: 1.3em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 14px;
+  opacity: var(--opacity, 0);
+  transition: opacity 0.3s;
+  pointer-events: none;
+  transform: translate(var(--x, 0), var(--y, 0));
+}
+

@@ -1,14 +1,15 @@
 import './style.css'
 import type { Group } from 'three'
 import {
-  Clock,
-  CubeTextureLoader,
-  DirectionalLight, Mesh,
-  MeshStandardMaterial,
-  PCFSoftShadowMap,
+  Clock, CubeTextureLoader,
+  DirectionalLight,
+  Mesh,
+  MeshStandardMaterial, PCFSoftShadowMap,
   PerspectiveCamera,
+  Raycaster,
   ReinhardToneMapping,
   Scene,
+  Vector2,
   WebGLRenderer,
   sRGBEncoding,
 } from 'three'
@@ -35,14 +36,19 @@ const far = 20
 
 let earth: Group, satellite: Group
 
-const PARAMS = {
-  pause: false,
-}
-
 const clock = new Clock()
 let pasueStartTime = 0
 let pasueEndTime = 0
 let pauseTime = 0
+
+let pointer: Vector2
+let raycaster: Raycaster
+
+const pane = new Pane()
+const PARAMS = {
+  pause: false,
+  speed: 1,
+}
 
 init()
 animate()
@@ -60,6 +66,9 @@ function init() {
   // Objects
   initSkyBox()
   initModels()
+
+  raycaster = new Raycaster()
+  pointer = new Vector2()
 
   // Lights
   initLights()
@@ -96,6 +105,42 @@ function init() {
   window.addEventListener('resize', onWindowResize)
 }
 
+function getIntersect(event: PointerEvent) {
+  // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
+  pointer.set(
+    (event?.clientX / innerWidth) * 2 - 1,
+    -(event?.clientY / innerHeight) * 2 + 1,
+  )
+
+  // 通过摄像机和鼠标位置更新射线
+  raycaster.setFromCamera(pointer, camera)
+
+  // 计算物体和射线的焦点
+  return raycaster.intersectObjects(satellite.children)
+}
+
+function onPointerMove(event: PointerEvent) {
+  const intersects = getIntersect(event)
+
+  const infoDom: HTMLElement = document.querySelector('.info')!
+
+  if (intersects.length > 0) {
+    // show
+    PARAMS.pause = true
+
+    infoDom.style.setProperty('--opacity', '1')
+    infoDom.style.setProperty('--x', `${event.clientX}px`)
+    infoDom.style.setProperty('--y', `${event.clientY}px`)
+  }
+  else {
+    // hide
+    PARAMS.pause = false
+    infoDom.style.setProperty('--opacity', '0')
+  }
+
+  pane.refresh()
+}
+
 function animate() {
   requestAnimationFrame(animate)
 
@@ -107,8 +152,8 @@ function animate() {
       earth.rotation.y = time / 5
 
     if (satellite) {
-      satellite.position.x = Math.sin(time * 1.2) * 2
-      satellite.position.z = Math.cos(time * 1.2) * 3
+      satellite.position.x = Math.sin(time * PARAMS.speed) * 2
+      satellite.position.z = Math.cos(time * PARAMS.speed) * 3
     }
   }
 
@@ -155,6 +200,8 @@ function initModels() {
     satellite.scale.set(0.5, 0.5, 0.5)
     scene.add(satellite)
 
+    window.addEventListener('pointermove', onPointerMove)
+
     updateAllMaterials()
   })
 }
@@ -170,7 +217,6 @@ function initLights() {
 }
 
 function initPane() {
-  const pane = new Pane()
   pane.addInput(PARAMS, 'pause').on('change', (item) => {
     const elapsedTime = clock.getElapsedTime()
 
@@ -183,6 +229,11 @@ function initPane() {
       const time = pasueEndTime - pasueStartTime
       pauseTime += time
     }
+  })
+  pane.addInput(PARAMS, 'speed', {
+    min: 0.1,
+    max: 2,
+    step: 0.01,
   })
 }
 
