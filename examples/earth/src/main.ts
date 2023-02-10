@@ -22,8 +22,8 @@ import { Pane } from 'tweakpane'
 
 import { starTextures } from './textures'
 
-import earthModel from '@/models/earth/scene.gltf?url'
-import satelliteModel from '@/models/satellite/scene.gltf?url'
+import earthModel from '@/models/earth.glb?url'
+import satelliteModel from '@/models/satellite.glb?url'
 
 let camera: PerspectiveCamera,
   scene: Scene,
