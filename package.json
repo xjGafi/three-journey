@@ -52,6 +52,7 @@
     "dev:clock": "pnpm run -C examples/clock dev",
     "dev:cube": "pnpm run -C examples/cube dev",
     "dev:earth": "pnpm run -C examples/earth dev",
+    "dev:game": "pnpm run -C examples/monument-valley dev",
     "dev:template": "pnpm run -C examples/template dev",
     "dev:art": "pnpm run -C design dev",
     "lint": "eslint .",
