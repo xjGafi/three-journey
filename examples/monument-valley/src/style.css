@@ -3,3 +3,8 @@ body {
   overflow: hidden;
 }
 
+.tp-dfwv {
+  width: auto !important;
+  min-width: 256px;
+  user-select: none;
+}

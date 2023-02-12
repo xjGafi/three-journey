@@ -307,15 +307,15 @@ const settings = {
   autoRotate: true,
   rotationSpeed: 0.25,
   offsetY: -30,
-  background: '0, 0, 16',
-  globalLight: '255, 255, 255',
-  ambientLight: '0, 0, 32',
-  cube: '107, 126, 127',
-  tale: '81, 91, 95',
-  stairs: '107, 126, 127',
-  pointLight: '255, 255, 255',
+  background: 'rgb(0, 0, 16)',
+  globalLight: 'rgb(255, 255, 255)',
+  ambientLight: 'rgb(0, 0, 32)',
+  cube: 'rgb(107, 126, 127)',
+  tale: 'rgb(81, 91, 95)',
+  stairs: 'rgb(107, 126, 127)',
+  pointLight: 'rgb(255, 255, 255)',
   pointLightScale: 2,
-  pillar: '107, 126, 127',
+  pillar: 'rgb(107, 126, 127)',
 }
 
 export { floorplan, settings }

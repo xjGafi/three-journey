@@ -21,7 +21,6 @@ class Cube {
     const boxGeometry = new THREE.BoxGeometry(this.size, this.size, this.size)
     const lambertMaterial = new THREE.MeshLambertMaterial({
       color: this.color,
-      // overdraw: 1,
     })
     const mesh = new THREE.Mesh(boxGeometry, lambertMaterial)
 
@@ -31,7 +30,6 @@ class Cube {
     mesh.rotation.y = this.rotate
 
     return mesh
-    // scene.add(mesh)
   }
 }
 
@@ -94,12 +92,10 @@ class Light {
     }
 
     const time = Date.now() * 0.0005
-    // firefly.position.set(0, 0, Math.sin(time*3)*10)
 
     pointLight.position.set(this.x, this.y, this.z + Math.sin(time * 3) * 10)
     pointLight.castShadow = true
 
-    // scene.add(pointLight)
     return pointLight
   }
 }

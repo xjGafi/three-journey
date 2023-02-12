@@ -1,6 +1,7 @@
 import './style.css'
 import {
   AmbientLight,
+  Color,
   OrthographicCamera,
   PCFSoftShadowMap,
   PerspectiveCamera,
@@ -38,6 +39,7 @@ animate()
 function init() {
   // Scene
   scene = new Scene()
+  scene.background = new Color(settings.background)
 
   // Canera
   initCamera()
@@ -103,28 +105,28 @@ function initObjects() {
 
         switch (cell) {
           case 1:
-            shape = new Cube(xPos, yPos, zPos, `rgb(${settings.cube})`,
+            shape = new Cube(xPos, yPos, zPos, settings.cube,
               blockSize,
             )
             break
           // case 2:
-          //   shape = new Shape(xPos, yPos, zPos, `rgb(${settings.tale})`, `${assetPath}/tail1.json`,
+          //   shape = new Shape(xPos, yPos, zPos, settings.tale, `${assetPath}/tail1.json`,
           //     1,
           //   )
           //   break
           // case 3:
-          //   shape = new Shape(xPos, yPos, zPos, `rgb(${settings.stairs})`, `${assetPath}/stairs1.json`,
+          //   shape = new Shape(xPos, yPos, zPos, settings.stairs, `${assetPath}/stairs1.json`,
           //     1,
           //     7.855,
           //   )
           //   break
           case 4:
-            shape = new Light(xPos, yPos, zPos, `rgb(${settings.pointLight})`,
+            shape = new Light(xPos, yPos, zPos, settings.pointLight,
               settings.pointLightScale,
             )
             break
           // case 5:
-          //   shape = new Shape(xPos, yPos, zPos, `rgb(${settings.pillar})`,
+          //   shape = new Shape(xPos, yPos, zPos, settings.pillar,
           //     `${assetPath}/pillar1.json`,
           //     1,
           //   )
@@ -139,11 +141,11 @@ function initObjects() {
 }
 
 function initLights() {
-  pointLight = new PointLight(`rgb(${settings.globalLight})`, 12, 1000)
+  pointLight = new PointLight(settings.globalLight, 12, 1000)
   pointLight.position.set(600, -200, 250 + monumentHeight)
   pointLight.castShadow = true
 
-  ambientLight = new AmbientLight(`rgb(${settings.ambientLight})`)
+  ambientLight = new AmbientLight(settings.ambientLight)
 
   scene.add(pointLight, ambientLight)
 }
@@ -182,8 +184,8 @@ function onWindowResize() {
     (camera as OrthographicCamera).right = innerWidth / 2;
     (camera as OrthographicCamera).top = innerHeight / 2;
     (camera as OrthographicCamera).bottom = innerHeight / -2
-    camera.updateProjectionMatrix()
   }
+  camera.updateProjectionMatrix()
 
   renderer.setSize(innerWidth, innerHeight)
 
