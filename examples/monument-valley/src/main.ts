@@ -14,8 +14,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
-import { Cube, Light } from './generator'
-import { floorplan, settings } from './config'
+import { Cube, Light, Shape } from './utils/generator'
+import { floorplan, settings } from './utils/config'
 
 let camera: PerspectiveCamera | OrthographicCamera,
   scene: Scene,
@@ -105,32 +105,23 @@ function initObjects() {
 
         switch (cell) {
           case 1:
-            shape = new Cube(xPos, yPos, zPos, settings.cube,
-              blockSize,
-            )
+            shape = new Cube(xPos, yPos, zPos, settings.cube, blockSize)
             break
-          // case 2:
-          //   shape = new Shape(xPos, yPos, zPos, settings.tale, `${assetPath}/tail1.json`,
-          //     1,
-          //   )
-          //   break
-          // case 3:
-          //   shape = new Shape(xPos, yPos, zPos, settings.stairs, `${assetPath}/stairs1.json`,
-          //     1,
-          //     7.855,
-          //   )
-          //   break
+          case 2:
+            shape = new Shape(xPos, yPos + blockSize / 10, zPos, settings.tail, 2)
+            break
+          case 3:
+            shape = new Shape(xPos, yPos - blockSize / 8, zPos, settings.stairs, 2.5, Math.PI)
+            break
+            break
           case 4:
             shape = new Light(xPos, yPos, zPos, settings.pointLight,
-              settings.pointLightScale,
+              2,
             )
             break
-          // case 5:
-          //   shape = new Shape(xPos, yPos, zPos, settings.pillar,
-          //     `${assetPath}/pillar1.json`,
-          //     1,
-          //   )
-          //   break
+          case 5:
+            shape = new Shape(xPos, yPos + blockSize / 10, zPos, settings.pillar, 2)
+            break
         }
 
         if (shape !== null)

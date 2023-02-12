@@ -1,3 +1,22 @@
+import tailVox from '@/models/MonumentValley/tail.vox?url'
+import stairsVox from '@/models/MonumentValley/stairs.vox?url'
+import pillarVox from '@/models/MonumentValley/pillar.vox?url'
+
+const settings = {
+  perspectiveCamera: true,
+  autoRotate: true,
+  rotationSpeed: 0.25,
+  offsetY: -30,
+  background: 'rgb(0, 0, 16)',
+  globalLight: 'rgb(255, 255, 255)',
+  ambientLight: 'rgb(0, 0, 32)',
+  cube: 'rgb(107, 126, 127)',
+  tail: tailVox,
+  stairs: stairsVox,
+  pointLight: 'rgb(255, 255, 255)',
+  pillar: pillarVox,
+}
+
 /*
  *  block = 1
  *  tile = 2
@@ -301,21 +320,5 @@ const floorplan = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
   ],
 ]
-
-const settings = {
-  perspectiveCamera: true,
-  autoRotate: true,
-  rotationSpeed: 0.25,
-  offsetY: -30,
-  background: 'rgb(0, 0, 16)',
-  globalLight: 'rgb(255, 255, 255)',
-  ambientLight: 'rgb(0, 0, 32)',
-  cube: 'rgb(107, 126, 127)',
-  tale: 'rgb(81, 91, 95)',
-  stairs: 'rgb(107, 126, 127)',
-  pointLight: 'rgb(255, 255, 255)',
-  pointLightScale: 2,
-  pillar: 'rgb(107, 126, 127)',
-}
 
 export { floorplan, settings }

@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import { Group } from 'three'
+import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader'
 
 class Cube {
   private x: number
@@ -18,11 +20,11 @@ class Cube {
   }
 
   generator() {
-    const boxGeometry = new THREE.BoxGeometry(this.size, this.size, this.size)
-    const lambertMaterial = new THREE.MeshLambertMaterial({
+    const geometry = new THREE.BoxGeometry(this.size, this.size, this.size)
+    const material = new THREE.MeshLambertMaterial({
       color: this.color,
     })
-    const mesh = new THREE.Mesh(boxGeometry, lambertMaterial)
+    const mesh = new THREE.Mesh(geometry, material)
 
     mesh.position.x = this.x
     mesh.position.y = this.y
@@ -33,38 +35,48 @@ class Cube {
   }
 }
 
-// class Shape {
-//   constructor(x, y, z, color, source, scale = 1, rotate = 0) {
-//     this.x = x
-//     this.y = y
-//     this.z = z
-//     this.color = color
-//     this.source = source
-//     this.scale = scale
-//     this.rotate = rotate
-//   }
+class Shape {
+  private x: number
+  private y: number
+  private z: number
+  private source: string
+  private scale: number
+  private rotate: number
 
-//   generator() {
-//     const loader = new THREE.LegacyJSONLoader()
+  constructor(x: number, y: number, z: number, source: string, scale: number, rotate = 0) {
+    this.x = x
+    this.y = y
+    this.z = z
+    this.source = source
+    this.scale = scale
+    this.rotate = rotate
+  }
 
-//     loader.load(this.source, (geometry) => {
-//       const mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
-//         color: this.color,
-//         // overdraw: 1
-//       }))
+  generator() {
+    const group = new Group()
 
-//       mesh.position.x = this.x
-//       mesh.position.y = this.y
-//       mesh.position.z = this.z
-//       mesh.rotation.x = Math.PI / 2
-//       mesh.rotation.y = this.rotate
-//       mesh.scale.set(this.scale, this.scale, this.scale)
+    const loader = new VOXLoader()
 
-//       scene.add(mesh)
-//     },
-//     )
-//   }
-// }
+    loader.load(this.source, (chunks) => {
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i]
+
+        const mesh = new VOXMesh(chunk)
+
+        group.add(mesh)
+      }
+
+      group.position.x = this.x
+      group.position.y = this.y
+      group.position.z = this.z
+      group.rotation.x = Math.PI / 2
+      group.rotation.y = this.rotate
+      group.scale.set(this.scale, this.scale, this.scale)
+    })
+
+    return group
+  }
+}
 
 class Light {
   private x: number
@@ -100,4 +112,4 @@ class Light {
   }
 }
 
-export { Cube, Light }
+export { Cube, Shape, Light }
