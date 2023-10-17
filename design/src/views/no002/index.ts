@@ -64,6 +64,7 @@ function animate() {
 }
 
 function meshGenerator() {
+  // @ts-ignore
   ShaderChunk.g_snoise = snoiseShader
 
   meshes = []

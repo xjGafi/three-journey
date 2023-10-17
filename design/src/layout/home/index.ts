@@ -49,10 +49,10 @@ class HomeLayout extends HTMLElement {
       const url = image.default
       const number = url.match(/no(.*)\./)[1].slice(0, 3)
       list += `
-        <li class="views__item">
-          <a href="/${number}" class="views__item__link">
-            <img class="views__item__image" src="${url}" />
-            <p class="views__item__title">Open No.${number}</p>
+        <li class="views-item">
+          <a href="/${number}" class="views-item__link">
+            <img class="views-item__image" src="${url}" />
+            <p class="views-item__title">Open No.${number}</p>
           </a>
         </li>
       `

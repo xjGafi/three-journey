@@ -8,22 +8,22 @@
   padding: 40px
 }
 
-.views__item {
+.views-item {
   flex: 0 1 calc(calc(100% - 80px) / 3);
   display: inline-block;
 }
 
-.views__item__link {
+.views-item__link {
   position: relative;
   display: block;
   transition: transform 0.12s;
 }
 
-.views__item__link:hover {
+.views-item__link:hover {
   transform: translateY(-14px);
 }
 
-.views__item__title {
+.views-item__title {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -36,13 +36,13 @@
   padding: 10px 0
 }
 
-.views__item__link:hover .views__item__title {
+.views-item__link:hover .views-item__title {
   opacity: 1;
   transform: translateY(34px);
   color: #fff;
 }
 
-.views__item__image {
+.views-item__image {
   width: 100%;
   border-radius: 20px
 }
