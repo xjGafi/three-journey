@@ -71,7 +71,7 @@ function createMesh() {
 
   const colors = ['#ffb961', '#ca5fa6', 'rgb(0, 255, 243)', 'rgb(255, 121, 180)']
 
-  const uColors: any = {}
+  const uColors: Record<string, { value: Color }> = {}
   colors.forEach((color, index) => {
     uColors[`uColor${index + 1}`] = { value: new Color(color) }
   })

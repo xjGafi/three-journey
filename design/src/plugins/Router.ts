@@ -1,7 +1,3 @@
-interface Routes {
-  [key: string]: any
-}
-
 export interface Route {
   name: string
   path: string
@@ -16,7 +12,7 @@ interface Options {
 class Router {
   routeConfigs: Array<Route>
   currentPath: string
-  routes: Routes
+  routes: Record<string, any>
   private beforeHandler: Function
   private afterHandler: Function
 
@@ -25,7 +21,7 @@ class Router {
     this.currentPath = location.pathname
     this.routes = {} // 保存注册的所有路由
 
-    this.beforeHandler = () => {} // 切换前
+    this.beforeHandler = () => { } // 切换前
     this.afterHandler = () => { } // 切换后
 
     this.init = this.init.bind(this)
