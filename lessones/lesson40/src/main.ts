@@ -10,7 +10,6 @@ import {
   PointsMaterial,
   Scene,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
@@ -66,7 +65,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement)
@@ -76,7 +74,7 @@ function init() {
   initPane()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize
@@ -128,57 +126,57 @@ function materialGenerator() {
 function initPane() {
   const pane = new Pane({ title: 'Points' })
   pane
-    .addInput(PARAMS, 'count', {
+    .addBinding(PARAMS, 'count', {
       max: 500000,
       min: 10000,
       step: 100,
     })
     .on('change', geometryGenerator)
   pane
-    .addInput(PARAMS, 'size', {
+    .addBinding(PARAMS, 'size', {
       max: 0.1,
       min: 0.001,
       step: 0.001,
     })
     .on('change', materialGenerator)
   pane
-    .addInput(PARAMS, 'radius', {
+    .addBinding(PARAMS, 'radius', {
       max: 20,
       min: 0.01,
       step: 0.01,
     })
     .on('change', geometryGenerator)
   pane
-    .addInput(PARAMS, 'branches', {
+    .addBinding(PARAMS, 'branches', {
       max: 10,
       min: 1,
       step: 1,
     })
     .on('change', geometryGenerator)
   pane
-    .addInput(PARAMS, 'spin', {
+    .addBinding(PARAMS, 'spin', {
       max: 5,
       min: -5,
       step: 0.001,
     })
     .on('change', geometryGenerator)
   pane
-    .addInput(PARAMS, 'randomness', {
+    .addBinding(PARAMS, 'randomness', {
       max: 2,
       min: 0,
       step: 0.001,
     })
     .on('change', geometryGenerator)
   pane
-    .addInput(PARAMS, 'randomnessPower', {
+    .addBinding(PARAMS, 'randomnessPower', {
       max: 10,
       min: 1,
       step: 0.001,
     })
     .on('change', geometryGenerator)
-  pane.addInput(PARAMS, 'insideColor').on('change', geometryGenerator)
-  pane.addInput(PARAMS, 'outsideColor').on('change', geometryGenerator)
-  pane.addInput(PARAMS, 'shape', {
+  pane.addBinding(PARAMS, 'insideColor').on('change', geometryGenerator)
+  pane.addBinding(PARAMS, 'outsideColor').on('change', geometryGenerator)
+  pane.addBinding(PARAMS, 'shape', {
     options: {
       galaxy: 'galaxy',
       heart: 'heart',

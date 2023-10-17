@@ -68,7 +68,7 @@ function init() {
   controls.update()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Pane
@@ -145,7 +145,7 @@ function addMeshCube() {
 
 function initPane() {
   const pane = new Pane({ title: 'Material' })
-  pane.addInput(material, 'wireframe')
+  pane.addBinding(material, 'wireframe')
 }
 
 function onWindowResize() {

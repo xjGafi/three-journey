@@ -200,7 +200,7 @@ const axesHelper = new THREE.AxesHelper(far)
 scene.add(axesHelper)
 
 // Stats
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 /**

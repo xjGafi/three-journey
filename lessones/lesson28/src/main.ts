@@ -11,7 +11,6 @@ import {
   Scene,
   SphereGeometry,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -69,10 +68,9 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Pane
@@ -144,7 +142,7 @@ function initPane() {
   const pane = new Pane({ title: 'Material' })
   // 修改材质贴图
   pane
-    .addInput(PARAMS, 'texture', {
+    .addBinding(PARAMS, 'texture', {
       options: textureMap,
     })
     .on('change', ({ value }) => {
@@ -162,7 +160,7 @@ function initPane() {
     })
   // 修改反射率
   pane
-    .addInput(PARAMS, 'reflectivity', {
+    .addBinding(PARAMS, 'reflectivity', {
       step: 0.01,
       min: 0,
       max: 1,
@@ -173,7 +171,7 @@ function initPane() {
     })
   // 修改折射比
   pane
-    .addInput(PARAMS, 'refractionRatio', {
+    .addBinding(PARAMS, 'refractionRatio', {
       step: 0.01,
       min: 0,
       max: 1,

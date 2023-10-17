@@ -18,7 +18,6 @@ import {
   TorusGeometry,
   TorusKnotGeometry,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 
 import gsap from 'gsap'
@@ -79,7 +78,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Scroll
   window.addEventListener('scroll', onScroll)

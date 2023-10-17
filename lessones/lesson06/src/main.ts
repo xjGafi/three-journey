@@ -59,7 +59,7 @@ function init() {
   controls.update()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize

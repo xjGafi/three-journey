@@ -205,7 +205,7 @@ function initPane() {
   const pane = new Pane()
   let folder = pane.addFolder({ title: 'General Options' })
 
-  folder.addInput(state, 'animateBones', {
+  folder.addBinding(state, 'animateBones', {
     label: 'Animate Bones',
   })
 
@@ -227,49 +227,49 @@ function initPane() {
 
     folder = pane.addFolder({ title: `Bone ${i}` })
 
-    folder.addInput(bone.position, 'x', {
+    folder.addBinding(bone.position, 'x', {
       label: 'position.x',
       min: -10 + bone.position.x,
       max: 10 + bone.position.x,
     })
-    folder.addInput(bone.position, 'y', {
+    folder.addBinding(bone.position, 'y', {
       label: 'position.y',
       min: -10 + bone.position.y,
       max: 10 + bone.position.y,
     })
-    folder.addInput(bone.position, 'z', {
+    folder.addBinding(bone.position, 'z', {
       label: 'position.z',
       min: -10 + bone.position.z,
       max: 10 + bone.position.z,
     })
 
-    folder.addInput(bone.rotation, 'x', {
+    folder.addBinding(bone.rotation, 'x', {
       label: 'rotation.x',
       min: -Math.PI * 0.5,
       max: Math.PI * 0.5,
     })
-    folder.addInput(bone.rotation, 'y', {
+    folder.addBinding(bone.rotation, 'y', {
       label: 'rotation.y',
       min: -Math.PI * 0.5,
       max: Math.PI * 0.5,
     })
-    folder.addInput(bone.rotation, 'z', {
+    folder.addBinding(bone.rotation, 'z', {
       label: 'rotation.z',
       min: -Math.PI * 0.5,
       max: Math.PI * 0.5,
     })
 
-    folder.addInput(bone.scale, 'x', {
+    folder.addBinding(bone.scale, 'x', {
       label: 'scale.x',
       min: 0,
       max: 2,
     })
-    folder.addInput(bone.scale, 'y', {
+    folder.addBinding(bone.scale, 'y', {
       label: 'scale.y',
       min: 0,
       max: 2,
     })
-    folder.addInput(bone.scale, 'z', {
+    folder.addBinding(bone.scale, 'z', {
       label: 'scale.z',
       min: 0,
       max: 2,

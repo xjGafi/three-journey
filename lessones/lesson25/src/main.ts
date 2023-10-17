@@ -12,7 +12,6 @@ import {
   Scene,
   VideoTexture,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -54,10 +53,9 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Controls

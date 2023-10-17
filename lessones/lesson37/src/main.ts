@@ -80,7 +80,7 @@ function init() {
   controls.maxDistance = 2000
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Listener

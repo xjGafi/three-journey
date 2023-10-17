@@ -6,7 +6,6 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
@@ -63,7 +62,6 @@ function init() {
   renderer.setPixelRatio(devicePixelRatio)
   renderer.toneMapping = ACESFilmicToneMapping
   renderer.toneMappingExposure = 1
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement)
@@ -75,7 +73,7 @@ function init() {
   controls.update()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize

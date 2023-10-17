@@ -17,7 +17,6 @@ import {
   SpriteMaterial,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
@@ -61,7 +60,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement)

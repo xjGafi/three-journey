@@ -5,7 +5,6 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 
 interface SketchOptions {
@@ -34,8 +33,6 @@ class Sketch {
 
     this.canvas = opts?.canvas ?? document.querySelector('canvas#webgl')!
     this.renderer = opts?.renderer ?? new WebGLRenderer({ canvas: this.canvas })
-    this.renderer.physicallyCorrectLights = true
-    this.renderer.outputEncoding = sRGBEncoding
     this.renderer.setSize(innerWidth, innerHeight)
     this.renderer.setPixelRatio(devicePixelRatio)
 

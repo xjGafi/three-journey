@@ -137,7 +137,7 @@ function initPane() {
   let folder = pane.addFolder({ title: 'No.05' })
   const obj5UniformFrequency = ((group.children[4] as Mesh).material as ShaderMaterial)
     .uniforms.uFrequency.value
-  folder.addInput(
+  folder.addBinding(
     obj5UniformFrequency,
     'x',
     {
@@ -147,7 +147,7 @@ function initPane() {
       max: 20,
     },
   )
-  folder.addInput(
+  folder.addBinding(
     obj5UniformFrequency,
     'y',
     {
@@ -162,7 +162,7 @@ function initPane() {
   folder = pane.addFolder({ title: 'No.06' })
   const obj6UniformFrequency = ((group.children[5] as Mesh).material as ShaderMaterial)
     .uniforms.uFrequency.value
-  folder.addInput(
+  folder.addBinding(
     obj6UniformFrequency,
     'x',
     {
@@ -172,7 +172,7 @@ function initPane() {
       max: 20,
     },
   )
-  folder.addInput(
+  folder.addBinding(
     obj6UniformFrequency,
     'y',
     {
@@ -186,7 +186,7 @@ function initPane() {
   // No.35
   folder = pane.addFolder({ title: 'No.35' })
   const obj35UniformScale = ((group.children[34] as Mesh).material as ShaderMaterial).uniforms.uScale
-  folder.addInput(
+  folder.addBinding(
     obj35UniformScale,
     'value',
     {

@@ -12,7 +12,6 @@ import {
   TextureLoader,
   Vector2,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture'
 import Stats from 'three/examples/jsm/libs/stats.module'
@@ -60,10 +59,9 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Controls
@@ -84,7 +82,6 @@ function addTextureNormal() {
 
   // 碳纤维纹理贴图
   const diffuse = textureLoader.load(carbon1)
-  diffuse.encoding = sRGBEncoding
   diffuse.wrapS = RepeatWrapping
   diffuse.wrapT = RepeatWrapping
   diffuse.repeat.x = 10

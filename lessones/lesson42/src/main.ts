@@ -8,7 +8,6 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { VTKLoader } from 'three/examples/jsm/loaders/VTKLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -66,7 +65,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement)
@@ -75,7 +73,7 @@ function init() {
   controls.enableDamping = true
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize

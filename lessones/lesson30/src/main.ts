@@ -12,7 +12,6 @@ import {
   SpriteMaterial,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 
 import rain from '@/textures/rain.png?url'
@@ -48,7 +47,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Resize
   window.addEventListener('resize', onWindowResize)

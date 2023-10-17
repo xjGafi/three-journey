@@ -23,7 +23,6 @@ import {
   SkeletonHelper,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -134,7 +133,6 @@ function init() {
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
   renderer.shadowMap.enabled = true
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement)
@@ -147,7 +145,7 @@ function init() {
   clock = new Clock()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize
@@ -228,7 +226,7 @@ function initPane() {
   for (const item in meshConfig) {
     if (Object.prototype.hasOwnProperty.call(meshConfig, item)) {
       folder
-        .addInput(meshConfig, item, { label: keyToLabel(item) })
+        .addBinding(meshConfig, item, { label: keyToLabel(item) })
         .on('change', () => {
           modelConfig()
         })
@@ -239,7 +237,7 @@ function initPane() {
   folder = pane.addFolder({ title: 'Loop Repeat' })
   // 修改播放动作
   folder
-    .addInput(animationConfig, 'action', {
+    .addBinding(animationConfig, 'action', {
       label: 'Action',
       options: LOOP_REPEAT_LIST,
     })
@@ -248,7 +246,7 @@ function initPane() {
     })
   // 修改播放状态
   folder
-    .addInput(animationConfig, 'paused', {
+    .addBinding(animationConfig, 'paused', {
       label: 'Paused',
     })
     .on('change', ({ value }) => {
@@ -256,7 +254,7 @@ function initPane() {
     })
   // 修改播放速度
   folder
-    .addInput(animationConfig, 'timeScale', {
+    .addBinding(animationConfig, 'timeScale', {
       label: 'Time Scale',
       step: 0.1,
       min: 0,
@@ -289,7 +287,7 @@ function initPane() {
   const face = model.getObjectByName('Head_4')!
   const expressions = Object.keys((face as Mesh).morphTargetDictionary!)
   expressions.forEach((item, index) => {
-    folder.addInput((face as Mesh).morphTargetInfluences!, index, {
+    folder.addBinding((face as Mesh).morphTargetInfluences!, index, {
       label: item,
       step: 0.1,
       min: 0,

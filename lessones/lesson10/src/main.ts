@@ -57,7 +57,7 @@ function init() {
   renderer.setPixelRatio(devicePixelRatio)
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Pane
@@ -114,20 +114,20 @@ function addLineDashedMaterial() {
 function initPane() {
   const pane = new Pane()
   const groupFolder = pane.addFolder({ title: 'Group' })
-  groupFolder.addInput(group.rotation, 'x', {
+  groupFolder.addBinding(group.rotation, 'x', {
     min: 0,
     max: Math.PI * 2,
   })
-  groupFolder.addInput(group.rotation, 'y', {
+  groupFolder.addBinding(group.rotation, 'y', {
     min: 0,
     max: Math.PI * 2,
   })
-  groupFolder.addInput(group.rotation, 'z', {
+  groupFolder.addBinding(group.rotation, 'z', {
     min: 0,
     max: Math.PI * 2,
   })
   const cameraFolder = pane.addFolder({ title: 'Camera' })
-  cameraFolder.addInput(camera.position, 'z', {
+  cameraFolder.addBinding(camera.position, 'z', {
     min: 0,
     max: 1000,
   })

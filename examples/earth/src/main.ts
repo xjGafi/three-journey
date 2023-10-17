@@ -11,7 +11,6 @@ import {
   Scene,
   Vector2,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -76,8 +75,6 @@ function init() {
     canvas,
     antialias: true,
   })
-  renderer.physicallyCorrectLights = true
-  renderer.outputEncoding = sRGBEncoding
   renderer.toneMapping = ReinhardToneMapping
   renderer.toneMappingExposure = 3
   renderer.shadowMap.enabled = true
@@ -95,7 +92,7 @@ function init() {
   initPane()
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize
@@ -131,7 +128,6 @@ function initSkyBox() {
 
   // 加载全景图
   const environmentMap = cubeTextureLoader.load(starTextures)
-  environmentMap.encoding = sRGBEncoding
 
   scene.background = environmentMap
   scene.environment = environmentMap
@@ -220,7 +216,7 @@ function initLights() {
 }
 
 function initPane() {
-  pane.addInput(PARAMS, 'pause').on('change', (item) => {
+  pane.addBinding(PARAMS, 'pause').on('change', (item) => {
     const elapsedTime = clock.getElapsedTime()
 
     if (item.value) {
@@ -233,7 +229,7 @@ function initPane() {
       pauseTime += time
     }
   })
-  pane.addInput(PARAMS, 'speed', {
+  pane.addBinding(PARAMS, 'speed', {
     min: 0.1,
     max: 2,
     step: 0.01,

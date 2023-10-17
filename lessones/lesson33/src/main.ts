@@ -21,7 +21,6 @@ import {
   Scene,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
@@ -97,10 +96,9 @@ function init() {
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
   renderer.shadowMap.enabled = true
-  renderer.outputEncoding = sRGBEncoding
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Pane
@@ -170,12 +168,12 @@ function addKeyframeAnimation() {
 function initPane() {
   const pane = new Pane({ title: 'Animation' })
   // 修改播放状态
-  pane.addInput(PARAMS, 'paused').on('change', ({ value }) => {
+  pane.addBinding(PARAMS, 'paused').on('change', ({ value }) => {
     action.paused = value
   })
   // 修改播放时间（需要将动画设置为不循环 LoopOnce）
   pane
-    .addInput(PARAMS, 'time', {
+    .addBinding(PARAMS, 'time', {
       step: 0.001,
       min: 0,
       max: 0.5,
@@ -187,7 +185,7 @@ function initPane() {
     })
   // 修改播放速度
   pane
-    .addInput(PARAMS, 'timeScale', {
+    .addBinding(PARAMS, 'timeScale', {
       step: 0.1,
       min: 0,
       max: 3,

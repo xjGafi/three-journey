@@ -78,7 +78,7 @@ function init() {
   controls.enableDamping = true
 
   // Stats
-  stats = Stats()
+  stats = new Stats()
   document.body.appendChild(stats.dom)
 
   // Resize

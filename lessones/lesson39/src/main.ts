@@ -10,7 +10,6 @@ import {
   Scene,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
@@ -61,7 +60,6 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   controls = new OrbitControls(camera, renderer.domElement)
@@ -105,7 +103,7 @@ function initPane() {
   // 修改尺寸
   let folder = pane.addFolder({ title: 'Number' })
   folder
-    .addInput(PARAMS, 'COUNT', {
+    .addBinding(PARAMS, 'COUNT', {
       label: 'Count',
       max: 50000,
       min: 5000,
@@ -113,7 +111,7 @@ function initPane() {
     })
     .on('change', geometryGenerator)
   folder
-    .addInput(PARAMS, 'RANGE', {
+    .addBinding(PARAMS, 'RANGE', {
       label: 'Range',
       max: 20,
       min: 10,
@@ -121,7 +119,7 @@ function initPane() {
     })
     .on('change', geometryGenerator)
   folder
-    .addInput(PARAMS, 'SIZE', {
+    .addBinding(PARAMS, 'SIZE', {
       label: 'Size',
       max: 0.5,
       min: 0.1,

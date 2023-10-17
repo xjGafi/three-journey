@@ -19,7 +19,6 @@ import {
   Scene,
   TextureLoader,
   WebGLRenderer,
-  sRGBEncoding,
 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -74,7 +73,6 @@ function init() {
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
   renderer.shadowMap.enabled = true
-  renderer.outputEncoding = sRGBEncoding
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement)
