@@ -87,7 +87,7 @@ function createBall() {
 }
 
 function makeRoughBall() {
-  const positions = ball.geometry.attributes.position.array as Array<number>
+  const positions = ball.geometry.attributes.position.array as unknown as Array<number>
   for (let i = 0; i < positions.length; i += 3) {
     const vertex = new Vector3(positions[i], positions[i + 1], positions[i + 2])
     vertex.normalize()

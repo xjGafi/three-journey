@@ -3,7 +3,7 @@ import {
   Color,
   Mesh,
   PerspectiveCamera,
-  PlaneBufferGeometry,
+  PlaneGeometry,
   Scene,
   ShaderChunk,
   ShaderMaterial,
@@ -64,7 +64,9 @@ function animate() {
 }
 
 function createMesh() {
+  // @ts-ignore
   ShaderChunk.g_circle = circleShader
+  // @ts-ignore
   ShaderChunk.g_pnoise = pnoiseShader
 
   const colors = ['#ffb961', '#ca5fa6', 'rgb(0, 255, 243)', 'rgb(255, 121, 180)']
@@ -74,7 +76,7 @@ function createMesh() {
     uColors[`uColor${index + 1}`] = { value: new Color(color) }
   })
 
-  const geometry = new PlaneBufferGeometry(60, 60, 250, 250)
+  const geometry = new PlaneGeometry(60, 60, 250, 250)
   const material = new ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },

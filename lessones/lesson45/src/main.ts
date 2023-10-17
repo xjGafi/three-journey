@@ -7,7 +7,7 @@ import {
   Group,
   Mesh,
   PerspectiveCamera,
-  PlaneBufferGeometry,
+  PlaneGeometry,
   Scene,
   ShaderMaterial,
   TextureLoader,
@@ -75,7 +75,7 @@ function meshGenerator() {
 
   group = new Group()
 
-  const geometry = new PlaneBufferGeometry(SIZE, SIZE, SEGMENTS, SEGMENTS)
+  const geometry = new PlaneGeometry(SIZE, SIZE, SEGMENTS, SEGMENTS)
 
   const { count } = geometry.attributes.position
   const randoms = new Float32Array(count)

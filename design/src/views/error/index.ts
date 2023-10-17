@@ -3,7 +3,7 @@ import {
   PerspectiveCamera,
   Scene,
   ShaderMaterial,
-  SphereBufferGeometry,
+  SphereGeometry,
   WebGLRenderer,
 } from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
@@ -62,7 +62,7 @@ function animate() {
 }
 
 function createBall() {
-  const geometry = new SphereBufferGeometry(50, 100, 100)
+  const geometry = new SphereGeometry(50, 100, 100)
   const material = new ShaderMaterial({
     fragmentShader,
     vertexShader,
