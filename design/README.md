@@ -20,11 +20,16 @@
 
 > [GLSL-Noise](https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83)
 
+## [No.004](./src/views/no004/index.ts)
+
+![poster no.004](./assets/images/no004.jpg)
+
+参考：[Daily CSS Design - Day 334](https://dailycssdesign.com/334/)
+
 ## TODO:
 - https://dailycssdesign.com/51/
 - https://dailycssdesign.com/161/
 - https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/
 - https://dailycssdesign.com/194/
-- https://dailycssdesign.com/334/
 - https://dailycssdesign.com/347/
