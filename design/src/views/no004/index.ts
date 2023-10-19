@@ -8,6 +8,7 @@ import {
   Mesh,
   PerspectiveCamera,
   PlaneGeometry,
+  SRGBColorSpace,
   Scene,
   ShaderMaterial,
   TextureLoader,
@@ -68,12 +69,11 @@ function init() {
   renderer = new WebGLRenderer({
     canvas,
     antialias: true,
-    alpha: false,
   })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
   renderer.setClearColor(
-    new Color('rgb(255, 121, 180)')
+    new Color(0xFF79B4).convertLinearToSRGB()
   )
 
   // Listener
@@ -91,13 +91,14 @@ function animate() {
 }
 
 function createMesh() {
-  const imageTextureWidth = 1024, imageTextureHeight = 710
+  const imageTextureWidth = 1240, imageTextureHeight = 710
 
   geometryCenterPiece = new PlaneGeometry(
     imageTextureWidth * 0.1,
     imageTextureHeight * 0.1
   )
-  materialCenterPiece = new ShaderMaterial({
+  materialCenterPiece = new ShaderMaterial(
+    {
     uniforms: {
       uTexture: {
         value: textureLoader.load(
@@ -118,10 +119,11 @@ function createMesh() {
       },
       uTime: { value: 0 },
       uColorHigh: {
-        value: new Color('rgba(43, 108, 239)'),
+        value: new Color(0x2B6CEF).convertLinearToSRGB()
+
       },
       uColorLow: {
-        value: new Color('rgb(255, 121, 180)'),
+        value: new Color(0xFF79B4).convertLinearToSRGB()
       },
     },
     fragmentShader: fragmentShaderCenterPiece,

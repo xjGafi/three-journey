@@ -32,4 +32,10 @@
 - https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/
 - https://dailycssdesign.com/194/
-- https://dailycssdesign.com/347/
+
+## 问题:
+
+1. 升级 three.js (> 0.151) 版本会导致颜色偏暗
+
+   暂时没有好的解决办法，部分案例临时使用 `new THREE.Color(0xFF79B4).convertLinearToSRGB()` 处理（有些案例不生效）
+   参考链接：[官方社区讨论帖子](https://discourse.threejs.org/t/updates-to-color-management-in-three-js-r152/50791/66)
