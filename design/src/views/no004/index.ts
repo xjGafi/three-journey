@@ -9,7 +9,6 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
-  ShaderChunk,
   ShaderMaterial,
   TextureLoader,
   Vector2,
@@ -92,11 +91,6 @@ function animate() {
 }
 
 function createMesh() {
-  // @ts-ignore
-  ShaderChunk.g_circle = circleShader
-  // @ts-ignore
-  ShaderChunk.g_snoise = snoiseShader
-
   const imageTextureWidth = 1024, imageTextureHeight = 710
 
   geometryCenterPiece = new PlaneGeometry(
@@ -133,6 +127,18 @@ function createMesh() {
     fragmentShader: fragmentShaderCenterPiece,
     vertexShader: vertexShaderCenterPiece,
   })
+  // 替代 ShaderChunk.xxx = xxxxxx
+  materialCenterPiece.onBeforeCompile = (shader) => {
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        "#include <g_snoise>",
+        snoiseShader
+      ).replace(
+        "#include <g_circle>",
+        circleShader
+      )
+  };
+
   meshCenterPiece = new Mesh(
     geometryCenterPiece,
     materialCenterPiece
