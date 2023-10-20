@@ -8,7 +8,6 @@ import {
   Mesh,
   PerspectiveCamera,
   PlaneGeometry,
-  SRGBColorSpace,
   Scene,
   ShaderMaterial,
   TextureLoader,
