@@ -26,6 +26,12 @@
 
 参考：[Daily CSS Design - Day 334](https://dailycssdesign.com/334/)
 
+## [No.005](./src/views/no004/index.ts)
+
+![poster no.005](./assets/images/no005.jpg)
+
+参考：[Daily CSS Design - Day 50](https://dailycssdesign.com/50/)
+
 ## TODO:
 - https://dailycssdesign.com/51/
 - https://dailycssdesign.com/161/

@@ -80,8 +80,8 @@ function createMesh() {
   const material = new ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
-      uTimeOffset: { value: 0 },
-      uMouseInertia: { value: new Vector2(0.5, 0.5) },
+      uTimeOffset: { value: 10 * Math.random() },
+      uMouseInertia: { value: new Vector2(cursor.x, cursor.y) },
       ...uColors,
     },
     fragmentShader,

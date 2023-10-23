@@ -58,7 +58,6 @@ button:hover {
 .menu-item__arrow {
   height: 1px;
   width: 80px;
-  background-color: #fff;
   background-color: currentColor;
   position: relative
 }
