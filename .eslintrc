@@ -1,7 +1,0 @@
-{
-  "extends": "@antfu",
-  "rules": {
-    "no-console": 0,
-    "no-useless-call": 0
-  }
-}

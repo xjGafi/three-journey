@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { Group } from 'three'
 import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader'
 
 class Cube {
@@ -20,9 +19,10 @@ class Cube {
   }
 
   generator() {
+    const srgbColor = new THREE.Color(this.color).convertLinearToSRGB()
     const geometry = new THREE.BoxGeometry(this.size, this.size, this.size)
     const material = new THREE.MeshLambertMaterial({
-      color: this.color,
+      color: srgbColor,
     })
     const mesh = new THREE.Mesh(geometry, material)
 
@@ -53,7 +53,7 @@ class Shape {
   }
 
   generator() {
-    const group = new Group()
+    const group = new THREE.Group()
 
     const loader = new VOXLoader()
 
@@ -94,11 +94,12 @@ class Light {
   }
 
   generator() {
-    const pointLight = new THREE.PointLight(this.color, 1.1, 100)
+    const srgbColor = new THREE.Color(this.color).convertLinearToSRGB()
+    const pointLight = new THREE.PointLight(srgbColor, 1.1, 100)
 
     if (this.size !== 0) {
       const sphereGeometry = new THREE.SphereGeometry(this.size, 50, 50)
-      const basicMaterial = new THREE.MeshBasicMaterial({ color: this.color })
+      const basicMaterial = new THREE.MeshBasicMaterial({ color: srgbColor })
       const lightBulbe = new THREE.Mesh(sphereGeometry, basicMaterial)
       pointLight.add(lightBulbe)
     }

@@ -11,12 +11,13 @@ import {
   WebGLRenderer,
 } from 'three'
 
-import vertexShader from './shader/vertex.glsl?raw'
-import fragmentShader from './shader/fragment.glsl?raw'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
+
+import vertexShader from './shader/vertex.glsl?raw'
+import fragmentShader from './shader/fragment.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer,
   composer: EffectComposer, FXAAShaderPass: ShaderPass, overlayShader: ShaderPass
@@ -49,7 +50,7 @@ function init() {
   })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
-  renderer.setClearColor(new Color('rgb(100, 0, 255)').convertLinearToSRGB())
+  renderer.setClearColor(0x6400FF)
 
   // Composer
   createComposer()
@@ -91,14 +92,14 @@ function createMesh() {
   const circleCount = 15
   for (let i = 0; i < circleCount; i++) {
     const color = new Color(
-      `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`
+      `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`,
     ).convertLinearToSRGB()
     const circleMaterial = new MeshBasicMaterial({
-      color
+      color,
     })
     const circleMesh = new Mesh(
       circleGeometry,
-      circleMaterial
+      circleMaterial,
     )
     circleMesh.position.set(0, 0, 0)
     circleMesh.position.z = i * 1
@@ -118,9 +119,9 @@ function createComposer() {
   FXAAShaderPass = new ShaderPass(FXAAShader)
   FXAAShaderPass.uniforms.resolution.value.set(
     1 / innerWidth,
-    1 / innerHeight
+    1 / innerHeight,
   )
-  FXAAShaderPass.renderToScreen = true;
+  FXAAShaderPass.renderToScreen = true
   composer.addPass(FXAAShaderPass)
 
   overlayShader = new ShaderPass({
@@ -157,10 +158,10 @@ function onResize() {
 
     FXAAShaderPass.uniforms.resolution.value.set(
       1 / innerWidth,
-      1 / innerHeight
+      1 / innerHeight,
     )
-    overlayShader.uniforms.dimensionsMultiplier.value =
-      innerWidth < 800 ? 3 : 1
+    overlayShader.uniforms.dimensionsMultiplier.value
+      = innerWidth < 800 ? 3 : 1
   }
 }
 
@@ -187,8 +188,8 @@ function onDestroy() {
 }
 
 function updateView() {
-  overlayShader.uniforms.uMousePosition.value =
-    new Vector2(cursor.x, cursor.y)
+  overlayShader.uniforms.uMousePosition.value
+    = new Vector2(cursor.x, cursor.y)
 
   camera.position.x = (cursor.x - 0.5) * 100
   camera.position.y = (cursor.y - 0.5) * 100
@@ -196,7 +197,7 @@ function updateView() {
 }
 
 function render() {
-  composer.render();
+  composer.render()
 }
 
 export default function main() {

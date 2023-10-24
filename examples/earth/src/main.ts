@@ -1,10 +1,12 @@
 import './style.css'
 import type { Group } from 'three'
 import {
-  Clock, CubeTextureLoader,
+  Clock,
+  CubeTextureLoader,
   DirectionalLight,
   Mesh,
-  MeshStandardMaterial, PCFSoftShadowMap,
+  MeshStandardMaterial,
+  PCFSoftShadowMap,
   PerspectiveCamera,
   Raycaster,
   ReinhardToneMapping,

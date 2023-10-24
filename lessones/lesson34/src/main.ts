@@ -22,6 +22,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import steelBall from '@/textures/sprite.png?url'
 import backgroundMusic from '@/sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3?url'
+
 // import ballMusic from '@/sounds/Project_Utopia.mp3?url'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer

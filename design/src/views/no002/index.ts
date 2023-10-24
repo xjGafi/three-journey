@@ -5,7 +5,6 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
-  ShaderChunk,
   ShaderMaterial,
   WebGLRenderer,
 } from 'three'
@@ -19,7 +18,7 @@ let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let animateId: number
 
-let meshes: Array<Mesh>
+const meshes: Mesh[] = []
 
 const cursor = {
   x: 0.5,
@@ -64,21 +63,16 @@ function animate() {
 }
 
 function meshGenerator() {
-  // @ts-ignore
-  ShaderChunk.g_snoise = snoiseShader
-
-  meshes = []
-
   const geometry = new PlaneGeometry(75, 75)
 
   uniforms.forEach((uniform, index) => {
     const material = new ShaderMaterial({
       uniforms: {
         uColor1: {
-          value: new Color(uniform.color1),
+          value: new Color(uniform.color1).convertLinearToSRGB(),
         },
         uColor2: {
-          value: new Color(uniform.color2),
+          value: new Color(uniform.color2).convertLinearToSRGB(),
         },
         uTime: { value: 0 },
         uTimeOffset: { value: uniform.timeOffset },
@@ -87,6 +81,14 @@ function meshGenerator() {
       vertexShader,
       transparent: true,
     })
+
+    material.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <g_snoise>',
+          snoiseShader,
+        )
+    }
 
     const mesh = new Mesh(geometry, material)
     mesh.position.z = 50 - 35 * index

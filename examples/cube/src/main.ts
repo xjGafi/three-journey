@@ -52,11 +52,11 @@ function timePointGenerator() {
 
   const [hour, minute, second] = [24, 60, 60]
   const todayTimeList = Array.from(
-    new Array(hour),
+    Array(hour),
     () => {
       return Array.from(
-        new Array(minute),
-        () => new Array(second).fill(''),
+        Array(minute),
+        () => Array(second).fill(''),
       )
     },
   )

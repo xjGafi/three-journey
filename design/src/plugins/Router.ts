@@ -51,7 +51,7 @@ class Router {
 
     window.addEventListener(
       'popstate',
-      (event: PopStateEvent) => this.refresh.call(this, event.state.path),
+      (event: PopStateEvent) => this.refresh(event.state.path),
       false,
     )
   }

@@ -5,7 +5,6 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
-  ShaderChunk,
   ShaderMaterial,
   Vector2,
   WebGLRenderer,
@@ -64,16 +63,11 @@ function animate() {
 }
 
 function createMesh() {
-  // @ts-ignore
-  ShaderChunk.g_circle = circleShader
-  // @ts-ignore
-  ShaderChunk.g_pnoise = pnoiseShader
-
   const colors = ['#ffb961', '#ca5fa6', 'rgb(0, 255, 243)', 'rgb(255, 121, 180)']
 
   const uColors: Record<string, { value: Color }> = {}
   colors.forEach((color, index) => {
-    uColors[`uColor${index + 1}`] = { value: new Color(color) }
+    uColors[`uColor${index + 1}`] = { value: new Color(color).convertLinearToSRGB() }
   })
 
   const geometry = new PlaneGeometry(60, 60, 250, 250)
@@ -88,6 +82,23 @@ function createMesh() {
     vertexShader,
     transparent: true,
   })
+
+  material.onBeforeCompile = (shader) => {
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <g_pnoise>',
+        pnoiseShader,
+      ).replace(
+        '#include <g_circle>',
+        circleShader,
+      )
+
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        '#include <g_pnoise>',
+        pnoiseShader,
+      )
+  }
 
   mesh = new Mesh(geometry, material)
 

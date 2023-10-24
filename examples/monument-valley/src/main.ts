@@ -115,9 +115,7 @@ function initObjects() {
             break
             break
           case 4:
-            shape = new Light(xPos, yPos, zPos, settings.pointLight,
-              2,
-            )
+            shape = new Light(xPos, yPos, zPos, settings.pointLight, 2)
             break
           case 5:
             shape = new Shape(xPos, yPos + blockSize / 10, zPos, settings.pillar, 2)
