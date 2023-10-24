@@ -1,6 +1,5 @@
 import {
   CircleGeometry,
-  Color,
   Group,
   Mesh,
   MeshBasicMaterial,
@@ -42,7 +41,6 @@ function init() {
 
   // Object
   createMesh()
-
   createWords()
 
   // Renderer
