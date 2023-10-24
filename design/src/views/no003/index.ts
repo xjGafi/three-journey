@@ -67,7 +67,7 @@ function createMesh() {
 
   const uColors: Record<string, { value: Color }> = {}
   colors.forEach((color, index) => {
-    uColors[`uColor${index + 1}`] = { value: new Color(color).convertLinearToSRGB() }
+    uColors[`uColor${index + 1}`] = { value: new Color(color) }
   })
 
   const geometry = new PlaneGeometry(60, 60, 250, 250)

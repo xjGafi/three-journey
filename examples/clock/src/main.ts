@@ -72,7 +72,7 @@ function updateTime() {
         return Number(value) / total
       });
 
-    (mesh.material as MeshBasicMaterial).color = new Color(r, g, b).convertLinearToSRGB()
+    (mesh.material as MeshBasicMaterial).color = new Color(r, g, b)
   }
 
   currentTime = time

@@ -19,7 +19,7 @@ class Cube {
   }
 
   generator() {
-    const srgbColor = new THREE.Color(this.color).convertLinearToSRGB()
+    const srgbColor = new THREE.Color(this.color)
     const geometry = new THREE.BoxGeometry(this.size, this.size, this.size)
     const material = new THREE.MeshLambertMaterial({
       color: srgbColor,
@@ -94,7 +94,7 @@ class Light {
   }
 
   generator() {
-    const srgbColor = new THREE.Color(this.color).convertLinearToSRGB()
+    const srgbColor = new THREE.Color(this.color)
     const pointLight = new THREE.PointLight(srgbColor, 1.1, 100)
 
     if (this.size !== 0) {

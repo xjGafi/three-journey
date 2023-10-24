@@ -117,11 +117,11 @@ function createMesh() {
         },
         uTime: { value: 0 },
         uColorHigh: {
-          value: new Color(0x2B6CEF).convertLinearToSRGB(),
+          value: new Color(0x2B6CEF),
 
         },
         uColorLow: {
-          value: new Color(0xFF79B4).convertLinearToSRGB(),
+          value: new Color(0xFF79B4),
         },
       },
       fragmentShader: fragmentShaderCenterPiece,
@@ -219,7 +219,7 @@ function createWords() {
       uniforms: {
         uTexture: { value: wordTexture },
         uColor: {
-          value: new Color(color).convertLinearToSRGB(),
+          value: new Color(color),
         },
       },
       fragmentShader,

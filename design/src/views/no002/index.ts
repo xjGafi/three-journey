@@ -69,10 +69,10 @@ function meshGenerator() {
     const material = new ShaderMaterial({
       uniforms: {
         uColor1: {
-          value: new Color(uniform.color1).convertLinearToSRGB(),
+          value: new Color(uniform.color1),
         },
         uColor2: {
-          value: new Color(uniform.color2).convertLinearToSRGB(),
+          value: new Color(uniform.color2),
         },
         uTime: { value: 0 },
         uTimeOffset: { value: uniform.timeOffset },

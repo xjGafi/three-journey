@@ -93,7 +93,7 @@ function createMesh() {
   for (let i = 0; i < circleCount; i++) {
     const color = new Color(
       `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`,
-    ).convertLinearToSRGB()
+    )
     const circleMaterial = new MeshBasicMaterial({
       color,
     })
