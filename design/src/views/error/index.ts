@@ -22,13 +22,13 @@ let ball: Mesh
 let animateId: number
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
   // Scene
   scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
+  camera = new PerspectiveCamera(45, W / H, 1, 1000)
   camera.position.set(0, 0, 200)
 
   // Object
@@ -37,15 +37,11 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
   renderer = new WebGLRenderer({ canvas })
-  renderer.setSize(innerWidth, innerHeight)
-  renderer.setPixelRatio(devicePixelRatio)
+  renderer.setSize(W, H)
+  renderer.setPixelRatio(DPI)
 
-  renderPass = new RenderPass(scene, camera)
-  glitchPass = new GlitchPass()
-
-  composer = new EffectComposer(renderer)
-  composer.addPass(renderPass)
-  composer.addPass(glitchPass)
+  // Composer
+  createComposer()
 
   // Listener
   window.addEventListener('resize', onResize, false)
@@ -76,16 +72,28 @@ function createBall() {
   scene.add(ball)
 }
 
+function createComposer() {
+  composer = new EffectComposer(renderer)
+
+  // RenderPass 通常位于过程链的开始，以便将渲染好的场景作为输入来提供给下一个后期处理步骤
+  renderPass = new RenderPass(scene, camera)
+  composer.addPass(renderPass)
+
+  // 故障效果
+  glitchPass = new GlitchPass()
+  composer.addPass(glitchPass)
+}
+
 function onResize() {
   const { width, height } = renderer.domElement
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
-  if (width !== innerWidth || height !== innerHeight) {
-    camera.aspect = innerWidth / innerHeight
+  if (width !== W || height !== H) {
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
 
-    renderer.setSize(innerWidth, innerHeight)
-    renderer.setPixelRatio(devicePixelRatio)
+    renderer.setSize(W, H)
+    renderer.setPixelRatio(DPI)
   }
 }
 

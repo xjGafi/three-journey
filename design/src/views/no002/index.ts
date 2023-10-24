@@ -11,7 +11,7 @@ import {
 
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
-import uniforms from './uniforms'
+import { materialList } from './static'
 import snoiseShader from '@/shaders/snoise.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -30,13 +30,13 @@ let deltaTime = 0
 let timeOffset = 0
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
   // Scene
   scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 800)
+  camera = new PerspectiveCamera(45, W / H, 1, 800)
   camera.position.z = 130
 
   // Object
@@ -45,8 +45,8 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
   renderer = new WebGLRenderer({ canvas })
-  renderer.setSize(innerWidth, innerHeight)
-  renderer.setPixelRatio(devicePixelRatio)
+  renderer.setSize(W, H)
+  renderer.setPixelRatio(DPI)
 
   // Listener
   window.addEventListener('resize', onResize, false)
@@ -65,17 +65,17 @@ function animate() {
 function meshGenerator() {
   const geometry = new PlaneGeometry(75, 75)
 
-  uniforms.forEach((uniform, index) => {
+  materialList.forEach((config, index) => {
     const material = new ShaderMaterial({
       uniforms: {
         uColor1: {
-          value: new Color(uniform.color1),
+          value: new Color(config.color1),
         },
         uColor2: {
-          value: new Color(uniform.color2),
+          value: new Color(config.color2),
         },
         uTime: { value: 0 },
-        uTimeOffset: { value: uniform.timeOffset },
+        uTimeOffset: { value: config.timeOffset },
       },
       fragmentShader,
       vertexShader,
@@ -100,20 +100,22 @@ function meshGenerator() {
 
 function onResize() {
   const { width, height } = renderer.domElement
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
-  if (width !== innerWidth || height !== innerHeight) {
-    camera.aspect = innerWidth / innerHeight
+  if (width !== W || height !== H) {
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
 
-    renderer.setSize(innerWidth, innerHeight)
-    renderer.setPixelRatio(devicePixelRatio)
+    renderer.setSize(W, H)
+    renderer.setPixelRatio(DPI)
   }
 }
 
 function onMouseMove(event: MouseEvent) {
-  cursor.x = event.clientX / innerWidth
-  cursor.y = event.clientY / innerHeight
+  const { innerWidth: W, innerHeight: H } = window
+
+  cursor.x = event.clientX / W
+  cursor.y = event.clientY / H
 }
 
 function onDestroy() {

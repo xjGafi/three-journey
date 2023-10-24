@@ -5,7 +5,7 @@ const colors = [
   'rgb(241, 47, 128)',
 ]
 
-const uniforms = [
+export const materialList = [
   { color1: colors[0], color2: colors[1], timeOffset: 6.9 },
   { color1: colors[2], color2: colors[0], timeOffset: 8.7 },
   { color1: colors[2], color2: colors[0], timeOffset: 1.8 },
@@ -22,5 +22,3 @@ const uniforms = [
   { color1: colors[3], color2: colors[1], timeOffset: 1.6 },
   { color1: colors[2], color2: colors[0], timeOffset: 4.4 },
 ]
-
-export default uniforms

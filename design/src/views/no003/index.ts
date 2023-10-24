@@ -30,8 +30,6 @@ const clock = new Clock()
 let deltaTime = 0
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window
-
   // Scene
   scene = new Scene()
 
@@ -107,20 +105,22 @@ function createMesh() {
 
 function onResize() {
   const { width, height } = renderer.domElement
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
-  if (width !== innerWidth || height !== innerHeight) {
-    camera.aspect = innerWidth / innerHeight
+  if (width !== W || height !== H) {
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
 
-    renderer.setSize(innerWidth, innerHeight)
-    renderer.setPixelRatio(devicePixelRatio)
+    renderer.setSize(W, H)
+    renderer.setPixelRatio(DPI)
   }
 }
 
 function onMouseMove(event: MouseEvent) {
-  cursor.x = event.clientX / innerWidth
-  cursor.y = event.clientY / innerHeight
+  const { innerWidth: W, innerHeight: H } = window
+
+  cursor.x = event.clientX / W
+  cursor.y = event.clientY / H
 }
 
 function onDestroy() {

@@ -24,13 +24,13 @@ const radius = 50
 const noise = new SimplexNoise()
 
 function init() {
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
   // Scene
   scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
+  camera = new PerspectiveCamera(45, W / H, 1, 1000)
   camera.position.set(0, 0, 200)
 
   // Lights
@@ -42,8 +42,8 @@ function init() {
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
   renderer = new WebGLRenderer({ canvas })
-  renderer.setSize(innerWidth, innerHeight)
-  renderer.setPixelRatio(devicePixelRatio)
+  renderer.setSize(W, H)
+  renderer.setPixelRatio(DPI)
 
   // Listener
   window.addEventListener('resize', onResize, false)
@@ -112,14 +112,14 @@ function makeRoughBall() {
 
 function onResize() {
   const { width, height } = renderer.domElement
-  const { innerWidth, innerHeight, devicePixelRatio } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
-  if (width !== innerWidth || height !== innerHeight) {
-    camera.aspect = innerWidth / innerHeight
+  if (width !== W || height !== H) {
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
 
-    renderer.setSize(innerWidth, innerHeight)
-    renderer.setPixelRatio(devicePixelRatio)
+    renderer.setSize(W, H)
+    renderer.setPixelRatio(DPI)
   }
 }
 

@@ -19,8 +19,9 @@ import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
 
-let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer,
-  composer: EffectComposer, FXAAShaderPass: ShaderPass, overlayShader: ShaderPass
+let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
+
+let composer: EffectComposer, renderPass: RenderPass, FXAAShaderPass: ShaderPass, overlayShaderPass: ShaderPass
 
 let animateId: number
 
@@ -30,11 +31,13 @@ const cursor = {
 }
 
 function init() {
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
+
   // Scene
   scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1000)
+  camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
   camera.position.z = 50
 
   // Object
@@ -48,8 +51,8 @@ function init() {
     canvas,
     antialias: true,
   })
-  renderer.setSize(innerWidth, innerHeight)
-  renderer.setPixelRatio(devicePixelRatio)
+  renderer.setSize(W, H)
+  renderer.setPixelRatio(DPI)
   renderer.setClearColor(0x6400FF)
 
   // Composer
@@ -91,12 +94,8 @@ function createMesh() {
   const circleGeometry = new CircleGeometry(80, 80)
   const circleCount = 15
   for (let i = 0; i < circleCount; i++) {
-    const color = new Color(
-      `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`,
-    )
-    const circleMaterial = new MeshBasicMaterial({
-      color,
-    })
+    const color = `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`
+    const circleMaterial = new MeshBasicMaterial({ color })
     const circleMesh = new Mesh(
       circleGeometry,
       circleMaterial,
@@ -112,28 +111,29 @@ function createMesh() {
 
 function createComposer() {
   composer = new EffectComposer(renderer)
-  const renderPass = new RenderPass(scene, camera)
+
+  // RenderPass 通常位于过程链的开始，以便将渲染好的场景作为输入来提供给下一个后期处理步骤
+  renderPass = new RenderPass(scene, camera)
   composer.addPass(renderPass)
 
+  const { innerWidth: W, innerHeight: H } = window
   // 抗锯齿
   FXAAShaderPass = new ShaderPass(FXAAShader)
-  FXAAShaderPass.uniforms.resolution.value.set(
-    1 / innerWidth,
-    1 / innerHeight,
-  )
+  FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
   FXAAShaderPass.renderToScreen = true
   composer.addPass(FXAAShaderPass)
 
-  overlayShader = new ShaderPass({
+  // 叠加滤镜
+  overlayShaderPass = new ShaderPass({
     uniforms: {
       tDiffuse: {
         value: null,
       },
       dimensions: {
-        value: new Vector2(innerWidth, innerHeight),
+        value: new Vector2(W, H),
       },
       dimensionsMultiplier: {
-        value: innerWidth < 800 ? 3 : 1,
+        value: W < 800 ? 3 : 1,
       },
       uMousePosition: {
         value: new Vector2(cursor.x, cursor.y),
@@ -142,32 +142,31 @@ function createComposer() {
     vertexShader,
     fragmentShader,
   })
-  overlayShader.renderToScreen = true
-  composer.addPass(overlayShader)
+  overlayShaderPass.renderToScreen = true
+  composer.addPass(overlayShaderPass)
 }
 
 function onResize() {
   const { width, height } = renderer.domElement
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
 
-  if (width !== innerWidth || height !== innerHeight) {
-    camera.aspect = innerWidth / innerHeight
+  if (width !== W || height !== H) {
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
 
-    renderer.setSize(innerWidth, innerHeight)
-    renderer.setPixelRatio(devicePixelRatio)
+    renderer.setSize(W, H)
+    renderer.setPixelRatio(DPI)
 
-    FXAAShaderPass.uniforms.resolution.value.set(
-      1 / innerWidth,
-      1 / innerHeight,
-    )
-    overlayShader.uniforms.dimensionsMultiplier.value
-      = innerWidth < 800 ? 3 : 1
+    FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
+    overlayShaderPass.uniforms.dimensionsMultiplier.value = W < 800 ? 3 : 1
   }
 }
 
 function onMouseMove(event: MouseEvent) {
-  cursor.x = event.clientX / innerWidth
-  cursor.y = event.clientY / innerHeight
+  const { innerWidth: W, innerHeight: H } = window
+
+  cursor.x = event.clientX / W
+  cursor.y = event.clientY / H
 }
 
 function onDestroy() {
@@ -188,8 +187,7 @@ function onDestroy() {
 }
 
 function updateView() {
-  overlayShader.uniforms.uMousePosition.value
-    = new Vector2(cursor.x, cursor.y)
+  overlayShaderPass.uniforms.uMousePosition.value = new Vector2(cursor.x, cursor.y)
 
   camera.position.x = (cursor.x - 0.5) * 100
   camera.position.y = (cursor.y - 0.5) * 100
