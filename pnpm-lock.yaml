@@ -5,7 +5,7 @@ importers:
   .:
     dependencies:
       three:
-        specifier: ^0.151.3
+        specifier: 0.151.3
         version: 0.151.3
       tweakpane:
         specifier: ^4.0.1
@@ -21,7 +21,7 @@ importers:
         specifier: ^20.8.8
         version: 20.8.8
       '@types/three':
-        specifier: '0.151'
+        specifier: 0.151.0
         version: 0.151.0
       eslint:
         specifier: ^8.52.0
