@@ -68,7 +68,15 @@
     "@types/node": "^20.8.8",
     "@types/three": "^0.157.2",
     "eslint": "^8.52.0",
+    "lint-staged": "^15.0.2",
+    "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
