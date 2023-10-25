@@ -1,10 +1,7 @@
-import type {
-  IUniform,
-} from 'three'
 import {
   CanvasTexture,
   ClampToEdgeWrapping,
-  // Clock,
+  Clock,
   Color,
   Group,
   LinearFilter,
@@ -41,16 +38,9 @@ const cursor = {
   y: 0.5,
 }
 
-const start = Date.now()
-let fixedTime = 0
+const clock = new Clock()
 let timeOffset = 0
 let dynamicTime = 0
-
-const renderUpdates = {
-  rotate: [],
-  fbo: [],
-  dynamicTime: [],
-}
 
 function init() {
   const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
@@ -281,15 +271,10 @@ function updateView() {
   const x = ((cursor.x - 0.5) * 44 - camera.position.x) / 20
   const y = ((cursor.y - 0.5) * 20 - camera.position.y) / 20
 
-  fixedTime = 0.0001 * (Date.now() - start)
-  timeOffset
-    += (Math.abs(x) + Math.abs(y)) / 5
-  dynamicTime = fixedTime + timeOffset
+  const elapsedTime = clock.getElapsedTime() / 10
+  timeOffset += (Math.abs(x) + Math.abs(y)) / 5
+  dynamicTime = elapsedTime + timeOffset
   materialCenterPiece.uniforms.uTime.value = dynamicTime
-
-  renderUpdates.dynamicTime.forEach((uniform: IUniform) => {
-    uniform.value = dynamicTime
-  })
 
   camera.position.x += x
   camera.position.y += y

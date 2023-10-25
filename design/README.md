@@ -12,7 +12,7 @@
 
 参考：[Daily CSS Design - Day 224](https://dailycssdesign.com/224/)
 
-## [No.003](./src/views/no003/index.ts)
+## [No.003](./src/views/no003/index.ts)（待优化）
 
 ![poster no.003](./assets/images/no003.jpg)
 
@@ -26,14 +26,19 @@
 
 参考：[Daily CSS Design - Day 334](https://dailycssdesign.com/334/)
 
-## [No.005](./src/views/no004/index.ts)
+## [No.005](./src/views/no005/index.ts)
 
 ![poster no.005](./assets/images/no005.jpg)
 
 参考：[Daily CSS Design - Day 50](https://dailycssdesign.com/50/)
 
+## [No.006](./src/views/no006/index.ts)
+
+![poster no.006](./assets/images/no006.jpg)
+
+参考：[Daily CSS Design - Day 51](https://dailycssdesign.com/51/)
+
 ## TODO:
-- https://dailycssdesign.com/51/
 - https://dailycssdesign.com/161/
 - https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/

@@ -1,12 +1,11 @@
 import {
-  CircleGeometry,
-  Group,
+  Clock,
+  IcosahedronGeometry,
   Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
+  ShaderMaterial,
   Vector2,
-  Vector3,
   WebGLRenderer,
 } from 'three'
 
@@ -15,12 +14,17 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 
-import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
+import vertexShader from './shader/vertex.glsl?raw'
+import fragmentOverlayShader from './shader/fragmentOverlay.glsl?raw'
+import vertexOverlayShader from './shader/vertexOverlay.glsl?raw'
+import pnoise3Shader from '@/shaders/pnoise3.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let composer: EffectComposer, renderPass: RenderPass, FXAAShaderPass: ShaderPass, overlayShaderPass: ShaderPass
+
+let material: ShaderMaterial, mesh: Mesh
 
 let animateId: number
 
@@ -28,6 +32,8 @@ const cursor = {
   x: 0.0,
   y: 0.0,
 }
+
+const clock = new Clock()
 
 function init() {
   const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
@@ -37,11 +43,10 @@ function init() {
 
   // Canera
   camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
-  camera.position.z = 50
+  camera.position.z = 90
 
   // Object
   createMesh()
-  createWords()
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
@@ -70,41 +75,27 @@ function animate() {
   render()
 }
 
-function createWords() {
-  const template = document.createElement('h1')
-  template.setAttribute('style', `
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 50;
-    user-select: none;
-    margin: 0;
-    font-size: 60px;
-  `)
-  template.innerHTML = 'C I R C L E S'
-  document.body.appendChild(template)
-}
-
 function createMesh() {
-  const circles = new Group()
-
-  const circleGeometry = new CircleGeometry(80, 80)
-  const circleCount = 15
-  for (let i = 0; i < circleCount; i++) {
-    const color = `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`
-    const circleMaterial = new MeshBasicMaterial({ color })
-    const circleMesh = new Mesh(
-      circleGeometry,
-      circleMaterial,
-    )
-    circleMesh.position.set(0, 0, 0)
-    circleMesh.position.z = i * 1
-    circleMesh.scale.multiplyScalar((circleCount - i) * 0.05)
-    circles.add(circleMesh)
+  const geometry = new IcosahedronGeometry(40, 100)
+  material = new ShaderMaterial({
+    uniforms: {
+      uMousePosition: {
+        value: new Vector2(cursor.x, cursor.y),
+      },
+    },
+    vertexShader,
+    fragmentShader,
+  })
+  material.onBeforeCompile = (shader) => {
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        '#include <g_pnoise>',
+        pnoise3Shader,
+      )
   }
 
-  scene.add(circles)
+  mesh = new Mesh(geometry, material)
+  scene.add(mesh)
 }
 
 function createComposer() {
@@ -136,9 +127,10 @@ function createComposer() {
         value: new Vector2(cursor.x, cursor.y),
       },
     },
-    vertexShader,
-    fragmentShader,
+    vertexShader: vertexOverlayShader,
+    fragmentShader: fragmentOverlayShader,
   })
+
   composer.addPass(overlayShaderPass)
   overlayShaderPass.renderToScreen = true
 }
@@ -184,11 +176,20 @@ function onDestroy() {
 }
 
 function updateView() {
-  overlayShaderPass.uniforms.uMousePosition.value = new Vector2(cursor.x, cursor.y)
+  const cursorVector = new Vector2(cursor.x, cursor.y)
+
+  material.uniforms.uMousePosition.value = cursorVector
+  overlayShaderPass.uniforms.uMousePosition.value = cursorVector
+
+  const elapsedTime = clock.getElapsedTime() / 10
+
+  mesh.rotation.x = elapsedTime
+  mesh.rotation.y = elapsedTime * 1.5
+  mesh.rotation.z = elapsedTime
 
   camera.position.x = (cursor.x - 0.5) * 100
   camera.position.y = (cursor.y - 0.5) * 100
-  camera.lookAt(new Vector3(0.0, 0.0, 0.0))
+  camera.lookAt(mesh.position)
 }
 
 function render() {
