@@ -212,7 +212,7 @@ function addObjects() {
   plane.position.x = -6
   plane.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(plane.geometry.attributes.uv.array, 2),
+    new BufferAttribute((plane.geometry.attributes.uv as BufferAttribute).array, 2),
   )
   group.add(plane)
 
@@ -220,7 +220,7 @@ function addObjects() {
   cube.position.x = -2
   cube.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(cube.geometry.attributes.uv.array, 2),
+    new BufferAttribute((cube.geometry.attributes.uv as BufferAttribute).array, 2),
   )
   group.add(cube)
 
@@ -228,7 +228,7 @@ function addObjects() {
   sphere.position.x = 2
   sphere.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(sphere.geometry.attributes.uv.array, 2),
+    new BufferAttribute((sphere.geometry.attributes.uv as BufferAttribute).array, 2),
   )
   group.add(sphere)
 
@@ -236,7 +236,7 @@ function addObjects() {
   torus.position.x = 6
   torus.geometry.setAttribute(
     'uv2',
-    new BufferAttribute(torus.geometry.attributes.uv.array, 2),
+    new BufferAttribute((torus.geometry.attributes.uv as BufferAttribute).array, 2),
   )
   group.add(torus)
 }
