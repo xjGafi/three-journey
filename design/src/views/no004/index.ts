@@ -21,8 +21,8 @@ import vertexShaderCenterPiece from './shader/vertexShaderCenterPiece.glsl?raw'
 import fragmentShaderCenterPiece from './shader/fragmentShaderCenterPiece.glsl?raw'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
+import snoise2DShader from '@/shaders/simplex/2d.glsl?raw'
 import circleShader from '@/shaders/circle.glsl?raw'
-import snoiseShader from '@/shaders/snoise.glsl?raw'
 import image from '@/textures/Einstein.jpg?url'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -126,7 +126,7 @@ function createMesh() {
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <g_snoise>',
-        snoiseShader,
+        snoise2DShader,
       ).replace(
         '#include <g_circle>',
         circleShader,

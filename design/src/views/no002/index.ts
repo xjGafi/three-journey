@@ -12,7 +12,7 @@ import {
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
 import { materialList } from './static'
-import snoiseShader from '@/shaders/snoise.glsl?raw'
+import snoise2DShader from '@/shaders/simplex/2d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
@@ -86,7 +86,7 @@ function meshGenerator() {
       shader.fragmentShader = shader.fragmentShader
         .replace(
           '#include <g_snoise>',
-          snoiseShader,
+          snoise2DShader,
         )
     }
 

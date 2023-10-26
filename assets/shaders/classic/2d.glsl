@@ -1,22 +1,38 @@
+//
+// GLSL textureless classic 2D noise "cnoise",
+// with an RSL-style periodic variant "pnoise".
+// Author:  Stefan Gustavson (stefan.gustavson@liu.se)
+// Version: 2011-08-22
+//
+// Many thanks to Ian McEwan of Ashima Arts for the
+// ideas for permutation and gradient selection.
+//
+// Copyright (c) 2011 Stefan Gustavson. All rights reserved.
+// Distributed under the MIT license. See LICENSE file.
+// https://github.com/ashima/webgl-noise
+//
+
 vec4 mod289(vec4 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
+
 vec4 permute(vec4 x) {
   return mod289(((x * 34.0) + 1.0) * x);
 }
+
 vec4 taylorInvSqrt(vec4 r) {
   return 1.79284291400159 - 0.85373472095314 * r;
 }
+
 vec2 fade(vec2 t) {
   return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
 
-// Classic Perlin noise, periodic variant
-float pnoise(vec2 P, vec2 rep) {
+// Classic Perlin noise
+float cnoise(vec2 P) {
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
   vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
-  Pi = mod(Pi, rep.xyxy); // To create noise with explicit period
-  Pi = mod289(Pi);        // To avoid truncation effects in permutation
+  Pi = mod289(Pi); // To avoid truncation effects in permutation
   vec4 ix = Pi.xzxz;
   vec4 iy = Pi.yyww;
   vec4 fx = Pf.xzxz;

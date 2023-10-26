@@ -18,7 +18,7 @@ import fragmentShader from './shader/fragment.glsl?raw'
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentOverlayShader from './shader/fragmentOverlay.glsl?raw'
 import vertexOverlayShader from './shader/vertexOverlay.glsl?raw'
-import pnoise3Shader from '@/shaders/pnoise3.glsl?raw'
+import pnoise3DShader from '@/shaders/periodic/3d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
@@ -90,7 +90,7 @@ function createMesh() {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <g_pnoise>',
-        pnoise3Shader,
+        pnoise3DShader,
       )
   }
 

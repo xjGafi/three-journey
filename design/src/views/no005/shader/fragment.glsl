@@ -9,6 +9,7 @@ vec3 lighten(vec3 base, vec3 blend) {
 vec3 lighten(vec3 base, vec3 blend, float opacity) {
   return (lighten(base, blend) * opacity + base * (1.0 - opacity));
 }
+
 vec3 rgb(float r, float g, float b) {
   return vec3(r / 255., g / 255., b / 255.);
 }
@@ -16,6 +17,7 @@ vec3 rgb(float r, float g, float b) {
 vec3 rgb(float c) {
   return vec3(c / 255., c / 255., c / 255.);
 }
+
 float colorBurn(float base, float blend) {
   return (blend == 0.0) ? blend : max((1.0 - ((1.0 - base) / blend)), 0.0);
 }
@@ -27,6 +29,7 @@ vec3 colorBurn(vec3 base, vec3 blend) {
 vec3 colorBurn(vec3 base, vec3 blend, float opacity) {
   return (colorBurn(base, blend) * opacity + base * (1.0 - opacity));
 }
+
 float overlay(float base, float blend) {
   return base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend));
 }

@@ -9,6 +9,7 @@ vec3 lighten(vec3 base, vec3 blend) {
 vec3 lighten(vec3 base, vec3 blend, float opacity) {
   return (lighten(base, blend) * opacity + base * (1.0 - opacity));
 }
+
 float darken(float base, float blend) {
   return min(blend, base);
 }

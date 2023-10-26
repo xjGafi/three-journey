@@ -19,6 +19,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Pane } from 'tweakpane'
 
 import shaders from './shaders'
+import cnoise2DShader from '@/shaders/classic/2d.glsl?raw'
 import image from '@/textures/avatar.jpeg?url'
 
 let camera: PerspectiveCamera,
@@ -110,6 +111,21 @@ function meshGenerator() {
       case 35:
         material.uniforms = {
           uScale: { value: 30 },
+        }
+        break
+
+      case 42:
+      case 43:
+      case 44:
+      case 45:
+      case 46:
+      case 47:
+        material.onBeforeCompile = (shader) => {
+          shader.fragmentShader = shader.fragmentShader
+            .replace(
+              '#include <g_cnoise>',
+              cnoise2DShader,
+            )
         }
         break
 

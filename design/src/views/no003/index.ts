@@ -12,7 +12,7 @@ import {
 
 import vertexShader from './shader/vertex.glsl?raw'
 import fragmentShader from './shader/fragment.glsl?raw'
-import pnoiseShader from '@/shaders/pnoise.glsl?raw'
+import pnoise2DShader from '@/shaders/periodic/2d.glsl?raw'
 import circleShader from '@/shaders/circle.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -85,7 +85,7 @@ function createMesh() {
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <g_pnoise>',
-        pnoiseShader,
+        pnoise2DShader,
       ).replace(
         '#include <g_circle>',
         circleShader,
@@ -94,7 +94,7 @@ function createMesh() {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <g_pnoise>',
-        pnoiseShader,
+        pnoise2DShader,
       )
   }
 
