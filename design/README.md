@@ -38,7 +38,23 @@
 
 参考：[Daily CSS Design - Day 51](https://dailycssdesign.com/51/)
 
+## [No.007](./src/views/no007/index.ts)
+
+![poster no.007](./assets/images/no007.jpg)
+
+参考：[Daily CSS Design - Day 57](https://dailycssdesign.com/57/)
+
 ## TODO:
+- https://dailycssdesign.com/57/
+- https://dailycssdesign.com/61/
+- https://dailycssdesign.com/63/
+- https://dailycssdesign.com/65/
+- https://dailycssdesign.com/69/
+- https://dailycssdesign.com/72/
+- https://dailycssdesign.com/73/
+- https://dailycssdesign.com/74/
+- https://dailycssdesign.com/94/
+- https://dailycssdesign.com/104/
 - https://dailycssdesign.com/161/
 - https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/
