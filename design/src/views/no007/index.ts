@@ -16,12 +16,10 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 
-import planeFragmentShader from './shader/planeFragment.glsl?raw'
-import planeVertexShader from './shader/planeVertex.glsl?raw'
-import waterFragmentShader from './shader/waterFragment.glsl?raw'
-import waterVertexShader from './shader/waterVertex.glsl?raw'
-import postFragmentShader from './shader/postFragment.glsl?raw'
+import meshVertexShader from './shader/meshVertex.glsl?raw'
+import meshFragmentShader from './shader/meshFragment.glsl?raw'
 import postVertexShader from './shader/postVertex.glsl?raw'
+import postFragmentShader from './shader/postFragment.glsl?raw'
 import pnoise3DShader from '@/shaders/periodic/3d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -87,16 +85,14 @@ function createMesh() {
     const distance = -Math.floor(Math.random() * 150)
     mountainsPositions[i + 1] = distance // 修改 y 坐标
   }
-  mountainsGeometry.attributes.position.needsUpdate = true // 标记顶点位置已更新
 
   // Forest
   const forestGeometry = new PlaneGeometry(350, 350, 80, 80)
   const forestPositions = (forestGeometry.attributes.position as BufferAttribute).array as Array<number>
   for (let i = 0; i < forestPositions.length; i += 3) {
-    const distance = -Math.floor(Math.random() * 100)
+    const distance = -Math.floor(Math.random() * 100) // 修改 y 坐标
     forestPositions[i + 1] = distance
   }
-  forestGeometry.attributes.position.needsUpdate = true // 标记顶点位置已更新
 
   material = new ShaderMaterial({
     uniforms: {
@@ -104,8 +100,8 @@ function createMesh() {
         value: new Vector2(cursor.x, cursor.y),
       },
     },
-    vertexShader: planeVertexShader,
-    fragmentShader: planeFragmentShader,
+    vertexShader: meshVertexShader,
+    fragmentShader: meshFragmentShader,
   })
   material.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader
@@ -134,8 +130,8 @@ function createMesh() {
         ),
       },
     },
-    fragmentShader: waterFragmentShader,
-    vertexShader: waterVertexShader,
+    fragmentShader: meshFragmentShader,
+    vertexShader: meshVertexShader,
   })
   waterMaterial.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader

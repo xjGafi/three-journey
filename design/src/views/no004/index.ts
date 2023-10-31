@@ -17,10 +17,10 @@ import {
 
 import { words } from './static'
 
-import vertexShaderCenterPiece from './shader/vertexShaderCenterPiece.glsl?raw'
-import fragmentShaderCenterPiece from './shader/fragmentShaderCenterPiece.glsl?raw'
-import vertexShader from './shader/vertex.glsl?raw'
-import fragmentShader from './shader/fragment.glsl?raw'
+import meshVertexShader from './shader/meshVertex.glsl?raw'
+import meshFragmentShader from './shader/meshFragment.glsl?raw'
+import wordsVertexShader from './shader/wordsVertex.glsl?raw'
+import wordsFragmentShader from './shader/wordsFragment.glsl?raw'
 import snoise2DShader from '@/shaders/simplex/2d.glsl?raw'
 import circleShader from '@/shaders/circle.glsl?raw'
 import image from '@/textures/Einstein.jpg?url'
@@ -117,8 +117,8 @@ function createMesh() {
           value: new Color(0xFF79B4),
         },
       },
-      fragmentShader: fragmentShaderCenterPiece,
-      vertexShader: vertexShaderCenterPiece,
+      fragmentShader: meshFragmentShader,
+      vertexShader: meshVertexShader,
     },
   )
   // 替代 ShaderChunk.xxx = xxxxxx
@@ -215,8 +215,8 @@ function createWords() {
           value: new Color(color),
         },
       },
-      fragmentShader,
-      vertexShader,
+      vertexShader: wordsVertexShader,
+      fragmentShader: wordsFragmentShader,
       transparent: true,
     })
 

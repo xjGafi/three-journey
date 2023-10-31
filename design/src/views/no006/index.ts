@@ -14,10 +14,10 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 
-import fragmentShader from './shader/fragment.glsl?raw'
-import vertexShader from './shader/vertex.glsl?raw'
-import fragmentOverlayShader from './shader/fragmentOverlay.glsl?raw'
-import vertexOverlayShader from './shader/vertexOverlay.glsl?raw'
+import meshVertexShader from './shader/meshVertex.glsl?raw'
+import meshFragmentShader from './shader/meshFragment.glsl?raw'
+import postVertexShader from './shader/postVertex.glsl?raw'
+import postFragmentShader from './shader/postFragment.glsl?raw'
 import pnoise3DShader from '@/shaders/periodic/3d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -83,8 +83,8 @@ function createMesh() {
         value: new Vector2(cursor.x, cursor.y),
       },
     },
-    vertexShader,
-    fragmentShader,
+    vertexShader: meshVertexShader,
+    fragmentShader: meshFragmentShader,
   })
   material.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader
@@ -127,8 +127,8 @@ function createComposer() {
         value: new Vector2(cursor.x, cursor.y),
       },
     },
-    vertexShader: vertexOverlayShader,
-    fragmentShader: fragmentOverlayShader,
+    vertexShader: postVertexShader,
+    fragmentShader: postFragmentShader,
   })
 
   composer.addPass(overlayShaderPass)
