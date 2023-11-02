@@ -44,8 +44,13 @@
 
 参考：[Daily CSS Design - Day 57](https://dailycssdesign.com/57/)
 
+## [No.008](./src/views/no008/index.ts)
+
+![poster no.008](./assets/images/no008.jpg)
+
+参考：[Daily CSS Design - Day 61 ](https://dailycssdesign.com/61/)
+
 ## TODO:
-- https://dailycssdesign.com/57/
 - https://dailycssdesign.com/61/
 - https://dailycssdesign.com/63/
 - https://dailycssdesign.com/65/

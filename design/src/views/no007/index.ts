@@ -90,8 +90,8 @@ function createMesh() {
   const forestGeometry = new PlaneGeometry(350, 350, 80, 80)
   const forestPositions = (forestGeometry.attributes.position as BufferAttribute).array as Array<number>
   for (let i = 0; i < forestPositions.length; i += 3) {
-    const distance = -Math.floor(Math.random() * 100) // 修改 y 坐标
-    forestPositions[i + 1] = distance
+    const distance = -Math.floor(Math.random() * 100)
+    forestPositions[i + 1] = distance // 修改 y 坐标
   }
 
   material = new ShaderMaterial({
