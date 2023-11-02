@@ -1,21 +1,17 @@
 import {
   BoxGeometry,
   Clock,
-  Color,
-  DoubleSide,
   Group,
   Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
-  PlaneGeometry,
   Scene,
   ShaderMaterial,
   Vector2,
   WebGLRenderer,
 } from 'three'
 
-import vertexShader from './shader/meshVertex.glsl?raw'
-import fragmentShader from './shader/meshFragment.glsl?raw'
+import vertexShader from './shader/vertex.glsl?raw'
+import fragmentShader from './shader/fragment.glsl?raw'
 import pnoise3DShader from '@/shaders/periodic/3d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
@@ -24,6 +20,7 @@ let barGroup: Group, material: ShaderMaterial
 
 const barRowCount = 20
 const barColCount = 20
+const barDepth = 9
 const barSize = 0.5
 const spacer = 4
 
@@ -93,7 +90,6 @@ function createMesh() {
     },
     vertexShader,
     fragmentShader,
-    side: DoubleSide,
   })
   material.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader
@@ -104,7 +100,7 @@ function createMesh() {
   }
 
   for (let i = 0; i < barRowCount * barColCount; i++) {
-    const barGeometry = new BoxGeometry(barSize, barSize, 15)
+    const barGeometry = new BoxGeometry(barSize, barSize, barDepth)
     const barMesh = new Mesh(barGeometry, material)
 
     const currentRow = i % barRowCount
@@ -120,13 +116,6 @@ function createMesh() {
   }
 
   scene.add(barGroup)
-
-  const floorGeometry = new PlaneGeometry(200, 200, 200)
-  const floorMaterial = new MeshBasicMaterial({ color: 0x141414 })
-  const floorMesh = new Mesh(floorGeometry, floorMaterial)
-  floorMesh.position.z = -1
-
-  scene.add(floorMesh)
 }
 
 function onResize() {
@@ -183,7 +172,7 @@ function updateView() {
     const dy = Math.abs(1 - cursor.y - normalizedCurrentCol)
 
     const effect = (1 - dx) * (1 - dy) * 10
-    const z = -8.8 + (Math.sin(time * 3 + i / 3) + 1.2) / 0.5 + effect
+    const z = -barDepth + (Math.sin(time * 3 + i / 3) + 1.2) / 0.5 + effect
 
     m.position.z = z
   })
