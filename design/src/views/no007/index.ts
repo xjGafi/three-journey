@@ -44,7 +44,7 @@ function init() {
   // Canera
   camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
   camera.position.y = 20
-  camera.position.z = W < 800 ? 150 : 120
+  camera.position.z = 120
   camera.lookAt(scene.position)
 
   // Object
@@ -169,7 +169,7 @@ function createComposer() {
         value: new Vector2(W, H),
       },
       dimensionsMultiplier: {
-        value: W < 800 ? 1 : 0.7,
+        value: 0.7,
       },
       uMousePosition: {
         value: new Vector2(cursor.x, cursor.y),
@@ -195,7 +195,7 @@ function onResize() {
     renderer.setPixelRatio(DPI)
 
     FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
-    overlayShaderPass.uniforms.dimensionsMultiplier.value = W < 800 ? 1 : 0.7
+    overlayShaderPass.uniforms.dimensionsMultiplier.value = 0.7
   }
 }
 

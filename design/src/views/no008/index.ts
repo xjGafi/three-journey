@@ -85,7 +85,7 @@ function createMesh() {
         value: new Vector2(W, H),
       },
       uMultiplier: {
-        value: W < 800 ? 1 : 1.5,
+        value: 1.5,
       },
     },
     vertexShader,

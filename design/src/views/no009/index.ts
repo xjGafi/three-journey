@@ -1,12 +1,14 @@
+import type {
+  BufferAttribute,
+} from 'three'
 import {
-  CircleGeometry,
-  Group,
+  Clock,
   Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
+  ShaderMaterial,
+  SphereGeometry,
   Vector2,
-  Vector3,
   WebGLRenderer,
 } from 'three'
 
@@ -15,12 +17,17 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 
-import vertexShader from './shader/vertex.glsl?raw'
-import fragmentShader from './shader/fragment.glsl?raw'
+import meshVertexShader from './shader/meshVertex.glsl?raw'
+import meshFragmentShader from './shader/meshFragment.glsl?raw'
+import postVertexShader from './shader/postVertex.glsl?raw'
+import postFragmentShader from './shader/postFragment.glsl?raw'
+import pnoise3DShader from '@/shaders/periodic/3d.glsl?raw'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
 let composer: EffectComposer, renderPass: RenderPass, FXAAShaderPass: ShaderPass, overlayShaderPass: ShaderPass
+
+let material: ShaderMaterial
 
 let animateId: number
 
@@ -28,6 +35,8 @@ const cursor = {
   x: 0.0,
   y: 0.0,
 }
+
+const clock = new Clock()
 
 function init() {
   const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
@@ -37,11 +46,11 @@ function init() {
 
   // Canera
   camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
-  camera.position.z = 50
+  camera.position.z = 180
+  camera.lookAt(scene.position)
 
   // Object
   createMesh()
-  createWords()
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
@@ -51,7 +60,7 @@ function init() {
   })
   renderer.setSize(W, H)
   renderer.setPixelRatio(DPI)
-  renderer.setClearColor(0x6400FF)
+  renderer.setClearColor(0x96BEFF)
 
   // Composer
   createComposer()
@@ -70,41 +79,53 @@ function animate() {
   render()
 }
 
-function createWords() {
-  const template = document.createElement('h1')
-  template.setAttribute('style', `
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 50;
-    user-select: none;
-    margin: 0;
-    font-size: 60px;
-  `)
-  template.innerHTML = 'C I R C L E S'
-  document.body.appendChild(template)
-}
-
 function createMesh() {
-  const circles = new Group()
+  const geometry = new SphereGeometry(60, 20, 64)
+  const radius = 10
+  const geometryRows = 6
+  const geometryCols = 64
 
-  const circleGeometry = new CircleGeometry(80, 80)
-  const circleCount = 15
-  for (let i = 0; i < circleCount; i++) {
-    const color = `rgb(${i * Math.floor(255 / circleCount)}, 0, ${(255 - i * 5)})`
-    const circleMaterial = new MeshBasicMaterial({ color })
-    const circleMesh = new Mesh(
-      circleGeometry,
-      circleMaterial,
-    )
-    circleMesh.position.set(0, 0, 0)
-    circleMesh.position.z = i * 1
-    circleMesh.scale.multiplyScalar((circleCount - i) * 0.05)
-    circles.add(circleMesh)
+  // FIXME: 有问题，mesh 裂了
+  const positionAttribute = geometry.attributes.position as BufferAttribute
+  const positionsArray = positionAttribute.array as Array<number>
+  for (let i = 0; i < positionsArray.length; i += 3) {
+    const currentRow = Math.floor(i / 3 / geometryRows)
+    const currentCol = (i / 3) % geometryCols
+    const radLength = (Math.PI * 2) / geometryCols
+    const angle = radLength * currentRow + Math.PI * 2 * currentCol
+
+    const dz = radius * Math.cos(angle)
+    const dx = radius * Math.sin(angle)
+    const dy = currentRow / 1.2
+
+    positionsArray[i + 2] += dz
+    positionsArray[i] += dx
+    positionsArray[i + 1] = -positionsArray[i + 1] - 100 + dy
   }
 
-  scene.add(circles)
+  material = new ShaderMaterial({
+    uniforms: {
+      uMousePosition: {
+        value: new Vector2(cursor.x, cursor.y),
+      },
+      uTime: {
+        value: 0,
+      },
+    },
+    vertexShader: meshVertexShader,
+    fragmentShader: meshFragmentShader,
+  })
+  material.onBeforeCompile = (shader) => {
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        '#include <g_pnoise>',
+        pnoise3DShader,
+      )
+  }
+
+  const mesh = new Mesh(geometry, material)
+  mesh.rotation.z = Math.PI / 2
+  scene.add(mesh)
 }
 
 function createComposer() {
@@ -114,7 +135,7 @@ function createComposer() {
   renderPass = new RenderPass(scene, camera)
   composer.addPass(renderPass)
 
-  const { innerWidth: W, innerHeight: H } = window
+  const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
   // 抗锯齿
   FXAAShaderPass = new ShaderPass(FXAAShader)
   FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
@@ -129,16 +150,22 @@ function createComposer() {
       dimensions: {
         value: new Vector2(W, H),
       },
-      dimensionsMultiplier: {
-        value: 1,
+      uDensityMultiplier: {
+        value: DPI || 1,
       },
       uMousePosition: {
         value: new Vector2(cursor.x, cursor.y),
       },
+      uAmount: {
+        value: new Vector2(300, 300),
+      },
     },
-    vertexShader,
-    fragmentShader,
+    vertexShader: postVertexShader,
+    fragmentShader: postFragmentShader,
   })
+  overlayShaderPass.uniforms.uAmount.value.x = Math.round(W / 80)
+  overlayShaderPass.uniforms.uAmount.value.y = (H / W) * overlayShaderPass.uniforms.uAmount.value.x
+
   composer.addPass(overlayShaderPass)
   overlayShaderPass.renderToScreen = true
 }
@@ -155,7 +182,9 @@ function onResize() {
     renderer.setPixelRatio(DPI)
 
     FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
-    overlayShaderPass.uniforms.dimensionsMultiplier.value = 1
+    overlayShaderPass.uniforms.uDensityMultiplier.value = DPI || 1
+    overlayShaderPass.uniforms.uAmount.value.x = Math.round(W / 80)
+    overlayShaderPass.uniforms.uAmount.value.y = (H / W) * overlayShaderPass.uniforms.uAmount.value.x
   }
 }
 
@@ -184,11 +213,17 @@ function onDestroy() {
 }
 
 function updateView() {
-  overlayShaderPass.uniforms.uMousePosition.value = new Vector2(cursor.x, cursor.y)
+  const cursorVector = new Vector2(cursor.x, cursor.y)
 
-  camera.position.x = (cursor.x - 0.5) * 100
-  camera.position.y = (cursor.y - 0.5) * 100
-  camera.lookAt(new Vector3(0.0, 0.0, 0.0))
+  const time = clock.getElapsedTime() / 5
+
+  material.uniforms.uMousePosition.value = cursorVector
+  material.uniforms.uTime.value = time
+  overlayShaderPass.uniforms.uMousePosition.value = cursorVector
+
+  camera.position.x += (cursorVector.x * 60 - camera.position.x) * 0.05
+  camera.position.y += (cursorVector.y * 60 - camera.position.y) * 0.05
+  camera.lookAt(scene.position)
 }
 
 function render() {

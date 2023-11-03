@@ -121,7 +121,7 @@ function createComposer() {
         value: new Vector2(W, H),
       },
       dimensionsMultiplier: {
-        value: W < 800 ? 3 : 1,
+        value: 1,
       },
       uMousePosition: {
         value: new Vector2(cursor.x, cursor.y),
@@ -147,7 +147,7 @@ function onResize() {
     renderer.setPixelRatio(DPI)
 
     FXAAShaderPass.uniforms.resolution.value.set(1 / W, 1 / H)
-    overlayShaderPass.uniforms.dimensionsMultiplier.value = W < 800 ? 3 : 1
+    overlayShaderPass.uniforms.dimensionsMultiplier.value = 1
   }
 }
 
