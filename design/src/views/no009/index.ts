@@ -9,6 +9,7 @@ import {
   ShaderMaterial,
   SphereGeometry,
   Vector2,
+  Vector3,
   WebGLRenderer,
 } from 'three'
 
@@ -45,12 +46,13 @@ function init() {
   scene = new Scene()
 
   // Canera
-  camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
+  camera = new PerspectiveCamera(60, W / H, 0.01, 1000)
   camera.position.z = 180
   camera.lookAt(scene.position)
 
   // Object
   createMesh()
+  createWords()
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
@@ -85,22 +87,21 @@ function createMesh() {
   const geometryRows = 6
   const geometryCols = 64
 
-  // FIXME: 有问题，mesh 裂了
-  const positionAttribute = geometry.attributes.position as BufferAttribute
-  const positionsArray = positionAttribute.array as Array<number>
-  for (let i = 0; i < positionsArray.length; i += 3) {
+  const positions = (geometry.attributes.position as BufferAttribute).array as Array<number>
+  for (let i = 0; i < positions.length; i += 3) {
     const currentRow = Math.floor(i / 3 / geometryRows)
     const currentCol = (i / 3) % geometryCols
     const radLength = (Math.PI * 2) / geometryCols
     const angle = radLength * currentRow + Math.PI * 2 * currentCol
 
-    const dz = radius * Math.cos(angle)
     const dx = radius * Math.sin(angle)
-    const dy = currentRow / 1.2
+    // const dy = currentRow / 1.2
+    const dz = radius * Math.cos(angle)
 
-    positionsArray[i + 2] += dz
-    positionsArray[i] += dx
-    positionsArray[i + 1] = -positionsArray[i + 1] - 100 + dy
+    positions[i] += dx
+    positions[i + 1] = positions[i + 1] * 2
+    // positions[i + 1] = -positions[i + 1] - 100 + dy
+    positions[i + 2] += dz
   }
 
   material = new ShaderMaterial({
@@ -114,6 +115,7 @@ function createMesh() {
     },
     vertexShader: meshVertexShader,
     fragmentShader: meshFragmentShader,
+    // wireframe: true
   })
   material.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader
@@ -124,8 +126,25 @@ function createMesh() {
   }
 
   const mesh = new Mesh(geometry, material)
+  mesh.rotation.x = Math.PI / 2
   mesh.rotation.z = Math.PI / 2
   scene.add(mesh)
+}
+
+function createWords() {
+  const template = document.createElement('h1')
+  template.setAttribute('style', `
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    user-select: none;
+    margin: 0;
+    font-size: 100px;
+  `)
+  template.innerHTML = 'C L O U D'
+  document.body.appendChild(template)
 }
 
 function createComposer() {
@@ -227,6 +246,7 @@ function updateView() {
 }
 
 function render() {
+  // renderer.render(scene, camera)
   composer.render()
 }
 
