@@ -71,7 +71,7 @@ function animate() {
 }
 
 function createWords() {
-  const template = document.createElement('h1')
+  const template = document.createElement('h2')
   template.setAttribute('style', `
     position: absolute;
     top: 50%;

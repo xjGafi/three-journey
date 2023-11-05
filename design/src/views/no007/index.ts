@@ -49,6 +49,7 @@ function init() {
 
   // Object
   createMesh()
+  createWords()
 
   // Renderer
   const canvas = document.querySelector('canvas#webgl')!
@@ -146,6 +147,28 @@ function createMesh() {
   scene.add(waterMesh)
 }
 
+function createWords() {
+  const template = document.createElement('h2')
+  template.setAttribute('style', `
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    z-index: 50;
+    user-select: none;
+    margin: 0;
+    font-size: 80px;
+    text-align: center;
+  `)
+
+  const text = `
+    <p id='morning'> W A K E <br/> U P </p>
+    <p id='evening'> S L E E P <br/> T I G H T </p>
+  `
+  template.innerHTML = text
+  document.body.appendChild(template)
+}
+
 function createComposer() {
   composer = new EffectComposer(renderer)
 
@@ -228,6 +251,18 @@ function updateView() {
 
   material.uniforms.uMousePosition.value = cursorVector
   overlayShaderPass.uniforms.uMousePosition.value = cursorVector
+
+  const morningEl = document.querySelector('#morning')
+  const eveningEl = document.querySelector('#evening')
+
+  if (cursor.x < 0.5) {
+    morningEl?.setAttribute('style', 'display: block')
+    eveningEl?.setAttribute('style', 'display: none')
+  }
+  else {
+    morningEl?.setAttribute('style', 'display: none')
+    eveningEl?.setAttribute('style', 'display: block')
+  }
 }
 
 function render() {
