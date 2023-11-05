@@ -9,7 +9,6 @@ import {
   ShaderMaterial,
   SphereGeometry,
   Vector2,
-  Vector3,
   WebGLRenderer,
 } from 'three'
 
