@@ -110,11 +110,11 @@ function createMesh() {
         },
         uTime: { value: 0 },
         uColorHigh: {
-          value: new Color(0x2B6CEF),
+          value: new Color(0x2B6CEF).convertLinearToSRGB(),
 
         },
         uColorLow: {
-          value: new Color(0xFF79B4),
+          value: new Color(0xFF79B4).convertLinearToSRGB(),
         },
       },
       fragmentShader: meshFragmentShader,

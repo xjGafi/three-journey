@@ -1,6 +1,3 @@
-import type {
-  BufferAttribute,
-} from 'three'
 import {
   Mesh,
   PerspectiveCamera,
@@ -81,7 +78,7 @@ function animate() {
 function createMesh() {
   // Mountains
   const mountainsGeometry = new PlaneGeometry(350, 350, 10, 10)
-  const mountainsPositions = (mountainsGeometry.attributes.position as BufferAttribute).array as Array<number>
+  const mountainsPositions = mountainsGeometry.attributes.position.array
   for (let i = 0; i < mountainsPositions.length; i += 3) {
     const distance = -Math.floor(Math.random() * 150)
     mountainsPositions[i + 1] = distance // 修改 y 坐标
@@ -89,7 +86,7 @@ function createMesh() {
 
   // Forest
   const forestGeometry = new PlaneGeometry(350, 350, 80, 80)
-  const forestPositions = (forestGeometry.attributes.position as BufferAttribute).array as Array<number>
+  const forestPositions = forestGeometry.attributes.position.array
   for (let i = 0; i < forestPositions.length; i += 3) {
     const distance = -Math.floor(Math.random() * 100)
     forestPositions[i + 1] = distance // 修改 y 坐标

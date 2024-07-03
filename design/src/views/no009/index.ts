@@ -1,6 +1,3 @@
-import type {
-  BufferAttribute,
-} from 'three'
 import {
   Clock,
   Mesh,
@@ -86,7 +83,7 @@ function createMesh() {
   const geometryRows = 6
   const geometryCols = 64
 
-  const positions = (geometry.attributes.position as BufferAttribute).array as Array<number>
+  const positions = geometry.attributes.position.array
   for (let i = 0; i < positions.length; i += 3) {
     const currentRow = Math.floor(i / 3 / geometryRows)
     const currentCol = (i / 3) % geometryCols

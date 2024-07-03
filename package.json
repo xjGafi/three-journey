@@ -59,19 +59,19 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "three": "0.151.3",
-    "tweakpane": "^4.0.1"
+    "three": "0.166.1",
+    "tweakpane": "^4.0.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "1.0.0-beta.28",
-    "@tweakpane/core": "^2.0.1",
-    "@types/node": "^20.8.8",
-    "@types/three": "0.151.0",
-    "eslint": "^8.52.0",
-    "lint-staged": "^15.0.2",
-    "simple-git-hooks": "^2.9.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0"
+    "@antfu/eslint-config": "2.21.2",
+    "@tweakpane/core": "^2.0.4",
+    "@types/node": "^20.14.9",
+    "@types/three": "0.166.0",
+    "eslint": "^9.6.0",
+    "lint-staged": "^15.2.7",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

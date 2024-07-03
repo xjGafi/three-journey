@@ -1,7 +1,4 @@
 import './style.css'
-import type {
-  BufferAttribute,
-} from 'three'
 import {
   AxesHelper,
   Bone,
@@ -132,7 +129,7 @@ function createGeometry(sizing: Sizing) {
   const skinWeights = [] // 骨骼蒙皮权重属性
 
   for (let i = 0; i < position.count; i++) {
-    vertex.fromBufferAttribute(position as BufferAttribute, i) // 第 i 个顶点
+    vertex.fromBufferAttribute(position, i) // 第 i 个顶点
 
     const y = vertex.y + sizing.halfHeight
 

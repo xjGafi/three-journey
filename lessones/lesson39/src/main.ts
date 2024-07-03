@@ -162,8 +162,8 @@ function animate() {
 
   // 正弦波动画
   for (let i = 0; i < PARAMS.COUNT; i++) {
-    const postionX = (geometry.attributes.position as BufferAttribute).getX(i);
-    (geometry.attributes.position as BufferAttribute).setY(i, Math.sin(elapsedTime + postionX))
+    const postionX = (geometry.attributes.position).getX(i);
+    (geometry.attributes.position).setY(i, Math.sin(elapsedTime + postionX))
   }
   geometry.attributes.position.needsUpdate = true
 

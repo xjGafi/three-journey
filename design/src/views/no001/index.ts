@@ -1,6 +1,3 @@
-import type {
-  BufferAttribute,
-} from 'three'
 import {
   AmbientLight,
   DirectionalLight,
@@ -12,7 +9,8 @@ import {
   Vector3,
   WebGLRenderer,
 } from 'three'
-import SimplexNoise from 'simplex-noise'
+import { createNoise3D } from 'simplex-noise'
+import { normalizedTime } from '../../utils'
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
@@ -21,7 +19,7 @@ let animateId: number
 let ball: Mesh
 const radius = 50
 
-const noise = new SimplexNoise()
+const noise3D = createNoise3D()
 
 function init() {
   const { innerWidth: W, innerHeight: H, devicePixelRatio: DPI } = window
@@ -59,15 +57,15 @@ function animate() {
 }
 
 function createLights() {
-  const ambientLight = new AmbientLight(0x4040FF)
+  const ambientLight = new AmbientLight(0x4040FF, 4)
   scene.add(ambientLight)
 
   const lights: Array<DirectionalLight> = []
-  lights[0] = new DirectionalLight(0x52FFC9, 0.5)
+  lights[0] = new DirectionalLight(0x52FFC9, 2)
   lights[0].position.set(0, 1, 1)
-  lights[1] = new DirectionalLight(0x4BBDEA, 0.5)
+  lights[1] = new DirectionalLight(0x4BBDEA, 2)
   lights[1].position.set(0, 1, 0.5)
-  lights[2] = new DirectionalLight(0x4F4FC9, 0.2)
+  lights[2] = new DirectionalLight(0x4F4FC9, 0.8)
   lights[2].position.set(0, -1, 0.5)
   scene.add(lights[0])
   scene.add(lights[1])
@@ -90,16 +88,16 @@ function createBall() {
 }
 
 function makeRoughBall() {
-  const positions = (ball.geometry.attributes.position as BufferAttribute).array as Array<number>
+  const positions = ball.geometry.attributes.position.array
   for (let i = 0; i < positions.length; i += 3) {
     const vertex = new Vector3(positions[i], positions[i + 1], positions[i + 2])
     vertex.normalize()
-    const time = Date.now()
+    const time = normalizedTime()
     const amp = 5
-    const distance = radius + noise.noise3D(
-      vertex.x + time * 0.0007,
-      vertex.y + time * 0.0008,
-      vertex.z + time * 0.0009,
+    const distance = radius + noise3D(
+      vertex.x + time * 70000,
+      vertex.y + time * 80000,
+      vertex.z + time * 90000,
     ) * amp
     vertex.multiplyScalar(distance)
     positions[i] = vertex.x

@@ -46,7 +46,7 @@ class Sketch {
     this.stop = this.stop.bind(this)
   }
 
-  resize(): void {
+  resize() {
     const { width, height } = this.renderer.domElement
     const { innerWidth, innerHeight, devicePixelRatio } = window
     if (width !== innerWidth || height !== innerHeight) {
@@ -58,17 +58,17 @@ class Sketch {
     }
   }
 
-  add(object: Object3D): void {
+  add(object: Object3D) {
     this.objects.push(object)
     this.scene.add(object)
   }
 
-  render(): void {
+  render() {
     this.resize()
     this.renderer.render(this.scene, this.camera)
   }
 
-  animate(): void {
+  animate() {
     this.render()
 
     this.objects.forEach((obj) => {
@@ -77,13 +77,13 @@ class Sketch {
     })
   }
 
-  play(): void {
+  play() {
     this.stopAnimation ? this.render() : this.animate()
 
     window.requestAnimationFrame(this.play)
   }
 
-  stop(): void {
+  stop() {
     this.stopAnimation = true
   }
 }

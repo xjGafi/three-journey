@@ -1,6 +1,5 @@
 import './style.css'
 import type {
-  SkinnedMesh,
   Texture,
 } from 'three'
 import {
@@ -17,6 +16,7 @@ import {
   PlaneGeometry,
   RepeatWrapping,
   Scene,
+  SkinnedMesh,
   TextureLoader,
   WebGLRenderer,
 } from 'three'
@@ -117,7 +117,7 @@ function addKeyframeAnimation() {
     scene.add(gltf.scene)
 
     gltf.scene.traverse((child) => {
-      if ((child as SkinnedMesh).isSkinnedMesh)
+      if (child instanceof SkinnedMesh && child.isSkinnedMesh)
         child.castShadow = true
     })
 
