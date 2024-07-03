@@ -11,7 +11,7 @@ import {
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader'
 
 import meshVertexShader from './shader/meshVertex.glsl?raw'
 import meshFragmentShader from './shader/meshFragment.glsl?raw'

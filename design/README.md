@@ -48,13 +48,19 @@
 
 ![poster no.008](./assets/images/no008.jpg)
 
-参考：[Daily CSS Design - Day 61 ](https://dailycssdesign.com/61/)
+参考：[Daily CSS Design - Day 61](https://dailycssdesign.com/61/)
 
 ## [No.009](./src/views/no009/index.ts)
 
 ![poster no.009](./assets/images/no009.jpg)
 
-参考：[Daily CSS Design - Day 63 ](https://dailycssdesign.com/63/)
+参考：[Daily CSS Design - Day 63](https://dailycssdesign.com/63/)
+
+## [No.010](./src/views/no010/index.ts)
+
+![poster no.010](./assets/images/no010.jpg)
+
+参考：[Webgl Effects Ascii](https://threejs.org/examples/webgl_effects_ascii.html)
 
 ## TODO:
 - https://dailycssdesign.com/65/
@@ -72,5 +78,8 @@
 ## 问题:
 
 1. 升级 three.js (> 0.151) 版本会导致颜色偏暗
-   - 暂时没有好的解决办法，~~部分案例临时使用 `new THREE.Color(0xFF79B4).convertLinearToSRGB()` 处理（有些案例不生效）~~ 回退到 0.151 版本
+   - 部分案例临时使用 `new THREE.Color(0xFF79B4).convertLinearToSRGB()` 处理（有些案例不生效）
    - 参考链接：[官方社区讨论帖子](https://discourse.threejs.org/t/updates-to-color-management-in-three-js-r152/50791/66)
+
+2. 附加组件导入
+   - 官方文档写法 `three/addons/xxx/xxx` 需要替换为 `three/examples/jsm/xxx/xxx`
