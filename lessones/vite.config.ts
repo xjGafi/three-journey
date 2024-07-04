@@ -10,4 +10,7 @@ export default defineConfig({
       '~': path.resolve(__dirname, './assets'),
     },
   },
+  build: {
+    target: 'ES2022',
+  },
 })
