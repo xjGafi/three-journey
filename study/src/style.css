@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  user-select: none;
+  color: #fff
+}
+
+body.home {
+  overflow-y: scroll;
+  background-color: #1a1a1a
+}
+
+body.error,
+body.gallery {
+  /* overflow: hidden; */
+  background-color: #000
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 10
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  position: absolute
+}
+::-webkit-scrollbar-thumb {
+  background-color: #000
+}
+::-webkit-scrollbar-track {
+  background-color: transparent
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  color: var(--font-color, #fff);
+  text-transform: uppercase;
+  font-size: 7vmin;
+  margin-inline: 10%;
+  user-select: none;
+  z-index: 50;
+}
+
+.page:nth-child(2n) {
+  justify-content: flex-end;
+}
+
+
+.tp-dfwv {
+  width: auto !important;
+  min-width: 256px;
+  bottom: 8px;
+  user-select: none;
+  z-index: 50;
+}
+
+.tp-rotv {
+  max-height: 100%;
+  overflow: scroll;
+}
+
+.tp-rotv::-webkit-scrollbar {
+  display: none;
+}

@@ -161,6 +161,18 @@ importers:
         specifier: ^0.20.0
         version: 0.20.0
 
+  study:
+    dependencies:
+      cannon-es:
+        specifier: ^0.20.0
+        version: 0.20.0
+      gsap:
+        specifier: ^3.12.5
+        version: 3.12.5
+      simplex-noise:
+        specifier: ^4.0.1
+        version: 4.0.1
+
 packages:
 
   /@antfu/eslint-config@2.21.2(@vue/compiler-sfc@3.4.31)(eslint@9.6.0)(typescript@5.5.3):
@@ -1206,7 +1218,6 @@ packages:
 
   /cannon-es@0.20.0:
     resolution: {integrity: sha512-eZhWTZIkFOnMAJOgfXJa9+b3kVlvG+FX4mdkpePev/w/rP5V8NRquGyEozcjPfEoXUlb+p7d9SUcmDSn14prOA==}
-    dev: true
 
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}

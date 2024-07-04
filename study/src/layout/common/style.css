@@ -1,0 +1,73 @@
+a {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.12s
+}
+
+a:hover {
+  color: #00ff00
+}
+
+.title {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 60;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: color 0.12s;
+  margin: 0
+}
+
+.title:hover {
+  color: #00ff00
+}
+
+.github {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  z-index: 50;
+  text-align: right
+}
+
+.github__label {
+  display: none;
+  position: relative;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0 0 35px
+}
+
+.github__label::after {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  content: '';
+  width: 50px;
+  height: 3px;
+  background-color: currentColor;
+}
+
+.github__link {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.github__link span {
+  vertical-align: middle
+}
+
+.github__link svg {
+  margin-left: 5px;
+  vertical-align: middle;
+  transition: fill 0.12s
+}
+
+.github__link:hover svg {
+  fill: #00ff00
+}

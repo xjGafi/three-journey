@@ -55,6 +55,7 @@
     "dev:game": "pnpm run -C examples/monument-valley dev",
     "dev:template": "pnpm run -C examples/template dev",
     "dev:art": "pnpm run -C design dev",
+    "dev:study": "pnpm run -C study dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
