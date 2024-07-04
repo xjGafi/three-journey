@@ -7,8 +7,3 @@ declare global {
     $router: Router
   }
 }
-
-interface Shader {
-  fragmentShader: string
-  vertexShader: string
-}

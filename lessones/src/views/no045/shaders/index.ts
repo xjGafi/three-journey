@@ -1,5 +1,10 @@
 const importShaders = import.meta.glob('./**/*.glsl', { as: 'raw' })
 
+interface Shader {
+  fragmentShader: string
+  vertexShader: string
+}
+
 const shaders: Array<Shader> = []
 
 const shaderList = Object.keys(importShaders)
