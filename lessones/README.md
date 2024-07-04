@@ -1,18 +1,18 @@
 # 教程示例
 
-## [Lesson 01](./lesson01/src/main.ts)
+## [Lesson 001](./src/views/no001/index.ts)
 
 [创建一个场景（Creating a scene）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
 > 旋转的绿色立方体
 
-## [Lesson 02](./lesson02/src/main.ts)
+## [Lesson 002](./src/views/no002/index.ts)
 
 [画线（Drawing lines）](https://threejs.org/docs/index.html#manual/zh/introduction/Drawing-lines)
 
 > 蓝色虚线向上箭头
 
-## [Lesson 03](./lesson03/src/main.ts)
+## [Lesson 003](./src/views/no003/index.ts)
 
 [创建文字（Creating text）](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-text)
 
@@ -21,7 +21,7 @@ text：[示例](https://threejs.org/examples/#webgl_geometry_text)、[代码](ht
 
 > 旋转的 Hello, three.js! 立体字和甜甜圈，支持动态修改贴图
 
-## [Lesson 04](./lesson04/src/main.ts)
+## [Lesson 004](./src/views/no004/index.ts)
 
 [载入 3D 模型（Loading 3D models）](https://threejs.org/docs/index.html#manual/zh/introduction/Loading-3D-models)
 
@@ -30,7 +30,7 @@ gltf：[示例](https://threejs.org/examples/#webgl_loader_gltf)、[代码](http
 
 > 机器人头盔
 
-## [Lesson 05](./lesson05/src/main.ts)
+## [Lesson 005](./src/views/no005/index.ts)
 
 [虚线材质(LineDashedMaterial)](https://threejs.org/docs/index.html#api/zh/materials/LineDashedMaterial)
 
@@ -39,7 +39,7 @@ dashed：[示例](https://threejs.org/examples/#webgl_lines_dashed)、[代码](h
 
 > 旋转的绿色虚线立方体
 
-## [Lesson 06](./lesson06/src/main.ts)
+## [Lesson 006](./src/views/no006/index.ts)
 
 `BufferGeometry` 顶点位置数据解析渲染
 
@@ -54,7 +54,7 @@ dashed：[示例](https://threejs.org/examples/#webgl_lines_dashed)、[代码](h
 
 > 旋转的四种（点、虚线、实线、面）渲染模式的三维几何体（纯色）
 
-## [Lesson 07](./lesson07/src/main.ts)
+## [Lesson 007](./src/views/no007/index.ts)
 
 `BufferGeometry` 顶点颜色数据插值计算
 
@@ -70,7 +70,7 @@ dashed：[示例](https://threejs.org/examples/#webgl_lines_dashed)、[代码](h
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-## [Lesson 08](./lesson08/src/main.ts)
+## [Lesson 008](./src/views/no008/index.ts)
 
 `BufferGeometry` 顶点法向量数据光照计算
 
@@ -92,7 +92,7 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 > 四种（点、虚线、实线、面）渲染模式的三维几何体（渐变色）
 
-## [Lesson 09](./lesson09/src/main.ts)
+## [Lesson 009](./src/views/no009/index.ts)
 
 `BufferGeometry` 顶点索引复用顶点数据
 
@@ -110,7 +110,7 @@ Q: `BufferGeometry` 定义的几何体，设置顶点法向量数据后没有效
 
 > 四种（点、虚线、实线、面）渲染模式的二维几何体（渐变色）
 
-## [Lesson 10](./lesson10/src/main.ts)
+## [Lesson 010](./src/views/no010/index.ts)
 
 常用材质介绍
 
@@ -133,7 +133,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 三种（点、实线、虚线）渲染模式的球体几何对象
 
-## [Lesson 11](./lesson11/src/main.ts)
+## [Lesson 011](./src/views/no011/index.ts)
 
 点、线、网格模型介绍
 
@@ -156,7 +156,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 五种（点、线、网格）渲染模式的立方体几何对象
 
-## [Lesson 12](./lesson12/src/main.ts)
+## [Lesson 012](./src/views/no012/index.ts)
 
 常见光源类型
 
@@ -174,7 +174,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个由 6 种光源照射的球体、立方体、甜甜圈和平面几何对象
 
-## [Lesson 13](./lesson13/src/main.ts)
+## [Lesson 013](./src/views/no013/index.ts)
 
 光照阴影实时计算
 
@@ -190,7 +190,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个由两种光源照射的有投影的立方体几何对象
 
-## [Lesson 14](./lesson14/src/main.ts)
+## [Lesson 014](./src/views/no014/index.ts)
 
 层级模型节点命名、查找、遍历
 
@@ -201,7 +201,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 一个小人
 
-## [Lesson 15](./lesson15/src/main.ts)
+## [Lesson 015](./src/views/no015/index.ts)
 
 常见几何体和曲线
 
@@ -229,7 +229,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 正弦曲线、圆形、椭圆形、折线和直线
 
-## [Lesson 16](./lesson16/src/main.ts)
+## [Lesson 016](./src/views/no016/index.ts)
 
 贝赛尔曲线，多个线条组合曲线
 
@@ -245,7 +245,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 贝赛尔曲线、胶囊形状曲线
 
-## [Lesson 17](./lesson17/src/main.ts)
+## [Lesson 017](./src/views/no017/index.ts)
 
 曲线路径管道成型
 
@@ -257,7 +257,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状圆管
 
-## [Lesson 18](./lesson18/src/main.ts)
+## [Lesson 018](./src/views/no018/index.ts)
 
 旋转造型
 
@@ -274,7 +274,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、胶囊形状曲线，曲线、胶囊形状网格模型
 
-## [Lesson 19](./lesson19/src/main.ts)
+## [Lesson 019](./src/views/no019/index.ts)
 
 形状和轮廓填充
 
@@ -293,15 +293,15 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
 
-## [Lesson 20](./lesson20/src/main.ts)
+## [Lesson 020](./src/views/no020/index.ts)
 
 拉伸扫描成型
 
-在 Lesson 21 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
+在 Lesson 021 的基础上，通过 `ExtrudeGeometry` 利用 2D 轮廓生成 3D 模型
 
 > 3D 曲线、矩形，胶囊形状、人脸、矩形嵌套网格模型
 
-## [Lesson 21](./lesson21/src/main.ts)
+## [Lesson 021](./src/views/no021/index.ts)
 
 创建纹理贴图
 
@@ -312,7 +312,7 @@ A：在学习几何体 `BufferGeometry` 的顶点索引属性 `BufferGeometry.in
 
 > 六个几何图形（平面、立方体、球体）采用不同贴图的效果对比
 
-## [Lesson 22](./lesson22/src/main.ts)
+## [Lesson 022](./src/views/no022/index.ts)
 
 UV 映射原理(顶点纹理坐标)
 
@@ -326,7 +326,7 @@ UV 映射原理(顶点纹理坐标)
 
 > 四个平面几何图形采用不同贴图的效果对比
 
-## [Lesson 23](./lesson23/src/main.ts)
+## [Lesson 023](./src/views/no023/index.ts)
 
 [JSON 文件的加载器（ObjectLoader）](https://threejs.org/docs/index.html#api/zh/loaders/ObjectLoader)
 
@@ -335,7 +335,7 @@ lightmap：[示例](https://threejs.org/examples/#webgl_materials_lightmap)、[�
 
 > 砖墙纹路场景
 
-## [Lesson 24](./lesson24/src/main.ts)
+## [Lesson 024](./src/views/no024/index.ts)
 
 纹理对象阵列、偏移和旋转
 
@@ -346,7 +346,7 @@ lightmap：[示例](https://threejs.org/examples/#webgl_materials_lightmap)、[�
 
 > 移动的纹理贴图
 
-## [Lesson 25](./lesson25/src/main.ts)
+## [Lesson 025](./src/views/no025/index.ts)
 
 Canvas、视频作为纹理贴图
 
@@ -358,7 +358,7 @@ Canvas、视频作为纹理贴图
 
 > 使用 Canvas 和 视频制作纹理贴图
 
-## [Lesson 26](./lesson26/src/main.ts)
+## [Lesson 026](./src/views/no026/index.ts)
 
 [物理网格材质(MeshPhysicalMaterial)](https://threejs.org/docs/index.html#api/zh/materials/MeshPhysicalMaterial)
 
@@ -367,7 +367,7 @@ clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clea
 
 > 法线贴图应用：汽车喷漆材质球、碳纤维材质球、高尔夫球和台球
 
-## [Lesson 27](./lesson27/src/main.ts)
+## [Lesson 027](./src/views/no027/index.ts)
 
 凹凸贴图
 
@@ -378,7 +378,7 @@ clearcoat：[示例](https://threejs.org/examples/#webgl_materials_physical_clea
 
 > 五个使用凹凸贴图的材质球
 
-## [Lesson 28](./lesson28/src/main.ts)
+## [Lesson 028](./src/views/no028/index.ts)
 
 环境贴图
 
@@ -394,7 +394,7 @@ dynamic：[示例](https://threejs.org/examples/#webgl_materials_cubemap_dynamic
 
 > 两个环境贴图的材质球
 
-## [Lesson 29](./lesson29/src/main.ts)
+## [Lesson 029](./src/views/no029/index.ts)
 
 精灵模型 Sprite 和 SpriteMaterial
 
@@ -416,7 +416,7 @@ Sprite 用途：
 
 > 自动旋转的三种贴图的精灵模型对象
 
-## [Lesson 30](./lesson30/src/main.ts)
+## [Lesson 030](./src/views/no030/index.ts)
 
 精灵模型 Sprite 模拟下雨效果
 
@@ -430,7 +430,7 @@ Sprite 用途：
 
 > 通过一个精灵模拟模拟下雨的场景
 
-## [Lesson 31](./lesson31/src/main.ts)
+## [Lesson 031](./src/views/no031/index.ts)
 
 编辑关键帧并解析播放
 
@@ -444,7 +444,7 @@ Sprite 用途：
 
 > 尺寸变化的球体几何对象，颜色变化的立方体几何对象
 
-## [Lesson 32](./lesson32/src/main.ts)
+## [Lesson 032](./src/views/no032/index.ts)
 
 解析外部模型的帧动画
 
@@ -464,15 +464,15 @@ Sprite 用途：
 
 > 向前走的两条腿
 
-## [Lesson 33](./lesson33/src/main.ts)
+## [Lesson 033](./src/views/no033/index.ts)
 
 播放设置(暂停、时间段、时间点)
 
-1. 在 Lesson 32 的基础上，通过 Tweakpane 控制动画暂停、播放、快进、播放速度
+1. 在 Lesson 032 的基础上，通过 Tweakpane 控制动画暂停、播放、快进、播放速度
 
 > 向前走的两条腿
 
-## [Lesson 34](./lesson34/src/main.ts)
+## [Lesson 034](./src/views/no034/index.ts)
 
 语音模块
 
@@ -503,7 +503,7 @@ Sprite 用途：
 
 > 语音模块 Demo
 
-## [Lesson 35](./lesson35/src/main.ts)
+## [Lesson 035](./src/views/no035/index.ts)
 
 骨骼动画原理
 
@@ -512,7 +512,7 @@ Sprite 用途：
 
 > 八棱柱几何体骨骼动画
 
-## [Lesson 36](./lesson36/src/main.ts)
+## [Lesson 036](./src/views/no036/index.ts)
 
 解析外部模型变形动画目标数据
 
@@ -520,7 +520,7 @@ Sprite 用途：
 
 > 机器人动画
 
-## [Lesson 37](./lesson37/src/main.ts)
+## [Lesson 037](./src/views/no037/index.ts)
 
 [光线投射 Raycaster](https://threejs.org/docs/index.html#api/zh/core/Raycaster)
 
@@ -529,7 +529,7 @@ Raycasting to paint voxels
 
 > 简易体素地图编辑器
 
-## [Lesson 38](./lesson38/src/main.ts)
+## [Lesson 038](./src/views/no038/index.ts)
 
 材质 Material
 
@@ -548,7 +548,7 @@ Raycasting to paint voxels
 
 > 调试常用材质 Material
 
-## [Lesson 39](./lesson39/src/main.ts)
+## [Lesson 039](./src/views/no039/index.ts)
 
 正弦波粒子动画
 
@@ -561,23 +561,23 @@ Raycasting to paint voxels
 3. 通过 `Points` 创建点模型对象
 4. 在 `animate()` 中创建正弦波动画
 
-## [Lesson 40](./lesson40/src/main.ts)
+## [Lesson 040](./src/views/no040/index.ts)
 
 银河粒子效果
 
 1. 通过 `BufferGeometry` 和 `BufferAttribute` 自定义了一个具有 100000 个顶点数据
    的几何体
    - 使用类型数组 `Float32Array` 创建顶点位置 position 数据（坐标生成算法与
-     Lesson 39 不同）
+     Lesson 039 不同）
    - 使用类型数组 `Float32Array` 创建顶点位置 color 数据（颜色生成算法与 Lesson
-     39 不同）
+0     39 不同）
 2. 通过 `PointsMaterial` 创建点材质对象
    - 设置材质的尺寸、透明度、混合模式、顶点着色器等属性
 3. 通过 `Points` 创建点模型对象
 4. 在 `animate()` 中创建旋转动画
 5. 支持修改形状
 
-## [Lesson 41](./lesson41/src/main.ts)
+## [Lesson 041](./src/views/no041/index.ts)
 
 滚动动画
 
@@ -591,23 +591,23 @@ Raycasting to paint voxels
 4. 通过 `onMouseMove()` 监听鼠标位移，实现模型和鼠标的位置交互效果
 5. 在 `animate()` 中改变相机、模型位移和颜色
 
-## [Lesson 42](./lesson42/src/main.ts)
+## [Lesson 042](./src/views/no042/index.ts)
 
 VTK 模型
 
 测试 ` VTKLoader` 加载 vtk 模型文件，目前仅支持 dataset POLYDATA 的模型
 
-## [Lesson 43](./lesson43/src/main.ts)
+## [Lesson 043](./src/views/no043/index.ts)
 
 物理碰撞检测
 
 使用 `Cannon.js` 创建物理碰撞检测
 
-## [Lesson 44](./lesson44/src/main.ts)
+## [Lesson 044](./src/views/no044/index.ts)
 
 故障特效
 
-## [Lesson 45](./lesson45/src/main.ts)
+## [Lesson 045](./src/views/no045/index.ts)
 
 Shader 学习
 
