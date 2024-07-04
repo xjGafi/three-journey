@@ -69,7 +69,7 @@ class CommonLayout extends HTMLElement {
       }
 
       // github link
-      const basePath = 'https://github.com/xjGafi/three-journey/blob/master/study'
+      const basePath = 'https://github.com/xjGafi/three-journey/blob/master/lessones'
       const githubLink = this.shadowRoot?.querySelector<HTMLLinkElement>('#githubLink')
       if (githubLink)
         githubLink.href = `${basePath}/src/views/no${currentPage}/index.ts`
