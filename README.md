@@ -25,6 +25,6 @@
 
 ## 目录说明
 
-- [lessones：教程示例](./lessones/README.md)
+- [lessons：教程示例](./lessons/README.md)
 - [design：生成艺术](./design/README.md)
 - [examples：应用](./examples/README.md)

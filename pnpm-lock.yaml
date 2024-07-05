@@ -55,113 +55,7 @@ importers:
 
   examples/template: {}
 
-  lessones/lesson01: {}
-
-  lessones/lesson02: {}
-
-  lessones/lesson03: {}
-
-  lessones/lesson04: {}
-
-  lessones/lesson05: {}
-
-  lessones/lesson06: {}
-
-  lessones/lesson07: {}
-
-  lessones/lesson08: {}
-
-  lessones/lesson09: {}
-
-  lessones/lesson10: {}
-
-  lessones/lesson11: {}
-
-  lessones/lesson12: {}
-
-  lessones/lesson13: {}
-
-  lessones/lesson14: {}
-
-  lessones/lesson15: {}
-
-  lessones/lesson16: {}
-
-  lessones/lesson17: {}
-
-  lessones/lesson18: {}
-
-  lessones/lesson19: {}
-
-  lessones/lesson20: {}
-
-  lessones/lesson21: {}
-
-  lessones/lesson22: {}
-
-  lessones/lesson23: {}
-
-  lessones/lesson24: {}
-
-  lessones/lesson25: {}
-
-  lessones/lesson26: {}
-
-  lessones/lesson27: {}
-
-  lessones/lesson28: {}
-
-  lessones/lesson29: {}
-
-  lessones/lesson30: {}
-
-  lessones/lesson31: {}
-
-  lessones/lesson32: {}
-
-  lessones/lesson33: {}
-
-  lessones/lesson34: {}
-
-  lessones/lesson35: {}
-
-  lessones/lesson36: {}
-
-  lessones/lesson37: {}
-
-  lessones/lesson38: {}
-
-  lessones/lesson39: {}
-
-  lessones/lesson40: {}
-
-  lessones/lesson41:
-    dependencies:
-      gsap:
-        specifier: ^3.12.5
-        version: 3.12.5
-
-  lessones/lesson42: {}
-
-  lessones/lesson43:
-    devDependencies:
-      cannon-es:
-        specifier: ^0.20.0
-        version: 0.20.0
-
-  lessones/lesson44:
-    devDependencies:
-      cannon-es:
-        specifier: ^0.20.0
-        version: 0.20.0
-
-  lessones/lesson45:
-    devDependencies:
-      cannon-es:
-        specifier: ^0.20.0
-        version: 0.20.0
-
-  study:
+  lessons:
     dependencies:
       cannon-es:
         specifier: ^0.20.0
@@ -1218,6 +1112,7 @@ packages:
 
   /cannon-es@0.20.0:
     resolution: {integrity: sha512-eZhWTZIkFOnMAJOgfXJa9+b3kVlvG+FX4mdkpePev/w/rP5V8NRquGyEozcjPfEoXUlb+p7d9SUcmDSn14prOA==}
+    dev: false
 
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}

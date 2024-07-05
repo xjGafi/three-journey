@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev:lessones": "pnpm run -C lessones dev",
+    "dev:lessons": "pnpm run -C lessons dev",
     "dev:art": "pnpm run -C design dev",
     "dev:clock": "pnpm run -C examples/clock dev",
     "dev:cube": "pnpm run -C examples/cube dev",
