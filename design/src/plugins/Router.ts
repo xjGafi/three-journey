@@ -104,10 +104,10 @@ class Router {
     }
     catch (error) {
       console.error('🤯 refresh():', error)
-      // const path = '/error'
-      // if (this.currentPath === path)
-      //   return
-      // this.assign(path)
+      const path = '/error'
+      if (this.currentPath === path)
+        return
+      this.assign(path)
     }
   }
 
