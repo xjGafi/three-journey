@@ -130,11 +130,11 @@ function initObjects() {
 }
 
 function initLights() {
-  pointLight = new PointLight(settings.globalLight, 12, 1000)
+  pointLight = new PointLight(settings.globalLight, 12000000, 1000)
   pointLight.position.set(600, -200, 250 + monumentHeight)
   pointLight.castShadow = true
 
-  ambientLight = new AmbientLight(settings.ambientLight)
+  ambientLight = new AmbientLight(settings.ambientLight, 30)
 
   scene.add(pointLight, ambientLight)
 }

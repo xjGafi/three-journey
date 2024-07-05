@@ -208,7 +208,7 @@ function onPointerMove(event: PointerEvent) {
 }
 
 function initLights() {
-  const directionalLight = new DirectionalLight(0xFFFFFF, 2)
+  const directionalLight = new DirectionalLight(0xFFFFFF, 3)
   directionalLight.castShadow = true
   directionalLight.shadow.camera.far = 15
   directionalLight.shadow.mapSize.set(1024, 1024)
