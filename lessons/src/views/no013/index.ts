@@ -99,7 +99,7 @@ function addPanel() {
 
 function addDirectionalLightHelper() {
   // 平行光光源对象
-  const directionalLight = new DirectionalLight(0xFFFF00, 1)
+  const directionalLight = new DirectionalLight(0xFFFF00, 2.5)
   // 设置平行光光源位置（同聚光光源）
   directionalLight.position.set(-100, 100, -100)
   scene.add(directionalLight)
@@ -124,9 +124,9 @@ function addDirectionalLightHelper() {
 
 function addSpotLight() {
   // 聚光光源对象
-  const spotLight = new SpotLight(0xFF00FF)
+  const spotLight = new SpotLight(0xFF00FF, 50000)
   // 设置聚光光源位置
-  spotLight.position.set(100, 200, 100)
+  spotLight.position.set(100, 100, 100)
   scene.add(spotLight)
 
   // 设置聚光光源发散角度

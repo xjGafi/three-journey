@@ -224,10 +224,10 @@ function createFloor() {
 }
 
 function initLights() {
-  const ambientLight = new AmbientLight(0xFFFFFF, 0.7)
+  const ambientLight = new AmbientLight(0xFFFFFF, 3)
   scene.add(ambientLight)
 
-  const directionalLight = new DirectionalLight(0xFFFFFF, 0.2)
+  const directionalLight = new DirectionalLight(0xFFFFFF)
   directionalLight.position.set(-10, 20, 10)
   scene.add(directionalLight)
 

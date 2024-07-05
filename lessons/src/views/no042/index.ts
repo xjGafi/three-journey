@@ -38,7 +38,7 @@ function init() {
   scene = new Scene()
 
   // Light
-  const light = new DirectionalLight(0xFFFFFF)
+  const light = new DirectionalLight(0xFFFFFF, 3)
   scene.add(light)
 
   // Axes

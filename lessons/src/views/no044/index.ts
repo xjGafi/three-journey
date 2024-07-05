@@ -57,15 +57,15 @@ function init() {
 }
 
 function createLights() {
-  const ambientLight = new AmbientLight(0x4040FF)
+  const ambientLight = new AmbientLight(0x4040FF, 5)
   scene.add(ambientLight)
 
   const lights: Array<DirectionalLight> = []
-  lights[0] = new DirectionalLight(0x52FFC9, 0.5)
+  lights[0] = new DirectionalLight(0x52FFC9, 2)
   lights[0].position.set(0, 1, 1)
-  lights[1] = new DirectionalLight(0x4BBDEA, 0.5)
+  lights[1] = new DirectionalLight(0x4BBDEA, 2)
   lights[1].position.set(0, 1, 0.5)
-  lights[2] = new DirectionalLight(0x4F4FC9, 0.2)
+  lights[2] = new DirectionalLight(0x4F4FC9, 3)
   lights[2].position.set(0, -1, 0.5)
   scene.add(lights[0])
   scene.add(lights[1])

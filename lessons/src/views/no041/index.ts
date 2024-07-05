@@ -63,7 +63,7 @@ function init() {
   scene.add(cameraBox)
 
   // Lights
-  const directionalLight = new DirectionalLight(0xFFFFFF, 1)
+  const directionalLight = new DirectionalLight(0xFFFFFF, 3)
   directionalLight.position.set(1, 1, 0)
   scene.add(directionalLight)
 

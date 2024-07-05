@@ -111,13 +111,13 @@ function addObjects() {
 function addAmbientLight() {
   // 环境光对象
   // 环境光源颜色 RGB 成分分别和物体材质颜色 RGB 成分分别相乘
-  const light = new AmbientLight(0xFFFFFF, 0.5)
+  const light = new AmbientLight(0xFFFFFF)
   scene.add(light)
 }
 
 function addDirectionalLightHelper() {
   // 平行光光源对象
-  const light = new DirectionalLight(0xFF0000, 0.3)
+  const light = new DirectionalLight(0xFF0000, 2)
   // 设置平行光光源位置（同聚光光源）
   light.position.set(1, 0.25, 0)
   scene.add(light)
@@ -130,7 +130,7 @@ function addDirectionalLightHelper() {
 function addHemisphereLight() {
   // 半球光对象
   // 光源直接放置于场景之上，光照颜色从天空光线颜色渐变到地面光线颜色。
-  const light = new HemisphereLight(0xFF0000, 0x0000FF, 0.3)
+  const light = new HemisphereLight(0xFF0000, 0x0000FF, 1.5)
   scene.add(light)
 
   // 半球光光源辅助对象
@@ -140,7 +140,7 @@ function addHemisphereLight() {
 
 function addPointLight() {
   // 点光源对象
-  const light = new PointLight(0xFF9000, 0.5, 10, 2)
+  const light = new PointLight(0xFF9000, 3, 10, 2)
   // 设置点光源位置（同聚光光源）
   light.position.set(1, -0.5, 1)
   scene.add(light)
@@ -166,7 +166,7 @@ function addRectAreaLight() {
 
 function addSpotLight() {
   // 聚光光源对象
-  const light = new SpotLight(0x78FF00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
+  const light = new SpotLight(0x78FF00, 2, 10, Math.PI * 0.1, 0.25, 1)
   // 设置聚光光源位置
   // 光源对象和模型对象的 position 属性一样是 Vector3 对象
   // SpotLight 的基类是 Light，Light 的基类是 Object3D

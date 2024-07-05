@@ -41,7 +41,7 @@ function init() {
   scene.add(axesHelper)
 
   // Light
-  light = new DirectionalLight(0xFFFFFF, 0.3)
+  light = new DirectionalLight(0xFFFFFF, 2.5)
   light.position.z = 600
   scene.add(light)
 

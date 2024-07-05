@@ -50,10 +50,10 @@ function init() {
   camera.lookAt(0, 0, 0)
 
   // Lights
-  const ambientLight = new AmbientLight(0x606060)
+  const ambientLight = new AmbientLight(0x606060, 3)
   scene.add(ambientLight)
 
-  const directionalLight = new DirectionalLight(0xFFFFFF)
+  const directionalLight = new DirectionalLight(0xFFFFFF, 3)
   directionalLight.position.set(1, 0.75, 0.5).normalize()
   scene.add(directionalLight)
 

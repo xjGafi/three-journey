@@ -27,7 +27,7 @@ function init() {
   scene.add(axesHelper)
 
   // Light
-  const light = new DirectionalLight(0xAABBFF, 0.3)
+  const light = new DirectionalLight(0xAABBFF, 3)
   light.position.x = 300
   light.position.y = 250
   light.position.z = -500

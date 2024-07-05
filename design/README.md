@@ -81,5 +81,7 @@
    - 部分案例临时使用 `new THREE.Color(0xFF79B4).convertLinearToSRGB()` 处理（有些案例不生效）
    - 参考链接：[官方社区讨论帖子](https://discourse.threejs.org/t/updates-to-color-management-in-three-js-r152/50791/66)
 
-2. 附加组件导入
+> 尝试：https://webgl3d.cn/pages/c2fd5c/
+
+1. 附加组件导入
    - 官方文档写法 `three/addons/xxx/xxx` 需要替换为 `three/examples/jsm/xxx/xxx`

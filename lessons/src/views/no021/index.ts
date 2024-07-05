@@ -36,7 +36,7 @@ function init() {
   scene.add(axesHelper)
 
   // Light
-  const ambient = new AmbientLight(0xFFFFFF)
+  const ambient = new AmbientLight(0xFFFFFF, 3)
   scene.add(ambient)
 
   // Object

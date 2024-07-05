@@ -52,10 +52,10 @@ function init() {
   scene = new Scene()
 
   // Light
-  const ambient = new AmbientLight(0xFFFFFF)
+  const ambient = new AmbientLight(0xFFFFFF, 3)
   scene.add(ambient)
 
-  const pointLight = new PointLight(0xFFFFFF, 2)
+  const pointLight = new PointLight(0xFFFFFF, 100000)
   scene.add(pointLight)
 
   // Object

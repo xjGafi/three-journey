@@ -48,11 +48,11 @@ function init() {
   scene.fog = new Fog(0xFFFFFF, 70, 100)
 
   // Light
-  const hemiLight = new HemisphereLight(0xFFFFFF, 0x444444, 0.6)
+  const hemiLight = new HemisphereLight(0xFFFFFF, 0x444444, 2)
   hemiLight.position.set(0, 200, 0)
   scene.add(hemiLight)
 
-  const dirLight = new DirectionalLight(0xFFFFFF, 0.8)
+  const dirLight = new DirectionalLight(0xFFFFFF, 3)
   dirLight.position.set(0, 20, 10)
   dirLight.castShadow = true
   dirLight.shadow.camera.top = 18

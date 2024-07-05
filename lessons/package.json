@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "cannon-es": "^0.20.0",
-    "gsap": "^3.12.5",
-    "simplex-noise": "^4.0.1"
+    "gsap": "^3.12.5"
   }
 }

@@ -100,19 +100,20 @@ let animateId: number
 function init() {
   // Scene
   scene = new Scene()
-  scene.background = new Color(0xFFFFFF)
-  scene.fog = new Fog(0xFFFFFF, 50, 100)
+  scene.background = new Color(0xE0E0E0)
+  scene.fog = new Fog(0xE0E0E0, 50, 100)
 
   // Canera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.25, 100)
   camera.position.set(-5, 3, 10)
+  camera.lookAt(0, 2, 0)
 
   // Light
-  const hemiLight = new HemisphereLight(0xFFFFFF, 0x444444, 0.6)
+  const hemiLight = new HemisphereLight(0xFFFFFF, 0x8D8D8D, 3)
   hemiLight.position.set(0, 200, 0)
   scene.add(hemiLight)
 
-  const dirLight = new DirectionalLight(0xFFFFFF, 0.8)
+  const dirLight = new DirectionalLight(0xFFFFFF, 3)
   dirLight.position.set(0, 20, 10)
   dirLight.castShadow = true
   dirLight.shadow.camera.top = 18

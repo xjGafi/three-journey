@@ -4,19 +4,17 @@ import {
   AxesHelper,
   BoxGeometry,
   Clock,
+  DirectionalLight,
   Group,
   KeyframeTrack,
   Mesh,
   MeshLambertMaterial,
   PerspectiveCamera,
-  PointLight,
   Scene,
   SphereGeometry,
   WebGLRenderer,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-
-// FIXME: color
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 
@@ -38,10 +36,10 @@ function init() {
   // Scene
   scene = new Scene()
 
-  // PointLight
-  const pointLight = new PointLight(0xFFFFFF, 1.5)
-  pointLight.position.set(40, 20, 30)
-  scene.add(pointLight)
+  // Light
+  const light = new DirectionalLight(0xFFFFFF, 3)
+  light.position.set(40, 20, 30)
+  scene.add(light)
 
   // Axes
   const axes = new AxesHelper(50)

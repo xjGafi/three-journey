@@ -1,10 +1,12 @@
 import {
+  ACESFilmicToneMapping,
   AxesHelper,
   CanvasTexture,
-  DirectionalLight,
+  Group,
   Mesh,
   MeshPhysicalMaterial,
   PerspectiveCamera,
+  PointLight,
   RepeatWrapping,
   Scene,
   SphereGeometry,
@@ -26,7 +28,9 @@ let camera: PerspectiveCamera,
   scene: Scene,
   renderer: WebGLRenderer,
   stats: Stats,
-  light: DirectionalLight
+  light: PointLight
+
+let group: Group
 
 let animateId: number
 
@@ -45,7 +49,7 @@ function init() {
   scene.add(axesHelper)
 
   // Light
-  light = new DirectionalLight(0xFFFFFF, 0.3)
+  light = new PointLight(0xFFFFFF, 1000000)
   light.position.z = 600
   scene.add(light)
 
@@ -57,6 +61,8 @@ function init() {
   renderer = new WebGLRenderer({ canvas })
   renderer.setSize(innerWidth, innerHeight)
   renderer.setPixelRatio(devicePixelRatio)
+  renderer.toneMapping = ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1.25
 
   // Stats
   stats = new Stats()
@@ -74,6 +80,8 @@ function init() {
 }
 
 function addTextureNormal() {
+  group = new Group()
+
   const geometry = new SphereGeometry(80, 64, 32)
   let mesh: Mesh
 
@@ -121,7 +129,7 @@ function addTextureNormal() {
   mesh = new Mesh(geometry, material)
   mesh.position.x = -100
   mesh.position.y = 100
-  scene.add(mesh)
+  group.add(mesh)
 
   // 碳纤维材质球  map + normalmap
   material = new MeshPhysicalMaterial({
@@ -134,7 +142,7 @@ function addTextureNormal() {
   mesh = new Mesh(geometry, material)
   mesh.position.x = 100
   mesh.position.y = 100
-  scene.add(mesh)
+  group.add(mesh)
 
   // 高尔夫球 clearcoat + normalmap
   material = new MeshPhysicalMaterial({
@@ -148,7 +156,7 @@ function addTextureNormal() {
   mesh = new Mesh(geometry, material)
   mesh.position.x = -100
   mesh.position.y = -100
-  scene.add(mesh)
+  group.add(mesh)
 
   // 台球 clearcoat + normalmap
   material = new MeshPhysicalMaterial({
@@ -163,7 +171,9 @@ function addTextureNormal() {
   mesh = new Mesh(geometry, material)
   mesh.position.x = 100
   mesh.position.y = -100
-  scene.add(mesh)
+  group.add(mesh)
+
+  scene.add(group)
 }
 
 function onResize() {
@@ -200,8 +210,12 @@ function animate() {
 
   const timer = Date.now() * 0.0016
 
-  light.position.x = Math.sin(timer) * 500
-  light.position.y = Math.cos(timer) * 500
+  light.position.x = Math.sin(timer) * 600
+  light.position.y = Math.cos(timer) * 600
+
+  group.children.forEach((child) => {
+    child.rotation.y += 0.005
+  })
 
   render()
   stats.update()

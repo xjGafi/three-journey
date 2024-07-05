@@ -22,6 +22,8 @@ let camera: PerspectiveCamera,
   renderer: WebGLRenderer,
   stats: Stats
 
+let video: HTMLVideoElement
+
 let animateId: number
 
 function init() {
@@ -39,7 +41,7 @@ function init() {
   scene.add(axesHelper)
 
   // Light
-  const ambient = new AmbientLight(0xFFFFFF)
+  const ambient = new AmbientLight(0xFFFFFF, 3)
   scene.add(ambient)
 
   // Object
@@ -111,7 +113,7 @@ function addVideoTexture() {
   const geometry = new PlaneGeometry(300, 300)
 
   // 创建 video 对象
-  const video = document.createElement('video')
+  video = document.createElement('video')
   video.src = url
   video.autoplay = true
   video.loop = true
@@ -150,6 +152,7 @@ function onResize() {
 
 function onDestroy() {
   try {
+    video.pause()
     window.cancelAnimationFrame(animateId)
     window.removeEventListener('destroy', onDestroy, false)
     window.removeEventListener('resize', onResize, false)

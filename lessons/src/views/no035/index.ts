@@ -1,12 +1,13 @@
 import {
   AxesHelper,
   Bone,
+  Color,
   CylinderGeometry,
+  DirectionalLight,
   DoubleSide,
   Float32BufferAttribute,
   MeshPhongMaterial,
   PerspectiveCamera,
-  PointLight,
   Scene,
   Skeleton,
   SkeletonHelper,
@@ -17,8 +18,6 @@ import {
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Pane } from 'tweakpane'
-
-// FIXME: color
 
 /**
  * @params segmentHeight: 骨关节高度
@@ -46,6 +45,7 @@ let animateId: number
 function init() {
   // Scene
   scene = new Scene()
+  scene.background = new Color(0x444444)
 
   // Axes
   const axesHelper = new AxesHelper(200)
@@ -56,19 +56,8 @@ function init() {
   camera.position.z = 30
   camera.position.y = 30
 
-  // Light
-  const lights = []
-  lights[0] = new PointLight(0xFFFFFF, 1, 0)
-  lights[1] = new PointLight(0xFFFFFF, 1, 0)
-  lights[2] = new PointLight(0xFFFFFF, 1, 0)
-
-  lights[0].position.set(0, 200, 0)
-  lights[1].position.set(100, 200, 100)
-  lights[2].position.set(-100, -200, -100)
-
-  scene.add(lights[0])
-  scene.add(lights[1])
-  scene.add(lights[2])
+  // Lights
+  initLights()
 
   // Object
   addBones()
@@ -89,6 +78,21 @@ function init() {
   // Resize
   window.addEventListener('resize', onResize, false)
   window.addEventListener('destroy', onDestroy, false)
+}
+
+function initLights() {
+  const lights: DirectionalLight[] = []
+  lights[0] = new DirectionalLight(0xFFFFFF, 3)
+  lights[1] = new DirectionalLight(0xFFFFFF, 3)
+  lights[2] = new DirectionalLight(0xFFFFFF, 3)
+
+  lights[0].position.set(0, 200, 0)
+  lights[1].position.set(100, 200, 100)
+  lights[2].position.set(-100, -200, -100)
+
+  scene.add(lights[0])
+  scene.add(lights[1])
+  scene.add(lights[2])
 }
 
 function addBones() {
