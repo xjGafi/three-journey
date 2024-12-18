@@ -12,12 +12,9 @@ import {
 
 import meshVertexShader from './shader/vertex.glsl?raw'
 import meshFragmentShader from './shader/fragment.glsl?raw'
-// import snoise2DShader from '@/shaders/simplex/2d.glsl?raw'
 
-// 为 M 类添加适当的类型定义和返回值
-class M {
+class MousePosition {
   public value: number
-  private s: boolean
   private a: number
   private readonly b: number
   private readonly c: number
@@ -32,7 +29,6 @@ class M {
     this.g = g
     this.e = -Math.abs(h)
     this.value = b
-    this.s = true
     this.a = 0
   }
 
@@ -52,19 +48,6 @@ class M {
         this.a *= this.e
     }
 
-    this.s = Math.abs(this.a) < 0.001 * (this.c - this.b)
-    && Math.abs(this.value - d) < 0.1
-
-    return this.value
-  }
-
-  setValue(d: number): void {
-    this.a = 0
-    this.s = true
-    this.value = Math.min(this.c, Math.max(this.b, d))
-  }
-
-  getValue(): number {
     return this.value
   }
 }
@@ -82,8 +65,8 @@ const mousePreviousInertiaPosition = {
   y: 0,
 }
 const mouseInertiaPosition = {
-  x: new M(0, 1, 0.2, 0.09, -0.1),
-  y: new M(0, 1, 0.2, 0.09, -0.1),
+  x: new MousePosition(0, 1, 0.2, 0.09, -0.1),
+  y: new MousePosition(0, 1, 0.2, 0.09, -0.1),
 }
 let v2MouseInertiaPosition = new Vector2(
   mouseInertiaPosition.x.value,
@@ -106,14 +89,10 @@ function init() {
 
   // Scene
   scene = new Scene()
-  // scene.background = new Color(0x000000)
 
   // Canera
   camera = new PerspectiveCamera(45, W / H, 1, 500)
   camera.position.set(0, 0, 150)
-
-  // Debug
-  // debug()
 
   // Object
   createObject()
@@ -142,14 +121,6 @@ function animate() {
 
   render()
 }
-
-// function debug() {
-//   // Object
-//   const cubeGeometry = new BoxGeometry(100, 100, 100)
-//   const cubeMaterial = new MeshBasicMaterial({ color: 0x00FF00 })
-//   const cube = new Mesh(cubeGeometry, cubeMaterial)
-//   scene.add(cube)
-// }
 
 function createObject() {
   geometryCenterPiece = new PlaneGeometry(
