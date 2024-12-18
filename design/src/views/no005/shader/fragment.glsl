@@ -60,7 +60,7 @@ void main() {
   float sty = st.y * 2.;
 
   vec3 color = c.rgb;
-  color = colorBurn(color, rgb(150., 100., 150.), sty);
+  color = colorBurn(color, rgb(255., 100., 150.), sty);
   color = lighten(color, rgb(80., 120., 120.), stx);
   color = lighten(color, rgb(150., 60., 60.), (1. - stx));
   color = overlay(color, rgb(150., 255., 255.), x * 0.8);

@@ -62,8 +62,14 @@
 
 参考：[Webgl Effects Ascii](https://threejs.org/examples/webgl_effects_ascii.html)
 
+## [No.011](./src/views/no011/index.ts)
+
+![poster no.011](./assets/images/no011.jpg)
+
+参考：[Daily CSS Design - Day 144](https://dailycssdesign.com/144/)
+
 ## TODO:
-- https://dailycssdesign.com/65/
+
 - https://dailycssdesign.com/69/
 - https://dailycssdesign.com/72/
 - https://dailycssdesign.com/73/
@@ -71,7 +77,6 @@
 - https://dailycssdesign.com/94/
 - https://dailycssdesign.com/104/
 - https://dailycssdesign.com/161/
-- https://dailycssdesign.com/144/
 - https://dailycssdesign.com/190/
 - https://dailycssdesign.com/194/
 
