@@ -10,42 +10,75 @@ import {
   WebGLRenderer,
 } from 'three'
 
-import meshVertexShader from './shader/vertex.glsl?raw'
-import meshFragmentShader from './shader/fragment.glsl?raw'
+import vertexShader from './shader/vertex.glsl?raw'
+import fragmentShader from './shader/fragment.glsl?raw'
 
-class MousePosition {
+/**
+ * 实现弹簧阻尼系统的数值平滑处理器
+ * 可用于创建具有物理特性的平滑过渡动画
+ */
+class SpringValue {
+  /** 当前值 */
   public value: number
-  private a: number
-  private readonly b: number
-  private readonly c: number
-  private readonly f: number
-  private readonly g: number
-  private readonly e: number
+  /** 当前运动速度 */
+  private velocity: number
+  /** 最小边界值 */
+  private readonly minValue: number
+  /** 最大边界值 */
+  private readonly maxValue: number
+  /** 弹簧力度：决定对输入变化的响应程度 */
+  private readonly springForce: number
+  /** 阻尼系数：用于减缓运动（值越小，阻尼越大） */
+  private readonly damping: number
+  /** 碰撞反弹系数：决定在边界处反弹的强度 */
+  private readonly bounceForce: number
 
-  constructor(b: number, c: number, f: number, g: number, h: number) {
-    this.b = b
-    this.c = c
-    this.f = f
-    this.g = g
-    this.e = -Math.abs(h)
-    this.value = b
-    this.a = 0
+  /**
+   * @param minValue 最小边界值
+   * @param maxValue 最大边界值
+   * @param springForce 弹簧力度（建议值：0.1-0.4）
+   * @param damping 阻尼系数（建议值：0.05-0.95）
+   * @param bounceForce 反弹系数（正值，内部会转换为负值）
+   */
+  constructor(
+    minValue: number,
+    maxValue: number,
+    springForce: number,
+    damping: number,
+    bounceForce: number,
+  ) {
+    this.minValue = minValue
+    this.maxValue = maxValue
+    this.springForce = springForce
+    this.damping = damping
+    this.bounceForce = -Math.abs(bounceForce)
+    this.value = minValue
+    this.velocity = 0
   }
 
-  update(d: number): number {
-    this.a += (d - this.value) * this.f
-    this.a *= this.g
-    this.value += this.a
+  /**
+   * 更新当前值，实现平滑过渡效果
+   * @param targetValue 目标值
+   * @returns 更新后的当前值
+   */
+  update(targetValue: number): number {
+    // 计算弹簧力
+    this.velocity += (targetValue - this.value) * this.springForce
+    // 应用阻尼
+    this.velocity *= this.damping
+    // 更新位置
+    this.value += this.velocity
 
-    if (this.value < this.b) {
-      this.value = this.b
-      if (this.a < 0)
-        this.a *= this.e
+    // 处理边界碰撞
+    if (this.value < this.minValue) {
+      this.value = this.minValue
+      if (this.velocity < 0)
+        this.velocity *= this.bounceForce
     }
-    else if (this.value > this.c) {
-      this.value = this.c
-      if (this.a > 0)
-        this.a *= this.e
+    else if (this.value > this.maxValue) {
+      this.value = this.maxValue
+      if (this.velocity > 0)
+        this.velocity *= this.bounceForce
     }
 
     return this.value
@@ -60,21 +93,21 @@ const mousePosition = {
   x: 0.5,
   y: 0.5,
 }
-const mousePreviousInertiaPosition = {
+const previousInertiaPosition = {
   x: 0,
   y: 0,
 }
-const mouseInertiaPosition = {
-  x: new MousePosition(0, 1, 0.2, 0.09, -0.1),
-  y: new MousePosition(0, 1, 0.2, 0.09, -0.1),
+const mouseSpring = {
+  x: new SpringValue(0, 1, 0.2, 0.09, -0.1),
+  y: new SpringValue(0, 1, 0.2, 0.09, -0.1),
 }
-let v2MouseInertiaPosition = new Vector2(
-  mouseInertiaPosition.x.value,
-  mouseInertiaPosition.y.value,
+let currentMouseSpringPosition = new Vector2(
+  mouseSpring.x.value,
+  mouseSpring.y.value,
 )
-let mouseMovement = 0
+let mouseMovementAmount = 0
 
-let geometryCenterPiece: PlaneGeometry, materialCenterPiece: ShaderMaterial, meshCenterPiece: Mesh
+let geometryPiece: PlaneGeometry, materialPiece: ShaderMaterial, meshPiece: Mesh
 
 let camX = 0
 let camY = 0
@@ -123,13 +156,13 @@ function animate() {
 }
 
 function createObject() {
-  geometryCenterPiece = new PlaneGeometry(
+  geometryPiece = new PlaneGeometry(
     150,
     150,
     1,
     1,
   )
-  materialCenterPiece = new ShaderMaterial({
+  materialPiece = new ShaderMaterial({
     uniforms: {
       u_color1: {
         value: new Vector3(112, 165, 222),
@@ -147,13 +180,13 @@ function createObject() {
         value: new Vector3(0, 0, 0),
       },
       u_mousePosition: {
-        value: v2MouseInertiaPosition,
+        value: currentMouseSpringPosition,
       },
       u_shapeSize: {
         value: new Vector2(150, 150),
       },
       u_mouseMovement: {
-        value: mouseMovement,
+        value: mouseMovementAmount,
       },
       u_time: {
         value: 0,
@@ -165,21 +198,21 @@ function createObject() {
         value: 0,
       },
     },
-    fragmentShader: meshFragmentShader,
-    vertexShader: meshVertexShader,
+    fragmentShader,
+    vertexShader,
     side: DoubleSide,
   })
 
-  meshCenterPiece = new Mesh(
-    geometryCenterPiece,
-    materialCenterPiece,
+  meshPiece = new Mesh(
+    geometryPiece,
+    materialPiece,
   )
-  meshCenterPiece.position.set(0, 0, 0)
-  meshCenterPiece.scale.multiplyScalar(1)
-  meshCenterPiece.rotation.x = 0.0
-  meshCenterPiece.rotation.y = 0.0
-  meshCenterPiece.rotation.z = 0.0
-  scene.add(meshCenterPiece)
+  meshPiece.position.set(0, 0, 0)
+  meshPiece.scale.multiplyScalar(1)
+  meshPiece.rotation.x = 0.0
+  meshPiece.rotation.y = 0.0
+  meshPiece.rotation.z = 0.0
+  scene.add(meshPiece)
 }
 
 function onResize() {
@@ -227,28 +260,30 @@ function updateView() {
 
   timeOffset += (Math.abs(camX) + Math.abs(camY)) / 20
   dynamicTime = fixedTime + timeOffset
-  materialCenterPiece.uniforms.u_time.value = dynamicTime
+  materialPiece.uniforms.u_time.value = dynamicTime
 
-  mouseInertiaPosition.x.update(mousePosition.x)
-  mouseInertiaPosition.y.update(mousePosition.y)
-  v2MouseInertiaPosition = new Vector2(
-    mouseInertiaPosition.x.value,
-    mouseInertiaPosition.y.value,
+  mouseSpring.x.update(mousePosition.x)
+  mouseSpring.y.update(mousePosition.y)
+  currentMouseSpringPosition = new Vector2(
+    mouseSpring.x.value,
+    mouseSpring.y.value,
   )
-  mouseMovement
-    = Math.abs(mouseInertiaPosition.x.value - mousePreviousInertiaPosition.x)
-    + Math.abs(mouseInertiaPosition.y.value - mousePreviousInertiaPosition.y)
-  if (mouseMovement < 0.0) {
-    mouseMovement = 0
+
+  mouseMovementAmount = Math.abs(mouseSpring.x.value - previousInertiaPosition.x)
+  + Math.abs(mouseSpring.y.value - previousInertiaPosition.y)
+
+  if (mouseMovementAmount < 0.0) {
+    mouseMovementAmount = 0
   }
   else {
-    mouseMovement *= 5
+    mouseMovementAmount *= 5
   }
-  mousePreviousInertiaPosition.x = mouseInertiaPosition.x.value
-  mousePreviousInertiaPosition.y = mouseInertiaPosition.y.value
-  materialCenterPiece.uniforms.u_mouseMovement.value = mouseMovement
 
-  materialCenterPiece.uniforms.u_mousePosition.value = v2MouseInertiaPosition
+  previousInertiaPosition.x = mouseSpring.x.value
+  previousInertiaPosition.y = mouseSpring.y.value
+
+  materialPiece.uniforms.u_mouseMovement.value = mouseMovementAmount
+  materialPiece.uniforms.u_mousePosition.value = currentMouseSpringPosition
 
   camera.position.x += camX
   camera.position.y += camY
