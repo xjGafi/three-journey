@@ -67,6 +67,11 @@ const routes = [
     name: 'no011',
     callback: lazyLoader('no011'),
   },
+  {
+    path: '/012',
+    name: 'no012',
+    callback: lazyLoader('no012'),
+  },
 ]
 
 // 注册路由

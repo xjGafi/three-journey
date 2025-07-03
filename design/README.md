@@ -68,6 +68,10 @@
 
 参考：[Daily CSS Design - Day 144](https://dailycssdesign.com/144/)
 
+![poster no.012](./assets/images/no012.jpg)
+
+参考：[Daily CSS Design - Day 194](https://dailycssdesign.com/194/)
+
 ## TODO:
 
 - https://dailycssdesign.com/69/
@@ -78,7 +82,6 @@
 - https://dailycssdesign.com/104/
 - https://dailycssdesign.com/161/
 - https://dailycssdesign.com/190/
-- https://dailycssdesign.com/194/
 
 ## 问题:
 
