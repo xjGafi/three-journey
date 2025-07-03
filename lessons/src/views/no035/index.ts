@@ -51,7 +51,7 @@ function init() {
   const axesHelper = new AxesHelper(200)
   scene.add(axesHelper)
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 200)
   camera.position.z = 30
   camera.position.y = 30

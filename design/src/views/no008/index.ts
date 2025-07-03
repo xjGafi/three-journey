@@ -39,7 +39,7 @@ function init() {
   // Scene
   scene = new Scene()
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(60, W / H, 0.1, 1000)
   camera.position.z = 90
   camera.lookAt(scene.position)

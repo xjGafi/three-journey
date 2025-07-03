@@ -25,7 +25,7 @@ const ACCURACY = 100 // 精度：数值越大，曲线越光滑
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100)
   camera.position.set(0, 0, 10)
 

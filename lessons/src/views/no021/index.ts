@@ -24,7 +24,7 @@ let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 1000)
   camera.position.set(0, 0, 300)
 

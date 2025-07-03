@@ -57,7 +57,7 @@ animate()
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, near, far)
   camera.position.set(1.8, 1, -2.7)
 

@@ -22,7 +22,7 @@ let camera: PerspectiveCamera,
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.25, 20)
   camera.position.set(-1.8, 0.6, 2.7)
 

@@ -103,7 +103,7 @@ function init() {
   scene.background = new Color(0xE0E0E0)
   scene.fog = new Fog(0xE0E0E0, 50, 100)
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.25, 100)
   camera.position.set(-5, 3, 10)
   camera.lookAt(0, 2, 0)

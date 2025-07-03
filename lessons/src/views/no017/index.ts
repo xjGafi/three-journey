@@ -25,7 +25,7 @@ const TUBE_RADIUS_SEGMENTS = 10 // 管道圆弧细分数，默认 8
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, 1, 100)
   camera.position.set(0, 0, 10)
 

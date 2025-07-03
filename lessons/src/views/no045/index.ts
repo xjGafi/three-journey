@@ -41,7 +41,7 @@ function init() {
   scene = new Scene()
   scene.background = new Color(0x28292E)
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.01, 100)
   camera.position.set(0, 0, 5)
 

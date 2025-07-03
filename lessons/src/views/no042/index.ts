@@ -30,7 +30,7 @@ function init() {
 
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(45, innerWidth / innerHeight, near, far)
   camera.position.set(1, 1, 1)
 

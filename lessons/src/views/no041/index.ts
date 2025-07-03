@@ -56,7 +56,7 @@ function init() {
   // Scene
   scene = new Scene()
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 100)
   camera.position.z = 6
   cameraBox.add(camera)

@@ -56,7 +56,7 @@ let animateId: number
 function init() {
   const { innerWidth, innerHeight, devicePixelRatio } = window
 
-  // Canera
+  // Camera
   camera = new PerspectiveCamera(75, innerWidth / innerHeight, 1, 100)
   camera.position.set(0, 10, 10)
 

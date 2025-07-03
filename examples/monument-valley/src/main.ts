@@ -41,7 +41,7 @@ function init() {
   scene = new Scene()
   scene.background = new Color(settings.background)
 
-  // Canera
+  // Camera
   initCamera()
 
   // Objects
