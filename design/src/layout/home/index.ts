@@ -1,7 +1,7 @@
 import style from './style.css?raw'
 import html from './template.html?raw'
 
-const images = import.meta.glob('~/images/*.jpg', { eager: true })
+const importImages = import.meta.glob('~/images/*.jpg')
 
 class HomeLayout extends HTMLElement {
   constructor() {
@@ -43,9 +43,12 @@ class HomeLayout extends HTMLElement {
 
   async addViews() {
     const views = this.shadowRoot?.querySelector('#views')
-    const list = Object.keys(images).map((url) => {
-      const number = url.match(/no(.*)\./)![1].slice(0, 3)
-      return `
+    let list = ''
+    for (const path in importImages) {
+      const image = await importImages[path]() as any
+      const url = image.default
+      const number = url.match(/no(.*)\./)[1].slice(0, 3)
+      list += `
         <li class="views-item">
           <a href="/${number}" class="views-item__link">
             <img class="views-item__image" src="${url}" />
@@ -53,7 +56,7 @@ class HomeLayout extends HTMLElement {
           </a>
         </li>
       `
-    }).join('')
+    }
     if (views)
       views.innerHTML = list
   }
