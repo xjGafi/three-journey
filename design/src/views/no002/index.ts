@@ -65,17 +65,17 @@ function animate() {
 function meshGenerator() {
   const geometry = new PlaneGeometry(75, 75)
 
-  materialList.forEach((config, index) => {
+  materialList.forEach(({ color1, color2, timeOffset }, index) => {
     const material = new ShaderMaterial({
       uniforms: {
         uColor1: {
-          value: new Color(config.color1),
+          value: new Color(color1),
         },
         uColor2: {
-          value: new Color(config.color2),
+          value: new Color(color2),
         },
         uTime: { value: 0 },
-        uTimeOffset: { value: config.timeOffset },
+        uTimeOffset: { value: timeOffset },
       },
       fragmentShader,
       vertexShader,
