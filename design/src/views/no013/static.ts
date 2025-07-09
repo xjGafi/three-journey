@@ -1,11 +1,9 @@
-import { Vector3 } from 'three'
-
 const colors = [
-  new Vector3(50, 50, 50),
-  new Vector3(255, 255, 255),
-  new Vector3(255, 50, 50),
-  new Vector3(0, 0, 255),
-  new Vector3(180, 180, 180),
+  'rgb(50, 50, 50)',
+  'rgb(255, 255, 255)',
+  'rgb(255, 50, 50)',
+  'rgb(0, 0, 255)',
+  'rgb(180, 180, 180)',
 ]
 
 export const materialList = [

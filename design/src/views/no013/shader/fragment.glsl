@@ -21,10 +21,7 @@ uniform vec3 u_color2;
 uniform float u_time;
 
 void main() {
-  vec3 c1 = rgb(u_color1.r, u_color1.g, u_color1.b);
-  vec3 c2 = rgb(u_color2.r, u_color2.g, u_color2.b);
-
-  vec3 color = mix(c1, c2, vUv.x);
+  vec3 color = mix(u_color1, u_color2, vUv.x);
   vec2 uv = vUv;
   float shapeOuter = polygon(uv, 3., 0.01);
   float shapeOuterGlow = polygon(uv, 3., 0.05);
